@@ -3,6 +3,7 @@
 #include <string>
 
 #include "hw_2.h"
+#include <utility>
 
 using bmstu::string;
 
@@ -162,9 +163,9 @@ TEST(ChatGPT_test, constructor_from_char_pointer) {
 TEST(ChatGPT_test, copy_constructor) {
   const char *charArray = "Hello, World!";
   string original(charArray);
-  string copy(original);  // Используем конструктор копирования.
-  EXPECT_EQ(original.size(), copy.size());  // Проверка равенства размеров.
-  EXPECT_STREQ(original.c_str(), copy.c_str());  // Проверка равенства содержимого.
+  string replica(original);  // Используем конструктор копирования.
+  EXPECT_EQ(original.size(), replica.size());  // Проверка равенства размеров.
+  EXPECT_STREQ(original.c_str(), replica.c_str());  // Проверка равенства содержимого.
 }
 
 TEST(ChatGPT_test, concatenation) {

@@ -27,9 +27,8 @@ TEST_F(PhonesTest, SinglePhoneOutput) {
 
   EXPECT_EQ(phones(), 0);
 
-  std::string expected_output = "<MobilePhones>\n"
-                                "	<MobilePhone id=\"0\" weight=\"100.5\" is_broken=\"false\" price=\"500\"/>\n"
-                                "</MobilePhones>\n";
+  std::string expected_output =
+      "<MobilePhones>\n" "	<MobilePhone id=\"0\" weight=\"100.5\" is_broken=\"false\" price=\"500\"/>\n" "</MobilePhones>\n";
   EXPECT_EQ(os.str(), expected_output);
 
   std::cin.rdbuf(orig_cin);
@@ -45,11 +44,8 @@ TEST_F(PhonesTest, MultiplePhonesOutput) {
 
   EXPECT_EQ(phones(), 0);
 
-  std::string expected_output = "<MobilePhones>\n"
-                                "	<MobilePhone id=\"0\" weight=\"150.2\" is_broken=\"true\" price=\"300\"/>\n"
-                                "	<MobilePhone id=\"1\" weight=\"120.7\" is_broken=\"false\" price=\"700\"/>\n"
-                                "	<MobilePhone id=\"2\" weight=\"180.1\" is_broken=\"true\" price=\"200\"/>\n"
-                                "</MobilePhones>\n";
+  std::string expected_output =
+      "<MobilePhones>\n" "	<MobilePhone id=\"0\" weight=\"150.2\" is_broken=\"true\" price=\"300\"/>\n" "	<MobilePhone id=\"1\" weight=\"120.7\" is_broken=\"false\" price=\"700\"/>\n" "	<MobilePhone id=\"2\" weight=\"180.1\" is_broken=\"true\" price=\"200\"/>\n" "</MobilePhones>\n";
   EXPECT_EQ(os.str(), expected_output);
 
   std::cin.rdbuf(orig_cin);
