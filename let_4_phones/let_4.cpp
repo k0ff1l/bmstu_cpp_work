@@ -22,12 +22,12 @@ int phones() {
     std::cout << "</MobilePhones>" << std::endl;
     return 0;
   }
-  ::MobilePhone *phones = new ::MobilePhone[count]; // вполне XML::MobilePhone перед *phones заменяемо на auto.
+  ::MobilePhone *phones = new ::MobilePhone[count];  // вполне XML::MobilePhone перед *phones заменяемо на auto.
   for (size_t i = 0; i < count; ++i) {
     std::cin >> phones[i].weight;
     std::cin >> phones[i].is_broken;
     std::cin >> phones[i].price;
-  } // ввод данных
+  }  // ввод данных
   std::cout << "<MobilePhones>" << std::endl;
   for (size_t i = 0; i < count; ++i) {
     std::cout << "\t" << "<MobilePhone id=\"" << i << "\" weight=\"" << phones[i].weight << "\" is_broken=\"";

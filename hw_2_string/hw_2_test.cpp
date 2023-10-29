@@ -60,9 +60,9 @@ TEST(string_test, sum_) {
 TEST(string_test, index) {
   string str_1("123456789");
   for (size_t i = 0; i < str_1.size(); ++i) {
-    ASSERT_EQ(str_1[i], 49 + i); //test in ascii
+    ASSERT_EQ(str_1[i], 49 + i);  // test in ascii
   }
-  //Index out of range
+  // Index out of range
   try {
     str_1[14];
   } catch (std::out_of_range &e) {
