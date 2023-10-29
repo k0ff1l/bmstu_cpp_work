@@ -2,7 +2,7 @@
 
 | **CI Service** | Build Status |
 |:---------------|-------------:|
-| GitHub Actions | [![Build Status (GitHub Actions)](https://github.com/k0ff1l/bmstu_cpp_work/actions/workflows/ci-cmake_tests.yml/badge.svg)](https://github.com/k0ff1l/bmstu_cpp_work/actions/workflows/ci-cmake_tests.yml) |
+| GitHub Actions | [![Build Status (GitHub Actions)](https://github.com/k0ff1l/bmstu_cpp_work/actions/workflows/ci-cmake-tests.yml/badge.svg)](https://github.com/k0ff1l/bmstu_cpp_work/actions/workflows/ci-cmake-tests.yml) |
 
 ## Сборка
 
