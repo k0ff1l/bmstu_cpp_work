@@ -2,9 +2,7 @@
 
 | **CI Service** | Build Status |
 |:---------------|-------------:|
-| GitHub Actions | [![Build Status (GitHub Actions)](https://github.com/vanyabeat/cmake-example-repo/actions/workflows/ci-cmake_tests.yml/badge.svg)](https://github.com/vanyabeat/cmake-example-repo/actions/workflows/ci-cmake_tests.yml) |
-
-Примеры гуглтестов [Google Test](https://code.google.com/p/googletest)
+| GitHub Actions | [![Build Status (GitHub Actions)](https://github.com/k0ff1l/bmstu_cpp_work/actions/workflows/ci-cmake_tests.yml/badge.svg)](https://github.com/k0ff1l/bmstu_cpp_work/actions/workflows/ci-cmake_tests.yml) |
 
 ## Сборка
 
