@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include <iostream>
 #include <string>
+#include <utility>
 
 #include "hw_2.h"
-#include <utility>
 
 using bmstu::string;
 
