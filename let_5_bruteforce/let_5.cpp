@@ -10,15 +10,15 @@ int bruteforce() {
   std::ofstream fout;
   fout.open("file.txt");
   for (size_t i = 0; i < 32; ++i) {
-	for (size_t j = 0; j < 32; ++j) {
-	  for (size_t k = 0; k < 32; ++k) {
-		for (size_t l = 0; l < 32; ++l) {
-		  for (size_t m = 0; m < 32; ++m) {
-			fout << alphabet[i] << alphabet[j] << alphabet[k] << alphabet[l] << alphabet[m] << std::endl;
-		  }
-		}
-	  }
-	}
+    for (size_t j = 0; j < 32; ++j) {
+      for (size_t k = 0; k < 32; ++k) {
+        for (size_t l = 0; l < 32; ++l) {
+          for (size_t m = 0; m < 32; ++m) {
+            fout << alphabet[i] << alphabet[j] << alphabet[k] << alphabet[l] << alphabet[m] << std::endl;
+          }
+        }
+      }
+    }
   }
   fout.close();
   return 0;

@@ -60,13 +60,13 @@ TEST(string_test, sum_) {
 TEST(string_test, index) {
   string str_1("123456789");
   for (size_t i = 0; i < str_1.size(); ++i) {
-	ASSERT_EQ(str_1[i], 49 + i); //test in ascii
+    ASSERT_EQ(str_1[i], 49 + i); //test in ascii
   }
   //Index out of range
   try {
-	str_1[14];
+    str_1[14];
   } catch (std::out_of_range &e) {
-	std::cerr << e.what() << " // string_test, index, намеренно для теста" << std::endl;
+    std::cerr << e.what() << " // string_test, index, намеренно для теста" << std::endl;
   }
 }
 
@@ -155,7 +155,7 @@ TEST(string_test, ifequal) {
 TEST(ChatGPT_test, constructor_from_char_pointer) {
   const char *charArray = "Hello, World!";
   string myString(charArray);
-  EXPECT_EQ(myString.size(), strlen(charArray)); // Проверка размера строки.
+  EXPECT_EQ(myString.size(), strlen(charArray));  // Проверка размера строки.
   EXPECT_STREQ(myString.c_str(), charArray); // Сравнение содержимого строки с исходным массивом char.
 }
 

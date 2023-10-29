@@ -2,6 +2,7 @@
 // Created by fleurs on 14.10.23.
 //
 
+// #include <string> especially for cpplint
 #include "hw_2.h"
 
 namespace bmstu {
@@ -73,7 +74,7 @@ class string {
       data_ = other.data_;
       other.data_ = nullptr;
       other.size_ = 0;
-    };
+    }
   }
 /// Оператор присваивания си строки
   string &operator=(const char *c_str) {
@@ -167,5 +168,4 @@ class string {
     data_[size_] = '\0';
   }
 };
-}
-// namespace bmstu
+}  // namespace bmstu
