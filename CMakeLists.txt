@@ -13,17 +13,14 @@ set(CMAKE_CXX_STANDARD 23)
 set(TEST_NAME ${PROJECT_NAME}_tests)
 add_executable(${TEST_NAME})
 
-# Добавляем все исходные файлы из папки let_4_phones
-file(GLOB SOURCES_LET_4 "let_4_phones/*")
+# Добавляем все летучки
+file(GLOB SOURCES_LET "let_*/*.h" "let_*/*.cpp")
 
-# Добавляем все исходные файлы из папки let_5_bruteforce
-file(GLOB SOURCES_LET_5 "let_5_bruteforce/*")
-
-# Добавляем все исходные файлы из папки hw_2_string
-file(GLOB SOURCES_HW_2_STRING "hw_2_string/*")
+# Добавляем все домашки
+file(GLOB SOURCES_HW "hw_*/*.h" "hw_*/*.cpp")
 
 # Объединяем все списки исходных файлов
-set(ALL_SOURCES ${SOURCES_LET_4} ${SOURCES_LET_5} ${SOURCES_HW_2_STRING})
+set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW})
 
 # Добавляем исходные файлы к проекту
 target_sources(${TEST_NAME} PRIVATE ${ALL_SOURCES})

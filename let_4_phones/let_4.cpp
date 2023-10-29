@@ -6,14 +6,6 @@
 
 #include "let_4.h"
 
-namespace {
-struct MobilePhone {
-  double weight;
-  bool is_broken;
-  double price;
-};
-}
-
 int phones() {
   size_t count;
   std::cin >> count;
