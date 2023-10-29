@@ -66,7 +66,7 @@ TEST(string_test, index) {
   try {
     str_1[14];
   } catch (std::out_of_range &e) {
-    std::cerr << e.what() << " // string_test, index, намеренно для теста" << std::endl;
+    std::cerr << e.what() << "  // string_test, index, намеренно для теста" << std::endl;
   }
 }
 
@@ -85,7 +85,7 @@ TEST(string_test, dying) {
   string str_3 = std::move(str_2);
   EXPECT_EQ(str_2.size(), 0);
   EXPECT_STREQ(str_3.c_str(), "12345");
-  EXPECT_EQ(str_1.c_str(), str_2.c_str()); // адрес, оба null
+  EXPECT_EQ(str_1.c_str(), str_2.c_str());  // адрес, оба null
 }
 
 TEST(string_test, ostream) {
@@ -156,45 +156,45 @@ TEST(ChatGPT_test, constructor_from_char_pointer) {
   const char *charArray = "Hello, World!";
   string myString(charArray);
   EXPECT_EQ(myString.size(), strlen(charArray));  // Проверка размера строки.
-  EXPECT_STREQ(myString.c_str(), charArray); // Сравнение содержимого строки с исходным массивом char.
+  EXPECT_STREQ(myString.c_str(), charArray);  // Сравнение содержимого строки с исходным массивом char.
 }
 
 TEST(ChatGPT_test, copy_constructor) {
   const char *charArray = "Hello, World!";
   string original(charArray);
-  string copy(original); // Используем конструктор копирования.
-  EXPECT_EQ(original.size(), copy.size()); // Проверка равенства размеров.
-  EXPECT_STREQ(original.c_str(), copy.c_str()); // Проверка равенства содержимого.
+  string copy(original);  // Используем конструктор копирования.
+  EXPECT_EQ(original.size(), copy.size());  // Проверка равенства размеров.
+  EXPECT_STREQ(original.c_str(), copy.c_str());  // Проверка равенства содержимого.
 }
 
 TEST(ChatGPT_test, concatenation) {
   string first("Hello, ");
   string second("World!");
   string result = first + second;
-  EXPECT_STREQ(result.c_str(), "Hello, World!"); // Проверка правильности конкатенации.
+  EXPECT_STREQ(result.c_str(), "Hello, World!");  // Проверка правильности конкатенации.
 }
 
 TEST(ChatGPT_test, default_constructor) {
   string myString;
-  EXPECT_EQ(myString.size(), 0); // Проверка, что размер пустой строки равен 0.
+  EXPECT_EQ(myString.size(), 0);  // Проверка, что размер пустой строки равен 0.
   std::stringstream ss;
   ss << myString;
-  EXPECT_EQ(ss.str(), ""); // Проверка, что вывод в поток пустой.
+  EXPECT_EQ(ss.str(), "");  // Проверка, что вывод в поток пустой.
 }
 
 TEST(ChatGPT_test, assignment_operator) {
   string str1("Original");
   string str2("New");
-  str1 = str2; // Используем оператор присваивания.
-  EXPECT_STREQ(str1.c_str(), "New"); // Проверка правильности присваивания.
-  EXPECT_EQ(str1.size(), 3); // Проверка размера после присваивания.
+  str1 = str2;  // Используем оператор присваивания.
+  EXPECT_STREQ(str1.c_str(), "New");  // Проверка правильности присваивания.
+  EXPECT_EQ(str1.size(), 3);  // Проверка размера после присваивания.
 }
 
 TEST(ChatGPT_test, move_constructor) {
   string source("Move this");
-  string destination(std::move(source)); // Используем конструктор перемещения.
-  EXPECT_STREQ(destination.c_str(), "Move this"); // Проверка содержимого после перемещения.
-  EXPECT_EQ(source.size(), 0); // Проверка, что исходная строка пуста после перемещения.
+  string destination(std::move(source));  // Используем конструктор перемещения.
+  EXPECT_STREQ(destination.c_str(), "Move this");  // Проверка содержимого после перемещения.
+  EXPECT_EQ(source.size(), 0);  // Проверка, что исходная строка пуста после перемещения.
 }
 
 TEST(ChatGPT_test, input_output) {
@@ -202,8 +202,8 @@ TEST(ChatGPT_test, input_output) {
   std::stringstream ss;
   ss << "Input Test";
   ss >> myString;
-  EXPECT_STREQ(myString.c_str(), "Input Test"); // Проверка ввода.
+  EXPECT_STREQ(myString.c_str(), "Input Test");  // Проверка ввода.
   std::stringstream os;
   os << myString;
-  EXPECT_EQ(os.str(), "Input Test"); // Проверка вывода.
+  EXPECT_EQ(os.str(), "Input Test");  // Проверка вывода.
 }

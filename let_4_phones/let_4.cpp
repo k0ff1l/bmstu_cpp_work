@@ -4,6 +4,8 @@
 
 #include <iostream>
 
+#include "let_4.h"
+
 namespace {
 struct MobilePhone {
   double weight;
