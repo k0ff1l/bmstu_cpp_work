@@ -14,7 +14,7 @@ int phones() {
     std::cout << "</MobilePhones>" << std::endl;
     return 0;
   }
-  bmstu::MobilePhone *phones = new bmstu::MobilePhone[count];  // вполне XML::MobilePhone перед *phones заменяемо на auto.
+  auto *phones = new bmstu::MobilePhone[count];
   for (size_t i = 0; i < count; ++i) {
     std::cin >> phones[i].weight;
     std::cin >> phones[i].is_broken;
