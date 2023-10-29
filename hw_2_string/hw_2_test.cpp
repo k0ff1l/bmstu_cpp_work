@@ -2,9 +2,9 @@
 #include <iostream>
 #include <string>
 
-#include "hw_2.cpp"
+#include "hw_2.h"
 
-using namespace bmstu;
+using bmstu::string;
 
 TEST(string_test, size) {
   string str_1("23");
