@@ -11,7 +11,8 @@ FetchContent_MakeAvailable(googletest)
 
 set(CMAKE_CXX_STANDARD 23)
 set(TEST_NAME ${PROJECT_NAME}_tests)
-add_executable(${TEST_NAME} example_test.cpp)
+add_executable(${TEST_NAME} example_test.cpp
+        hw_2_string/c.h)
 
 # Добавляем все исходные файлы из папки let_4_phones
 file(GLOB SOURCES_LET_4 "let_4_phones/*")

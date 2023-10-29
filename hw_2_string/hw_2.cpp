@@ -41,10 +41,10 @@ class string {
   }
 /// Деструктор
   ~string() {
-	clean_(); // ХАЛЯВА !!!
+	clean_();
   }
 /// Геттер на си-строку
-  [[nodiscard]] const char *c_str() const { // [nodiscard] компилятор умнее меня, все дела.
+  [[nodiscard]] const char *c_str() const {
 	return data_;
   }
 /// Геттер на размер
@@ -56,7 +56,7 @@ class string {
 	if (*this == other) {
 	  return *this;
 	} else {
-	  clean_(); // освобождаем память, уже после выделяем новую.
+	  clean_();
 	  size_ = other.size_;
 	  data_ = new char[size_ + 1];
 	  copy_data_(other);
@@ -65,7 +65,7 @@ class string {
 	}
   }
 /// Оператор перемещающего присваивания
-  string &operator=(string &&other) noexcept { // Компилятор просит поставить noexcept, он умнее меня, я ему доверяю!
+  string &operator=(string &&other) noexcept {
 	if (this == &other) {
 	  return *this;
 	} else {
@@ -98,14 +98,13 @@ class string {
   }
 /// Оператор ввода
   friend std::istream &operator>>(std::istream &is, string &obj) {
-	is >> std::noskipws;
-	// Сбрасываем флаг игнорирования пробелов.
+	is >> std::noskipws;  // флаг игнорирования пробелов
 	obj = "";
 	char symbol = 1;
 	for (size_t i = 0; symbol != '\0'; ++i) {
 	  symbol = 0;
 	  is >> symbol;
-	  if (symbol != '\0') { // у нас уже и так пишется нолик в операторе
+	  if (symbol != '\0') {
 		obj += symbol;
 	  }
 	}
@@ -122,15 +121,15 @@ class string {
 	++size_;
 	data_ = new char[size_ + 1];
 	copy_data_(prev_data);
-	delete[] prev_data; // Опять цитатку сюда
+	delete[] prev_data;
 	data_[size_ - 1] = symbol;
 	data_[size_] = '\0';
 	return *this;
   }
   // Оператор равенства двух строк
   bool operator==(const string &input) const {
-	if (input.size_ != size_) { return false; } // разная длина - сразу мимо
-	if (input.data_ == data_) { return true; } // могут указывать на одну и ту же память
+	if (input.size_ != size_) return false;
+	if (input.data_ == data_) return true;
 	for (size_t i = 0; i < input.size_; ++i) { if (data_[i] != input[i]) { return false; }}
 	return true;
   }
@@ -138,7 +137,7 @@ class string {
   char &operator[](const size_t index) const {
 	if (index <= size_) {
 	  return data_[index];
-	} else { // мы не хотим, чтобы у нас крали память ???
+	} else {
 	  throw std::out_of_range("Index out of range");
 	}
   }
@@ -169,4 +168,4 @@ class string {
   }
 };
 }
-
+// namespace bmstu
