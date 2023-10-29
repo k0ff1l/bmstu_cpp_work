@@ -2,7 +2,7 @@
 // Created by fleurs on 14.10.23.
 //
 
-// #include <string> especially for cpplint
+#include <string>  // CPPLINT жалуется, я не знаю что делать.
 #include "hw_2.h"
 
 namespace bmstu {
@@ -26,7 +26,7 @@ class string {
     construct();
   }
 /// Конструктор с параметром "cи строкой"
-  string(const char *c_str) {
+  explicit string(const char *c_str) {
     construct(c_str);
   }
 /// Копирующий конструктор
@@ -74,6 +74,7 @@ class string {
       data_ = other.data_;
       other.data_ = nullptr;
       other.size_ = 0;
+      return *this;
     }
   }
 /// Оператор присваивания си строки

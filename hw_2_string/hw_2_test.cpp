@@ -20,7 +20,7 @@ TEST(string_test, size) {
   string &sum_str_1_str_2_ref = sum_str_1_str_2;
   string complex_str = sum_str_1_str_2_ref + str_1_ref;
   ASSERT_EQ(complex_str.size(), str_1.size() + str_2.size() + str_1_ref.size());
-  string str_4 = "lol";
+  string str_4("lol");
   string str_5 = str_4 + str_1;
   ASSERT_EQ(str_5.size(), 5);
 }
