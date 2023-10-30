@@ -7,6 +7,6 @@
 #include <vector>
 #include <utility>
 
-TEST(hw_3_vector_test, true){
+TEST(hw_3_vector_test, true) {
   ASSERT_TRUE(true);
 }
