@@ -7,7 +7,7 @@
 
 using bmstu::string;
 
-TEST(string_test, size) {
+TEST(hw_2_string_test, size) {
   string str_1("23");
   ASSERT_EQ(str_1.size(), 2);
   string str_2("");
@@ -26,7 +26,7 @@ TEST(string_test, size) {
   ASSERT_EQ(str_5.size(), 5);
 }
 
-TEST(string_test, c_str) {
+TEST(hw_2_string_test, c_str) {
   string str_1("23");
   ASSERT_STREQ(str_1.c_str(), "23");
   string str_2("");
@@ -35,13 +35,13 @@ TEST(string_test, c_str) {
   ASSERT_STREQ(str_3.c_str(), "fjsdkfksdgkajsgjkldgasdgjasdgjasdg");
 }
 
-TEST(string_test, copy) {
+TEST(hw_2_string_test, copy) {
   string str_1("123123");
   string str_1_copy = str_1;
   ASSERT_STREQ(str_1.c_str(), str_1_copy.c_str());
 }
 
-TEST(string_test, add_symbol) {
+TEST(hw_2_string_test, add_symbol) {
   string str_1("123");
   str_1 += '2';
   ASSERT_STREQ(str_1.c_str(), "1232");
@@ -49,7 +49,7 @@ TEST(string_test, add_symbol) {
   ASSERT_STREQ(str_1.c_str(), "1232 ");
 }
 
-TEST(string_test, sum_) {
+TEST(hw_2_string_test, sum_) {
   string str_1("123");
   string str_2("124");
   size_t str_1_prev_size = str_1.size();
@@ -58,7 +58,7 @@ TEST(string_test, sum_) {
   ASSERT_EQ(str_1.size(), str_1_prev_size + str_2.size());
 }
 
-TEST(string_test, index) {
+TEST(hw_2_string_test, index) {
   string str_1("123456789");
   for (size_t i = 0; i < str_1.size(); ++i) {
     ASSERT_EQ(str_1[i], 49 + i);  // test in ascii
@@ -67,18 +67,18 @@ TEST(string_test, index) {
   try {
     str_1[14];
   } catch (std::out_of_range &e) {
-    std::cerr << e.what() << "  // string_test, index, намеренно для теста" << std::endl;
+    std::cerr << e.what() << "  // hw_2_string_test, index, намеренно для теста" << std::endl;
   }
 }
 
-TEST(string_test, sum) {
+TEST(hw_2_string_test, sum) {
   string str_1("123");
   string str_2(" 999 abc");
   string str_3 = str_1 + str_2;
   ASSERT_STREQ(str_3.c_str(), "123 999 abc");
 }
 
-TEST(string_test, dying) {
+TEST(hw_2_string_test, dying) {
   string str_1("12345");
   string str_2;
   str_2 = std::move(str_1);
@@ -89,7 +89,7 @@ TEST(string_test, dying) {
   EXPECT_EQ(str_1.c_str(), str_2.c_str());  // адрес, оба null
 }
 
-TEST(string_test, ostream) {
+TEST(hw_2_string_test, ostream) {
   string str_1("123");
   std::stringstream os_1;
   os_1 << str_1;
@@ -107,7 +107,7 @@ TEST(string_test, ostream) {
   EXPECT_EQ(os_3.str().size(), 0);
 }
 
-TEST(string_test, istream) {
+TEST(hw_2_string_test, istream) {
   string str_1;
   std::stringstream is_1("123");
   is_1 >> str_1;
@@ -120,7 +120,7 @@ TEST(string_test, istream) {
   EXPECT_EQ(str_2.size(), 7);
 }
 
-TEST(string_test, multi) {
+TEST(hw_2_string_test, multi) {
   string str_empty;
   string str_1("you ");
   string str_2("are ");
@@ -130,14 +130,14 @@ TEST(string_test, multi) {
   EXPECT_EQ(result.size(), 14);
 }
 
-TEST(string_test, equal) {
+TEST(hw_2_string_test, equal) {
   string str_1("1234567890");
   str_1 = str_1;
   EXPECT_STREQ(str_1.c_str(), "1234567890");
   EXPECT_EQ(str_1.size(), 10);
 }
 
-TEST(string_test, ifequal) {
+TEST(hw_2_string_test, ifequal) {
   string str_1("1234");
   string str_2("1234");
   string str_3("");
@@ -153,14 +153,14 @@ TEST(string_test, ifequal) {
   EXPECT_FALSE(str_7 == str_1);
 }
 
-TEST(ChatGPT_test, constructor_from_char_pointer) {
+TEST(hw_2_string_test, gpt_constructor_from_char_pointer) {
   const char *charArray = "Hello, World!";
   string myString(charArray);
   EXPECT_EQ(myString.size(), strlen(charArray));  // Проверка размера строки.
   EXPECT_STREQ(myString.c_str(), charArray);  // Сравнение содержимого строки с исходным массивом char.
 }
 
-TEST(ChatGPT_test, copy_constructor) {
+TEST(hw_2_string_test, gpt_copy_constructor) {
   const char *charArray = "Hello, World!";
   string original(charArray);
   string replica(original);  // Используем конструктор копирования.
@@ -168,14 +168,14 @@ TEST(ChatGPT_test, copy_constructor) {
   EXPECT_STREQ(original.c_str(), replica.c_str());  // Проверка равенства содержимого.
 }
 
-TEST(ChatGPT_test, concatenation) {
+TEST(hw_2_string_test, gpt_concatenation) {
   string first("Hello, ");
   string second("World!");
   string result = first + second;
   EXPECT_STREQ(result.c_str(), "Hello, World!");  // Проверка правильности конкатенации.
 }
 
-TEST(ChatGPT_test, default_constructor) {
+TEST(hw_2_string_test, gpt_default_constructor) {
   string myString;
   EXPECT_EQ(myString.size(), 0);  // Проверка, что размер пустой строки равен 0.
   std::stringstream ss;
@@ -183,7 +183,7 @@ TEST(ChatGPT_test, default_constructor) {
   EXPECT_EQ(ss.str(), "");  // Проверка, что вывод в поток пустой.
 }
 
-TEST(ChatGPT_test, assignment_operator) {
+TEST(hw_2_string_test, gpt_assignment_operator) {
   string str1("Original");
   string str2("New");
   str1 = str2;  // Используем оператор присваивания.
@@ -191,14 +191,14 @@ TEST(ChatGPT_test, assignment_operator) {
   EXPECT_EQ(str1.size(), 3);  // Проверка размера после присваивания.
 }
 
-TEST(ChatGPT_test, move_constructor) {
+TEST(hw_2_string_test, gpt_move_constructor) {
   string source("Move this");
   string destination(std::move(source));  // Используем конструктор перемещения.
   EXPECT_STREQ(destination.c_str(), "Move this");  // Проверка содержимого после перемещения.
   EXPECT_EQ(source.size(), 0);  // Проверка, что исходная строка пуста после перемещения.
 }
 
-TEST(ChatGPT_test, input_output) {
+TEST(hw_2_string_test, gpt_input_output) {
   string myString;
   std::stringstream ss;
   ss << "Input Test";
