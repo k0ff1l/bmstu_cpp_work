@@ -9,21 +9,19 @@ class string {
   string() {
     size_ = 0;
     data_ = new T[1];
-    copy_data_(input);
-  }
-/// Перегрузим функцию ??? для конструктора по умолчанию
-  void construct() {
-    size_ = 0;
-    data_ = new T[size_ + 1];
-    copy_data_("");
+    data_[0] = '\0';
   }
 /// Конструктор с параметром "cи строкой"
   explicit string(const T *c_str) {
-    construct(c_str);
+    size_ = len_(c_str);
+    data_ = new T[size_ + 1];
+    copy_data_(c_str);
   }
 /// Копирующий конструктор
   string(const string &other) {
-    construct(other);
+    size_ = other.size_;
+    data_ = new T [size_ + 1];
+    copy_data_(other);
   }
 /// Конструктор перемещения
   string(string &&dying) noexcept {
@@ -37,7 +35,7 @@ class string {
     clean_();
   }
 /// Геттер на си-строку
-  [[nodiscard]] const char *c_str() const {
+  [[nodiscard]] const T *c_str() const {
     return data_;
   }
 /// Геттер на размер
@@ -51,7 +49,7 @@ class string {
     } else {
       clean_();
       size_ = other.size_;
-      data_ = new char[size_ + 1];
+      data_ = new T[size_ + 1];
       copy_data_(other);
       data_[size_] = '\0';
       return *this;
@@ -70,15 +68,15 @@ class string {
     }
   }
 /// Оператор присваивания си строки
-  string &operator=(const char *c_str) {
-    construct(c_str);
+  string &operator=(const T *c_str) {
+    copy_data_(c_str);
     return *this;
   }
 /// Оператор конкатенации строк в новую строку
-  friend bmstu::string operator+(const string &left, const string &right) {
+  friend bmstu::string<T> operator+(const string &left, const string &right) {
     string result;
     result.size_ = left.size_ + right.size_;
-    result.data_ = new char[result.size_ + 1];
+    result.data_ = new T[result.size_ + 1];
     result.copy_data_(left);
     for (size_t i = 0; i < right.size_; ++i) {
       result.data_[i + left.size_] = right.data_[i];
@@ -94,7 +92,7 @@ class string {
   friend std::istream &operator>>(std::istream &is, string &obj) {
     is >> std::noskipws;  // флаг игнорирования пробелов
     obj = "";
-    char symbol = 1;
+    T symbol = 1;
     for (size_t i = 0; symbol != '\0'; ++i) {
       symbol = 0;
       is >> symbol;
@@ -111,9 +109,9 @@ class string {
   }
 /// Оператор конкатенации строки и символа
   string &operator+=(const T symbol) {
-    char *prev_data = data_;
+    T *prev_data = data_;
     ++size_;
-    data_ = new char[size_ + 1];
+    data_ = new T[size_ + 1];
     copy_data_(prev_data);
     delete[] prev_data;
     data_[size_ - 1] = symbol;
@@ -128,7 +126,7 @@ class string {
     return true;
   }
 /// Значение по индексу
-  char &operator[](const size_t index) const {
+  T &operator[](const size_t index) const {
     if (index <= size_) {
       return data_[index];
     } else {
@@ -138,9 +136,9 @@ class string {
 /// А тут уже приваточка, не всем можно так сказать...
  private:
   size_t size_ = 0;
-  char *data_ = nullptr;
+  T *data_ = nullptr;
 /// Получаем длину
-  static size_t len_(const char *str) {
+  static size_t len_(const T *str) {
     size_t len = 0;
     while (str[len] != '\0') { ++len; }
     return len;
@@ -162,4 +160,3 @@ class string {
   }
 };
 }  // namespace bmstu
-#endif  // HW_2_STRING_HW_2_H_
