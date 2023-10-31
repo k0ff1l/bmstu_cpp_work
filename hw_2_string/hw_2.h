@@ -1,36 +1,24 @@
-//
-// Created by fleurs on 14.10.23.
-//
-
-#ifndef HW_2_STRING_HW_2_H_
-#define HW_2_STRING_HW_2_H_
-
+#pragma once
 #include <iostream>
-#include <cstddef>
-#include <string>  // for cpplint, as it wants.
 
 namespace bmstu {
+template<typename T>
 class string {
  public:
 /// Шаблонная реализация
-  template<typename A>
-  void construct(const A &input) {
-    size_ = len_(input);
-    data_ = new char[size_ + 1];
+  string() {
+    size_ = 0;
+    data_ = new T[1];
     copy_data_(input);
   }
 /// Перегрузим функцию ??? для конструктора по умолчанию
   void construct() {
     size_ = 0;
-    data_ = new char[size_ + 1];
+    data_ = new T[size_ + 1];
     copy_data_("");
   }
-/// Конструктор по умолчанию
-  string() {
-    construct();
-  }
 /// Конструктор с параметром "cи строкой"
-  explicit string(const char *c_str) {
+  explicit string(const T *c_str) {
     construct(c_str);
   }
 /// Копирующий конструктор
@@ -122,7 +110,7 @@ class string {
     return *this;
   }
 /// Оператор конкатенации строки и символа
-  string &operator+=(const char symbol) {
+  string &operator+=(const T symbol) {
     char *prev_data = data_;
     ++size_;
     data_ = new char[size_ + 1];
