@@ -20,7 +20,7 @@ class string {
 /// Копирующий конструктор
   string(const string &other) {
     size_ = other.size_;
-    data_ = new T [size_ + 1];
+    data_ = new T[size_ + 1];
     copy_data_(other);
   }
 /// Конструктор перемещения
