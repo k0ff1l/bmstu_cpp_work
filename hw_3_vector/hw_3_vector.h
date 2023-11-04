@@ -18,19 +18,51 @@ class vector {
     using value_type = Type;
     using pointer = Type *;
     using reference = Type &;
-    iterator(pointer ptr) : m_ptr(ptr) {/*code*/ }
-    reference operator*() const {/*code*/ }
-    pointer operator->() {/*code*/ }
-    iterator &operator++() {/*code*/ }
-    iterator &operator--() {/*code*/ }
-    iterator &operator=(const iterator &other) {/*code*/ }
-    iterator operator++(int) {/*code*/ }
-    iterator operator--(int) {/*code*/ }
-    friend bool operator==(const iterator &a, const iterator &b) {/*code*/ }
-    friend bool operator!=(const iterator &a, const iterator &b) {/*code*/ }
-    friend ptrdiff_t operator-(const iterator &a, const iterator &b) {/*code*/ }
-    iterator &operator+(size_t n) noexcept {/*code*/ }
-    iterator &operator-(size_t n) noexcept {/*code*/ }
+    explicit iterator(pointer ptr) : m_ptr(ptr) {}
+    reference operator*() const {
+      return *m_ptr;
+    }
+    pointer operator->() {
+      return m_ptr;
+    }
+    iterator &operator++() {
+      ++m_ptr;
+      return *this;
+    }
+    iterator &operator--() {
+      --m_ptr;
+      return *this;
+    }
+    iterator &operator=(const iterator &other) {
+      m_ptr = other.m_ptr;
+      return *this;
+    }
+    iterator operator++(int) {
+      iterator tmp = *this;
+      ++(*this);
+      return tmp;
+    }
+    iterator operator--(int) {
+      iterator tmp = *this;
+      --(*this);
+      return tmp;
+    }
+    friend bool operator==(const iterator &a, const iterator &b) {
+      return a.m_ptr == b.m_ptr;
+    }
+    friend bool operator!=(const iterator &a, const iterator &b) {
+      return !(a == b);
+    }
+    friend difference_type operator-(const iterator &end, const iterator &begin) {
+      difference_type result = end.m_ptr - begin.m_ptr;
+      return result;
+    }
+    iterator &operator+(size_t n) noexcept {
+      return (this+n);
+    }
+    iterator &operator-(size_t n) noexcept {
+      return (this-n);
+    }
    private:
     pointer m_ptr;
   };
@@ -61,10 +93,7 @@ class vector {
   void resize(size_t new_size) {/*code*/ }
   void reserve(size_t new_capacity) {/*code*/ }
   iterator insert(const_iterator pos, Type &&value) {/*code*/ }
-  iterator insert(const_iterator pos,
-  3
-  const Type &value
-  ) {/*code*/ }
+  iterator insert(const_iterator pos, const Type &value) {/*code*/ }
   void push_back(const Type &value) {/*code*/ }
   void push_back(Type &&value) {/*code*/ }
   void pop_back() noexcept {/*code*/ }
