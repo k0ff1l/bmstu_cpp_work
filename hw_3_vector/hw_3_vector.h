@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include <iterator>
+//#include <utility>
+//#include <iterator>
 
 #include "hw_3_array_bundle.h"
 
@@ -71,6 +72,7 @@ class vector {
     iterator &operator-(size_t n) noexcept {
       return *(this - n);
     }
+
    private:
     pointer m_ptr;
   };
@@ -165,6 +167,7 @@ class vector {
   friend bool operator<=(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
   friend bool operator>=(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
   friend std::ostream &operator<<(std::ostream &os, const vector<Type> &other) {/*code*/ }
+
  private:
   static bool lexicographical_compare_(const vector<Type> &l, const vector<Type> &r) {}
   size_t size_ = 0;
