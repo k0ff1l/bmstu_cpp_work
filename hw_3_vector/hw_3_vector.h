@@ -8,6 +8,14 @@
 
 #include "hw_3_array_bundle.h"
 
+namespace {
+size_t dummy_max(size_t a, size_t b) {
+  if (a > b) {
+    return a;
+  }
+}
+}  // namespace
+
 namespace bmstu {
 template<typename Type>
 class vector {
@@ -58,44 +66,97 @@ class vector {
       return result;
     }
     iterator &operator+(size_t n) noexcept {
-      return (this+n);
+      return *(this + n);
     }
     iterator &operator-(size_t n) noexcept {
-      return (this-n);
+      return *(this - n);
     }
    private:
     pointer m_ptr;
   };
   using const_iterator = const iterator;
   vector() noexcept = default;
-  vector(size_t size, const Type &value = Type{}) {/*code*/ }
-  vector(const vector<Type> &other) {/*code*/ }
-  vector(vector<Type> &&other) {/*code*/ }
+  explicit vector(size_t size, const Type &value = Type{}) : size_(size), capacity_(size), data_(size) {
+    auto first = begin();
+    auto last = end();
+    for (; first != last; ++first) {
+      *first = value;
+    }
+  }
+  vector(const vector<Type> &other) : size_(other.size_), capacity_(other.capacity_), data_(other.data_) {
+    auto first = begin();
+    auto ofirst = other.begin();
+    auto olast = other.end();
+    for (; ofirst != olast; ++ofirst, ++first) {
+      *first = *ofirst;
+    }
+  }
+  vector(vector<Type> &&other) {
+    this->swap(other);
+  }
   vector(std::initializer_list<Type> ilist) {/*code*/ }
   void clear() noexcept {}
   vector &operator=(const vector<Type> &other) {/*code*/ }
   vector &operator=(vector<Type> &&other) {/*code*/ }
   iterator begin() noexcept {/*code*/ }
   iterator end() noexcept {/*code*/ }
-  const_iterator begin() const noexcept {/*code*/ }
-  const_iterator end() const noexcept {/*code*/ }
-  const_iterator cbegin() const noexcept {/*code*/ }
-  const_iterator cend() const noexcept {/*code*/ }
+  iterator begin() const noexcept {
+    return iterator(data_.Get());
+  }
+  iterator end() const noexcept {
+    return iterator(data_.Get() + size_);
+  }
+  const_iterator cbegin() const noexcept {
+    return iterator(data_.Get());
+  }
+  const_iterator cend() const noexcept {
+    return iterator(data_.Get() + size_);
+  }
   typename iterator::reference operator[](size_t index) noexcept {/*code*/ }
   typename const_iterator::reference operator[](size_t index) const noexcept {/*code*/ }
   typename iterator::reference at(size_t index) {/*code*/ }
   typename const_iterator::reference at(size_t index) const {/*code*/ }
-  size_t size() const noexcept {/*code*/ }
-  size_t capacity() const noexcept {/*code*/ }
-  bool empty() const noexcept {/*code*/ }
-  void swap(vector &other) noexcept {/*code*/ }
-  friend void swap(vector<Type> &lhs, vector<Type> &rhs) {/*code*/ }
-  void resize(size_t new_size) {/*code*/ }
-  void reserve(size_t new_capacity) {/*code*/ }
+  size_t size() const noexcept {
+    return size_;
+  }
+  size_t capacity() const noexcept {
+    return capacity_;
+  }
+  bool empty() const noexcept {
+    return (size_ == 0);
+  }
+  void swap(vector &other) noexcept {
+    std::swap(size_, other.size_);
+    std::swap(capacity_, other.capacity_);
+    data_.swap(other.data_);
+  }
+  friend void swap(vector<Type> &lhs, vector<Type> &rhs) {
+    lhs.swap(rhs);
+  }
+  void resize(size_t new_size) {
+    if (new_size > capacity_) {
+      size_t new_capacity = ::dummy_max(new_size, capacity_ * 2);
+      reserve(new_capacity);
+      for (auto it = end(); it != begin() + capacity_; ++it) {
+        *it = Type{};
+      }
+    }
+    size_ = new_size;
+  }
+  void reserve(size_t new_capacity) {
+    if (new_capacity > capacity_) {
+      array_bundle<Type> new_data(new_capacity);
+      for (auto it = begin(), nit = iterator(new_data.get()); it != end(); ++it, ++nit) {
+        *nit = std::move(*it);
+      }
+      data_.swap(new_data);
+      capacity_ = new_capacity;
+    }
+  }
   iterator insert(const_iterator pos, Type &&value) {/*code*/ }
   iterator insert(const_iterator pos, const Type &value) {/*code*/ }
   void push_back(const Type &value) {/*code*/ }
-  void push_back(Type &&value) {/*code*/ }
+  void push_back(Type &&value) {/*code*/}
   void pop_back() noexcept {/*code*/ }
   friend bool operator==(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
   friend bool operator!=(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
