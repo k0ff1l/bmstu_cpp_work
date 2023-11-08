@@ -6,7 +6,6 @@
 
 //#include <utility>
 //#include <iterator>
-
 #include "hw_3_array_bundle.h"
 
 namespace {

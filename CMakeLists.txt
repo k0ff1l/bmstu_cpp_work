@@ -11,7 +11,6 @@ FetchContent_MakeAvailable(googletest)
 
 set(CMAKE_CXX_STANDARD 23)
 set(TEST_NAME ${PROJECT_NAME}_tests)
-add_executable(${TEST_NAME})
 
 # Добавляем все летучки
 file(GLOB SOURCES_LET "let_*/*.h" "let_*/*.cpp")
@@ -22,9 +21,7 @@ file(GLOB SOURCES_HW "hw_*/*.h" "hw_*/*.cpp")
 # Объединяем все списки исходных файлов
 set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW})
 
-# Добавляем исходные файлы к проекту
-target_sources(${TEST_NAME} PRIVATE ${ALL_SOURCES})
-
+add_executable(${TEST_NAME} ${ALL_SOURCES})
 target_link_libraries(${TEST_NAME} gtest_main)
 
 enable_testing()

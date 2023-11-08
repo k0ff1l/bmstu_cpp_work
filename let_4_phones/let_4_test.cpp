@@ -62,9 +62,3 @@ TEST_F(let_4_phones_test, EmptyPhoneList) {
   std::cin.rdbuf(orig_cin);
   std::cout.rdbuf(orig_cout);
 }
-
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
-
