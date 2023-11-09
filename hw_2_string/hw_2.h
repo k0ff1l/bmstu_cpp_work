@@ -21,7 +21,7 @@ namespace bmstu {
         basic_string() {
             size_ = 0;
             data_ = new T[1];
-            data_[0] = '\0';
+            data_[0] = 0;
         }
 
         basic_string(size_t size) {
@@ -30,7 +30,7 @@ namespace bmstu {
             for (size_t i = 0; i < size_; ++i) {
                 data_[i] = ' ';
             }
-            data_[size_] = '\0';
+            data_[size_] = 0;
         }
 
         basic_string(std::initializer_list<T> list) {
@@ -41,7 +41,7 @@ namespace bmstu {
                 data_[i] = item;
                 ++i;
             }
-            data_[size_] = '\0';
+            data_[size_] = 0;
         }
 
 /// Конструктор с параметром "cи строкой"
@@ -92,7 +92,7 @@ namespace bmstu {
                 size_ = other.size_;
                 data_ = new T[size_ + 1];
                 copy_data_(other.c_str());
-                data_[size_] = '\0';
+                data_[size_] = 0;
                 return *this;
             }
         }
@@ -104,6 +104,7 @@ namespace bmstu {
             if (this == &other) {
                 return *this;
             } else {
+                delete[] data_;
                 size_ = other.size_;
                 data_ = other.data_;
                 other.data_ = nullptr;
@@ -120,6 +121,7 @@ namespace bmstu {
             for (size_t i = 0; i < size_; ++i) {
                 data_[i] = c_str[i];
             }
+            data_[size_] = 0;
             return *this;
         }
 
@@ -149,10 +151,10 @@ namespace bmstu {
             is >> std::noskipws;  // флаг игнорирования пробелов
             obj = T();
             T symbol = 1;
-            for (size_t i = 0; symbol != '\0'; ++i) {
+            for (size_t i = 0; symbol != 0; ++i) {
                 symbol = 0;
                 is >> symbol;
-                if (symbol != '\0') {
+                if (symbol != 0) {
                     obj += symbol;
                 }
             }
@@ -173,7 +175,7 @@ namespace bmstu {
             copy_data_(prev_data);
             delete[] prev_data;
             data_[size_ - 1] = symbol;
-            data_[size_] = '\0';
+            data_[size_] = 0;
             return *this;
         }
 
@@ -201,7 +203,7 @@ namespace bmstu {
 /// Получаем длину
         static size_t len_(const T *str) {
             size_t len = 0;
-            while (str[len] != '\0') { ++len; }
+            while (str[len] != 0) { ++len; }
             return len;
         }
 
@@ -219,13 +221,13 @@ namespace bmstu {
 ///// Транслируем данные из одной A, в другую...
 //        void copy_data_(const basic_string &other) {
 //            for (size_t i = 0; i < len_(other); ++i) { data_[i] = other[i]; }
-//            data_[size_] = '\0';
+//            data_[size_] = 0;
 //        }
         void copy_data_(const T *str) {
             for (size_t i = 0; i < len_(str); ++i) {
                 data_[i] = str[i];
             }
-            data_[size_] = '\0';
+            data_[size_] = 0;
         }
     };
 }  // namespace bmstu
