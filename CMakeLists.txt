@@ -18,8 +18,10 @@ file(GLOB SOURCES_LET "let_*/*.h" "let_*/*.cpp")
 # Добавляем все домашки
 file(GLOB SOURCES_HW "hw_*/*.h" "hw_*/*.cpp")
 
+file(GLOB SOURCES_ANCIENT "ancient_knowledge/*")
+
 # Объединяем все списки исходных файлов
-set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW})
+set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW} ${SOURCES_ANCIENT})
 
 add_executable(${TEST_NAME} ${ALL_SOURCES})
 target_link_libraries(${TEST_NAME} gtest_main)
