@@ -4,7 +4,6 @@
 
 #include <iostream>
 
-
 namespace bmstu {
 template<typename T>
 class dummy_basic_string;  // объявление класс шаблонной строки
@@ -77,7 +76,7 @@ class dummy_basic_string {
 
 /// Геттер на си-строку
   [[nodiscard]] const T *c_str() const {
-    return data_;
+    return (data_ != nullptr) ? data_ : (T *)("");
   }
 
 /// Геттер на размер
@@ -129,7 +128,7 @@ class dummy_basic_string {
 
 /// Оператор конкатенации строк в новую строку
   friend bmstu::dummy_basic_string<T> operator+(const dummy_basic_string &left,
-                                          const dummy_basic_string &right) {
+                                                const dummy_basic_string &right) {
     dummy_basic_string result;
     result.size_ = left.size_ + right.size_;
     result.data_ = new T[result.size_ + 1];
@@ -202,7 +201,6 @@ class dummy_basic_string {
  private:
   size_t size_ = 0;
   T *data_ = nullptr;
-
 /// Получаем длину
   static size_t len_(const T *str) {
     size_t len = 0;

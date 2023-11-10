@@ -6,6 +6,8 @@
 
 #include "hw_2.h"
 
+
+#include <string>
 using bmstu::dummy_basic_string;
 
 TEST(StringTest, size) {
@@ -331,7 +333,7 @@ TEST(StringTest, MoveAssignConstructor) {
   ASSERT_STREQ(str2.c_str(), "str");
   ASSERT_EQ(str2.size(), sizeof("str") - 1);
 
-//  ASSERT_STREQ(str.c_str(), "");
+  ASSERT_STREQ(str.c_str(), "");
   ASSERT_EQ(str.size(), 0);
 }
 
@@ -342,7 +344,7 @@ TEST(StringTest, MoveAssignConstructor2) {
   ASSERT_STREQ(str2.c_str(), "str");
   ASSERT_EQ(str2.size(), sizeof("str") - 1);
 
-//  ASSERT_STREQ(str.c_str(), "");
+  ASSERT_STREQ(str.c_str(), "");
   ASSERT_EQ(str.size(), 0);
 }
 
@@ -353,8 +355,7 @@ TEST(StringTest, CopyAssignConstructor2) {
   ASSERT_STREQ(str2.c_str(), "str");
   ASSERT_EQ(str2.size(), sizeof("str") - 1);
 
-//  ASSERT_STREQ(str.c_str(), "");  // точно ли это корректный тест?
-  // честно говоря, я не знаю как фиксить.
+  ASSERT_STREQ(str.c_str(), "");
   ASSERT_EQ(str.size(), 0);
 }
 
@@ -451,4 +452,11 @@ TEST(StringTest, Item) {
   ASSERT_EQ(a_str[0], L'С');
   ASSERT_EQ(a_str[1], L'Т');
   ASSERT_EQ(a_str[a_str.size() - 1], L'Г');
+}
+
+TEST(kostyTest, Equality){
+  std::string str_1 ="1231";
+  std::string str_2;
+  str_2 = std::move(str_1);
+  ASSERT_STREQ(str_1.c_str(), "");
 }
