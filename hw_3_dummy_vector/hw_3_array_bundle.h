@@ -4,8 +4,6 @@
 
 #include <utility>
 
-typedef uint64_t size_t;
-
 template<typename T>
 class array_bundle {
  public:
@@ -16,16 +14,14 @@ class array_bundle {
     }
     raw_ptr_ = new T[size];
   }
-  explicit array_bundle(T *ptr) noexcept {
-    raw_ptr_ = ptr;
-  }
+  explicit array_bundle(T *ptr) noexcept: raw_ptr_(ptr) { }
   array_bundle(const array_bundle &other_bundle) = delete;
   array_bundle &operator=(const array_bundle &other_bundle) = delete;
   T &operator[](size_t index) noexcept {
-    return *(raw_ptr_ + index);
+    return raw_ptr_[index];
   }
   const T &operator[](size_t index) const noexcept {
-    return *(raw_ptr_ + index);
+    return raw_ptr_[index];
   }
   explicit operator bool() const {
     return raw_ptr_ != nullptr;
@@ -42,10 +38,10 @@ class array_bundle {
     delete[] raw_ptr_;
   }
   void swap(array_bundle &other) noexcept {
-    // std::swap
-    T *tmp = raw_ptr_;
-    raw_ptr_ = other.raw_ptr_;
-    other.raw_ptr_ = tmp;
+    std::swap(raw_ptr_, other.raw_ptr_);
+//    T *tmp = raw_ptr_;
+//    raw_ptr_ = other.raw_ptr_;
+//    other.raw_ptr_ = tmp;
   }
 
  private:

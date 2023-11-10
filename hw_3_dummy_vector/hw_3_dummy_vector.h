@@ -59,9 +59,6 @@ class dummy_vector {
     }
     friend difference_type operator-(const iterator &end,
                                      const iterator &begin) {
-      if (begin.m_ptr == NULL) {
-        return 0;
-      }
       difference_type result = end.m_ptr - begin.m_ptr;
       return result;
     }
@@ -90,7 +87,8 @@ class dummy_vector {
     }
   }
   dummy_vector(const dummy_vector<Type> &other)
-      : size_(other.size_), capacity_(other.capacity_), data_(other.data_) {
+      : size_(other.size_), capacity_(other.capacity_),
+        data_(other.size_) {
     auto first = begin();
     auto ofirst = other.begin();
     auto olast = other.end();
@@ -148,51 +146,46 @@ class dummy_vector {
     if (new_size > capacity_) {
       size_t new_capacity = dummy_funcs::max(new_size, capacity_ * 2);
       reserve(new_capacity);
-      for (auto it = --end(); it != begin() + capacity_; ++it) {
-        if (begin() == end()) {
-          break;
-        }
-        *it = Type{};
-      }
-      size_ = new_size;
     }
+    for (auto it = end(); it != begin() + new_size; ++it) {
+      *it = Type{};
+    }
+    size_ = new_size;
   }
   void reserve(size_t new_capacity) {
     if (new_capacity > capacity_) {
       new_capacity = dummy_funcs::max(new_capacity, capacity_ * 2);
       array_bundle<Type> new_data(new_capacity);
-      if (size_ != 0) {
-        for (auto it = begin(), nit = iterator(new_data.Get()); it != end();
-             ++it, ++nit) {
-          *nit = std::move(*it);
-        }
+      for (auto it = begin(), nit = iterator(new_data.Get()); it != end();
+           ++it, ++nit) {
+        *nit = std::move(*it);
       }
       data_.swap(new_data);
       capacity_ = new_capacity;
     }
   }
   iterator insert(const_iterator pos, Type &&value) {
-    if (size_ == 0) {
-      (*this).resize(1);
-      return pos;
-    }
-    dummy_vector<Type> temp(size_ + 1);
     auto n = pos - begin();
-    if (capacity_ - size_ == 0) {
-      reserve(capacity_ + 1);
+    if (capacity_ == 0) {
+      reserve(1);
     }
-    for (auto it = begin(), t_it = temp.begin(); it != begin() + n - 1;
-         ++it, ++t_it) {
-      *t_it = *it;
+    if (size_ == capacity_) {
+      capacity_ *= 2;
     }
-    *(temp.begin() + n - 1) = value;
-    auto itb = begin() + n;
-    auto ite = end();
-    for (auto it = begin() + n, t_it = temp.begin() + n; it != end();
-         ++it, t_it) {
-      *t_it = *it;
+    array_bundle<Type> temp(capacity_);
+    Type *temp_ptr = temp.Get();
+    for (auto first = begin(); first != begin() + n; ++first, ++temp_ptr) {
+      *temp_ptr = std::move(*first);
     }
-    *this = std::move(temp);
+    temp_ptr = nullptr;
+    temp.Get()[n] = std::move(value);
+    temp_ptr = temp.Get() + n + 1;
+    for (auto first = begin() + n; first != end(); ++first, ++temp_ptr) {
+      *temp_ptr = std::move(*first);
+    }
+    data_.swap(temp);
+    ++size_;
+    return begin() + n;
   }
   iterator insert(const_iterator pos, const Type &value) {
     if (size_ == 0) {
@@ -218,6 +211,7 @@ class dummy_vector {
     }
     size_ = temp.size_;
     *this = std::move(temp);
+    return begin() + n;
   }
   void push_back(const Type &value) {
     insert(end(), value);
@@ -243,7 +237,21 @@ class dummy_vector {
 
  private:
   static bool lexicographical_compare_(const dummy_vector<Type> &l,
-                                       const dummy_vector<Type> &r) { }
+                                       const dummy_vector<Type> &r) {
+    auto lb = l.begin();
+    auto rb = r.begin();
+    auto le = l.end();
+    auto re = r.end();
+    for (; (lb != le) && (rb != re); ++lb, ++rb) {
+      if (*lb < *rb) {
+        return true;
+      }
+      if (*lb > *rb) {
+        return false;
+      }
+    }
+    return (lb == le) && (rb != re);
+  }
   size_t size_ = 0;
   size_t capacity_ = 0;
   array_bundle<Type> data_;

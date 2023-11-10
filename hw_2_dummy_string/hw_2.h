@@ -140,10 +140,7 @@ class dummy_basic_string {
     return result;
   }
 
-/// Оператор вывода // а вот низя так есть ostream, потому что он не наш, а стандартный
-/// а есть wostream, который наш, но он для широких символов
-/// а есть basic_ostream, который наш, но он тоже шаблонный
-
+/// Оператор вывода, тоже д. б. шаблонный, т.е. basic_ostream
   friend std::basic_ostream<T> &operator<<(std::basic_ostream<T> &os,
                                            const dummy_basic_string &obj) {
     os << obj.c_str();
