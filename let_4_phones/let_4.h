@@ -1,9 +1,6 @@
-//
-// Created by fleurs on 29.10.23.
-//
+// Copyright 2023 <fleurs>
 
-#ifndef LET_4_PHONES_LET_4_H_
-#define LET_4_PHONES_LET_4_H_
+#pragma once
 
 namespace bmstu {
 struct MobilePhone {
@@ -15,4 +12,3 @@ struct MobilePhone {
 
 int phones();
 
-#endif  // LET_4_PHONES_LET_4_H_

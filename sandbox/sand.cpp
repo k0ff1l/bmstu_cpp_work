@@ -1,6 +1,4 @@
-//
-// Created by fleurs on 09.11.23.
-//
+// Copyright 2023 <fleurs>
 
 #include <iostream>
 #include <string>

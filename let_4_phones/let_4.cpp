@@ -1,6 +1,4 @@
-//
-// Created by fleurs on 29.10.23.
-//
+// Copyright 2023 <fleurs>
 
 #include <iostream>
 
@@ -22,7 +20,8 @@ int phones() {
   }  // ввод данных
   std::cout << "<MobilePhones>" << std::endl;
   for (size_t i = 0; i < count; ++i) {
-    std::cout << "\t" << "<MobilePhone id=\"" << i << "\" weight=\"" << phones[i].weight << "\" is_broken=\"";
+    std::cout << "\t" << "<MobilePhone id=\"" << i << "\" weight=\""
+              << phones[i].weight << "\" is_broken=\"";
     std::cout << (phones[i].is_broken ? "true" : "false");
     std::cout << "\" price=\"" << phones[i].price << "\"/>" << std::endl;
   }

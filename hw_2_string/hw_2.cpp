@@ -1,5 +1,3 @@
-//
-// Created by fleurs on 14.10.23.
-//
+// Copyright 2023 <fleurs>
 
 #include "hw_2.h"

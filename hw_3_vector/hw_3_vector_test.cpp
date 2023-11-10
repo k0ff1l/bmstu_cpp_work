@@ -1,6 +1,4 @@
-//
-// Created by fleurs on 30.10.23.
-//
+// Copyright 2023 <fleurs>
 
 #include <gtest/gtest.h>
 #include <iostream>
@@ -59,7 +57,7 @@ TEST(Vector, insert) {
 //  std::cout << v << std::endl;
 //}
 
-TEST(Vector, lexical) { // лексикографическое сравнение по циферкам чарикам начиная с первого
+TEST(Vector, lexical) {
   bmstu::vector<char> v{'1', '2', '3'};
   bmstu::vector<char> v_c{'1', '2', '3'};
   std::cout << v << std::endl;

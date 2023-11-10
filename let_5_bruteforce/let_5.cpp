@@ -1,6 +1,4 @@
-//
-// Created by fleurs on 29.10.23.
-//
+// Copyright 2023 <fleurs>
 
 #include "let_5.h"
 #include <fstream>
@@ -14,7 +12,8 @@ int bruteforce() {
       for (size_t k = 0; k < 32; ++k) {
         for (size_t l = 0; l < 32; ++l) {
           for (size_t m = 0; m < 32; ++m) {
-            fout << alphabet[i] << alphabet[j] << alphabet[k] << alphabet[l] << alphabet[m] << std::endl;
+            fout << alphabet[i] << alphabet[j] << alphabet[k] << alphabet[l]
+                 << alphabet[m] << std::endl;
           }
         }
       }

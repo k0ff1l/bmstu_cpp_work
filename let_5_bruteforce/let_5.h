@@ -1,10 +1,5 @@
-//
-// Created by fleurs on 29.10.23.
-//
+// Copyright 2023 <fleurs>
 
-#ifndef LET_5_BRUTEFORCE_LET_5_H_
-#define LET_5_BRUTEFORCE_LET_5_H_
+#pragma once
 
 int bruteforce();
-
-#endif  // LET_5_BRUTEFORCE_LET_5_H_

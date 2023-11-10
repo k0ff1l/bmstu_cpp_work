@@ -1,11 +1,11 @@
-//
-// Created by fleurs on 29.10.23.
-//
+// Copyright 2023 <fleurs>
+
 #include <gtest/gtest.h>
 #include <string>
 #include <sstream>
 
 #include "let_4.h"
+
 // Define a test fixture
 class let_4_phones_test : public ::testing::Test {
 };
@@ -20,7 +20,9 @@ TEST_F(let_4_phones_test, SinglePhoneOutput) {
   EXPECT_EQ(phones(), 0);
 
   std::string expected_output = "<MobilePhones>\n"
-"\t<MobilePhone id=\"0\" weight=\"100.5\" is_broken=\"false\" price=\"500\"/>\n""</MobilePhones>\n";
+                                "\t<MobilePhone id=\"0\" weight=\"100.5\" "
+                                "is_broken=\"false\"" " price=\"500\"/>\n"
+                                "</MobilePhones>\n";
   EXPECT_EQ(os.str(), expected_output);
 
   std::cin.rdbuf(orig_cin);
@@ -37,10 +39,14 @@ TEST_F(let_4_phones_test, MultiplePhonesOutput) {
   EXPECT_EQ(phones(), 0);
 
   std::string expected_output = "<MobilePhones>\n"
-"\t<MobilePhone id=\"0\" weight=\"150.2\" is_broken=\"true\" price=\"300\"/>\n"
-"\t<MobilePhone id=\"1\" weight=\"120.7\" is_broken=\"false\" price=\"700\"/>\n"
-"\t<MobilePhone id=\"2\" weight=\"180.1\" is_broken=\"true\" price=\"200\"/>\n"
-"</MobilePhones>\n";
+                                "\t<MobilePhone id=\"0\""
+                                "weight=\"150.2\" is_broken=\"true\""
+                                "price=\"300\"/>\n"
+                                "\t<MobilePhone id=\"1\" weight=\"120.7\""
+                                "is_broken=\"false\" price=\"700\"/>\n"
+                                "\t<MobilePhone id=\"2\" weight=\"180.1\""
+                                "is_broken=\"true\" price=\"200\"/>\n"
+                                "</MobilePhones>\n";
   EXPECT_EQ(os.str(), expected_output);
 
   std::cin.rdbuf(orig_cin);
