@@ -40,12 +40,12 @@ TEST_F(let_4_phones_test, MultiplePhonesOutput) {
 
   std::string expected_output = "<MobilePhones>\n"
                                 "\t<MobilePhone id=\"0\""
-                                "weight=\"150.2\" is_broken=\"true\""
-                                "price=\"300\"/>\n"
+                                " weight=\"150.2\" is_broken=\"true\""
+                                " price=\"300\"/>\n"
                                 "\t<MobilePhone id=\"1\" weight=\"120.7\""
-                                "is_broken=\"false\" price=\"700\"/>\n"
+                                " is_broken=\"false\" price=\"700\"/>\n"
                                 "\t<MobilePhone id=\"2\" weight=\"180.1\""
-                                "is_broken=\"true\" price=\"200\"/>\n"
+                                " is_broken=\"true\" price=\"200\"/>\n"
                                 "</MobilePhones>\n";
   EXPECT_EQ(os.str(), expected_output);
 

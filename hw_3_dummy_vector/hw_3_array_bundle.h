@@ -2,7 +2,9 @@
 
 #pragma once
 
-typedef unsigned long size_t;
+#include <utility>
+
+typedef uint64_t size_t;
 
 template<typename T>
 class array_bundle {
@@ -20,16 +22,16 @@ class array_bundle {
   array_bundle(const array_bundle &other_bundle) = delete;
   array_bundle &operator=(const array_bundle &other_bundle) = delete;
   T &operator[](size_t index) noexcept {
-    return *(raw_ptr_+index);
+    return *(raw_ptr_ + index);
   }
   const T &operator[](size_t index) const noexcept {
-    return *(raw_ptr_+index);
+    return *(raw_ptr_ + index);
   }
   explicit operator bool() const {
     return raw_ptr_ != nullptr;
   }
   T *Release() noexcept {
-    T * ptr = raw_ptr_;
+    T *ptr = raw_ptr_;
     raw_ptr_ = nullptr;
     return ptr;
   }
@@ -41,10 +43,11 @@ class array_bundle {
   }
   void swap(array_bundle &other) noexcept {
     // std::swap
-    T * tmp = raw_ptr_;
+    T *tmp = raw_ptr_;
     raw_ptr_ = other.raw_ptr_;
     other.raw_ptr_ = tmp;
   }
+
  private:
   T *raw_ptr_ = nullptr;
 };

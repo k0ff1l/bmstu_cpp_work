@@ -5,18 +5,18 @@
 #include <vector>
 #include <utility>
 
-#include "hw_3_vector.h"
+#include "hw_3_dummy_vector.h"
+
+using bmstu::dummy_vector;
 
 TEST(TestName_Other, Foo3) {
-  using bmstu::vector;
-  vector<int> a;
+  dummy_vector<int> a;
   ASSERT_EQ(a.capacity(), 0);
   ASSERT_EQ(a.size(), 0);
 }
 
 TEST(TestName_Other, PushBack) {
-  using bmstu::vector;
-  vector<int> a;
+  dummy_vector<int> a;
   ASSERT_EQ(a.capacity(), 0);
   ASSERT_EQ(a.size(), 0);
   a.push_back(6);
@@ -37,9 +37,9 @@ TEST(TestName_Other, PushBack) {
   std::cout << a << std::endl;
 }
 
-TEST(Vector, insert) {
-  bmstu::vector<int> v;
-  bmstu::vector<int> v_expected{0, 666, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+TEST(dummy_vector, insert) {
+  bmstu::dummy_vector<int> v;
+  bmstu::dummy_vector<int> v_expected{0, 666, 1, 2, 3, 4, 5, 6, 7, 8, 9};
   for (int i = 0; i < 10; ++i) {
     v.push_back(i);
   }
@@ -50,16 +50,16 @@ TEST(Vector, insert) {
   ASSERT_EQ(v, v_expected);
 }
 
-//TEST(Vector, Erase){
-//  bmstu::vector<int> v{1,2,3,4,5,6,7,8,9};
-//  bmstu::vector<int>::iterator v_it = v.begin() + 3; // число 4, 3-ий элемент
+// TEST(dummy_vector, Erase){
+//  bmstu::dummy_vector<int> v{1,2,3,4,5,6,7,8,9};
+//  bmstu::dummy_vector<int>::iterator v_it = v.begin() + 3; // число 4, 3-ий элемент
 //  v.erase(v_it);
 //  std::cout << v << std::endl;
 //}
 
-TEST(Vector, lexical) {
-  bmstu::vector<char> v{'1', '2', '3'};
-  bmstu::vector<char> v_c{'1', '2', '3'};
+TEST(dummy_vector, lexical) {
+  bmstu::dummy_vector<char> v{'1', '2', '3'};
+  bmstu::dummy_vector<char> v_c{'1', '2', '3'};
   std::cout << v << std::endl;
   ASSERT_TRUE(v <= v_c);
 }

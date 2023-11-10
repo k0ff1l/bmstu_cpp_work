@@ -2,19 +2,19 @@
 
 #pragma once
 
-// #include <utility>
-// #include <iterator>
+#include <algorithm>
+#include <utility>
 #include "hw_3_array_bundle.h"
 
 namespace dummy_funcs {
 size_t max(size_t a, size_t b) {
   return a > b ? a : b;
 }
-}  // namespace
+}  // namespace dummy_funcs
 
 namespace bmstu {
 template<typename Type>
-class vector {
+class dummy_vector {
  public:
   struct iterator {
     using iterator_category = std::random_access_iterator_tag;
@@ -22,7 +22,7 @@ class vector {
     using value_type = Type;
     using pointer = Type *;
     using reference = Type &;
-    explicit iterator(pointer ptr) : m_ptr(ptr) {}
+    explicit iterator(pointer ptr) : m_ptr(ptr) { }
     reference operator*() const {
       return *m_ptr;
     }
@@ -57,7 +57,8 @@ class vector {
     friend bool operator!=(const iterator &a, const iterator &b) {
       return !(a == b);
     }
-    friend difference_type operator-(const iterator &end, const iterator &begin) {
+    friend difference_type operator-(const iterator &end,
+                                     const iterator &begin) {
       if (begin.m_ptr == NULL) {
         return 0;
       }
@@ -79,15 +80,17 @@ class vector {
     pointer m_ptr;
   };
   using const_iterator = const iterator;
-  vector() noexcept = default;
-  explicit vector(size_t size, const Type &value = Type{}) : size_(size), capacity_(size), data_(size) {
+  dummy_vector() noexcept = default;
+  explicit dummy_vector(size_t size, const Type &value = Type{})
+      : size_(size), capacity_(size), data_(size) {
     auto first = begin();
     auto last = end();
     for (; first != last; ++first) {
       *first = value;
     }
   }
-  vector(const vector<Type> &other) : size_(other.size_), capacity_(other.capacity_), data_(other.data_) {
+  dummy_vector(const dummy_vector<Type> &other)
+      : size_(other.size_), capacity_(other.capacity_), data_(other.data_) {
     auto first = begin();
     auto ofirst = other.begin();
     auto olast = other.end();
@@ -95,18 +98,18 @@ class vector {
       *first = *ofirst;
     }
   }
-  vector(vector<Type> &&other) {
+  dummy_vector(dummy_vector<Type> &&other) {
     this->swap(other);
   }
-  vector(std::initializer_list<Type> ilist) {/*code*/ }
-  void clear() noexcept {}
-  vector &operator=(const vector<Type> &other) {/*code*/ }
-  vector &operator=(vector<Type> &&other) {/*code*/ }
+  dummy_vector(std::initializer_list<Type> ilist) {/*code*/ }
+  void clear() noexcept { }
+  dummy_vector &operator=(const dummy_vector<Type> &other) {/*code*/ }
+  dummy_vector &operator=(dummy_vector<Type> &&other) {/*code*/ }
   iterator begin() noexcept {
     return iterator(data_.Get());
   }
   iterator end() noexcept {
-    return iterator(data_.Get()+size_);
+    return iterator(data_.Get() + size_);
   }
   iterator begin() const noexcept {
     return iterator(data_.Get());
@@ -133,12 +136,12 @@ class vector {
   bool empty() const noexcept {
     return (size_ == 0);
   }
-  void swap(vector &other) noexcept {
+  void swap(dummy_vector &other) noexcept {
     std::swap(size_, other.size_);
     std::swap(capacity_, other.capacity_);
     data_.swap(other.data_);
   }
-  friend void swap(vector<Type> &lhs, vector<Type> &rhs) {
+  friend void swap(dummy_vector<Type> &lhs, dummy_vector<Type> &rhs) {
     lhs.swap(rhs);
   }
   void resize(size_t new_size) {
@@ -159,7 +162,8 @@ class vector {
       new_capacity = dummy_funcs::max(new_capacity, capacity_ * 2);
       array_bundle<Type> new_data(new_capacity);
       if (size_ != 0) {
-        for (auto it = begin(), nit = iterator(new_data.Get()); it != end(); ++it, ++nit) {
+        for (auto it = begin(), nit = iterator(new_data.Get()); it != end();
+             ++it, ++nit) {
           *nit = std::move(*it);
         }
       }
@@ -172,18 +176,20 @@ class vector {
       (*this).resize(1);
       return pos;
     }
-    vector<Type> temp(size_+1);
+    dummy_vector<Type> temp(size_ + 1);
     auto n = pos - begin();
     if (capacity_ - size_ == 0) {
       reserve(capacity_ + 1);
     }
-    for (auto it = begin(), t_it = temp.begin(); it != begin() + n - 1; ++it, ++t_it) {
+    for (auto it = begin(), t_it = temp.begin(); it != begin() + n - 1;
+         ++it, ++t_it) {
       *t_it = *it;
     }
     *(temp.begin() + n - 1) = value;
     auto itb = begin() + n;
     auto ite = end();
-    for (auto it = begin() + n, t_it = temp.begin() + n; it != end(); ++it, t_it) {
+    for (auto it = begin() + n, t_it = temp.begin() + n; it != end();
+         ++it, t_it) {
       *t_it = *it;
     }
     *this = std::move(temp);
@@ -193,19 +199,21 @@ class vector {
       (*this).resize(1);
       return pos;
     }
-    vector<Type> temp(size_+1);
+    dummy_vector<Type> temp(size_ + 1);
     auto n = pos - begin();
     if (capacity_ - size_ == 0) {
       reserve(capacity_ + 1);
-      size_+=1;
+      size_ += 1;
     }
-    for (auto it = begin(), t_it = temp.begin(); it != begin() + n - 1; ++it, ++t_it) {
+    for (auto it = begin(), t_it = temp.begin(); it != begin() + n - 1;
+         ++it, ++t_it) {
       *t_it = *it;
     }
     *(temp.begin() + n - 1) = value;
     auto itb = begin() + n;
     auto ite = end();
-    for (auto it = begin() + n, t_it = temp.begin() + n; it != end(); ++it, t_it) {
+    for (auto it = begin() + n, t_it = temp.begin() + n; it != end();
+         ++it, t_it) {
       *t_it = *it;
     }
     size_ = temp.size_;
@@ -218,16 +226,24 @@ class vector {
     insert(end(), value);
   }
   void pop_back() noexcept {/*code*/ }
-  friend bool operator==(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
-  friend bool operator!=(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
-  friend bool operator<(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
-  friend bool operator>(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
-  friend bool operator<=(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
-  friend bool operator>=(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
-  friend std::ostream &operator<<(std::ostream &os, const vector<Type> &other) {/*code*/ }
+  friend bool operator==(const dummy_vector<Type> &l,
+                         const dummy_vector<Type> &r) {/*code*/ }
+  friend bool operator!=(const dummy_vector<Type> &l,
+                         const dummy_vector<Type> &r) {/*code*/ }
+  friend bool operator<(const dummy_vector<Type> &l,
+                        const dummy_vector<Type> &r) {/*code*/ }
+  friend bool operator>(const dummy_vector<Type> &l,
+                        const dummy_vector<Type> &r) {/*code*/ }
+  friend bool operator<=(const dummy_vector<Type> &l,
+                         const dummy_vector<Type> &r) {/*code*/ }
+  friend bool operator>=(const dummy_vector<Type> &l,
+                         const dummy_vector<Type> &r) {/*code*/ }
+  friend std::ostream &operator<<(std::ostream &os,
+                                  const dummy_vector<Type> &other) {/*code*/ }
 
  private:
-  static bool lexicographical_compare_(const vector<Type> &l, const vector<Type> &r) {}
+  static bool lexicographical_compare_(const dummy_vector<Type> &l,
+                                       const dummy_vector<Type> &r) { }
   size_t size_ = 0;
   size_t capacity_ = 0;
   array_bundle<Type> data_;
