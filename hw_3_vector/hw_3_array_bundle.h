@@ -11,7 +11,7 @@ class array_bundle {
  public:
   array_bundle() = default;
   explicit array_bundle(size_t size) {
-    if (size==0){
+    if (size == 0) {
       raw_ptr_ = nullptr;
     }
     raw_ptr_ = new T[size];

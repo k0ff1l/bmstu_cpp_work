@@ -4,12 +4,12 @@
 
 #pragma once
 
-//#include <utility>
-//#include <iterator>
+// #include <utility>
+// #include <iterator>
 #include "hw_3_array_bundle.h"
 
-namespace {
-size_t dummy_max(size_t a, size_t b) {
+namespace dummy_funcs {
+size_t max(size_t a, size_t b) {
   if (a > b) {
     return a;
   }
@@ -65,7 +65,7 @@ class vector {
       return !(a == b);
     }
     friend difference_type operator-(const iterator &end, const iterator &begin) {
-      if (begin.m_ptr == NULL){
+      if (begin.m_ptr == NULL) {
         return 0;
       }
       difference_type result = end.m_ptr - begin.m_ptr;
@@ -150,10 +150,10 @@ class vector {
   }
   void resize(size_t new_size) {
     if (new_size > capacity_) {
-      size_t new_capacity = ::dummy_max(new_size, capacity_ * 2);
+      size_t new_capacity = dummy_funcs::max(new_size, capacity_ * 2);
       reserve(new_capacity);
       for (auto it = --end(); it != begin() + capacity_; ++it) {
-        if (begin() == end()){
+        if (begin() == end()) {
           break;
         }
         *it = Type{};
@@ -163,9 +163,9 @@ class vector {
   }
   void reserve(size_t new_capacity) {
     if (new_capacity > capacity_) {
-      new_capacity = ::dummy_max(new_capacity, capacity_ * 2);
+      new_capacity = dummy_funcs::max(new_capacity, capacity_ * 2);
       array_bundle<Type> new_data(new_capacity);
-      if (size_ != 0){
+      if (size_ != 0) {
         for (auto it = begin(), nit = iterator(new_data.Get()); it != end(); ++it, ++nit) {
           *nit = std::move(*it);
         }
@@ -175,54 +175,54 @@ class vector {
     }
   }
   iterator insert(const_iterator pos, Type &&value) {
-    if (size_ == 0){
+    if (size_ == 0) {
       (*this).resize(1);
       return pos;
     }
     vector<Type> temp(size_+1);
     auto n = pos - begin();
-    if (capacity_ - size_ == 0){
+    if (capacity_ - size_ == 0) {
       reserve(capacity_ + 1);
     }
-    for (auto it = begin(), t_it = temp.begin(); it != begin() + n - 1; ++it, ++t_it){
+    for (auto it = begin(), t_it = temp.begin(); it != begin() + n - 1; ++it, ++t_it) {
       *t_it = *it;
     }
     *(temp.begin() + n - 1) = value;
     auto itb = begin() + n;
     auto ite = end();
-    for (auto it = begin() + n, t_it = temp.begin() + n; it != end(); ++it, t_it){
+    for (auto it = begin() + n, t_it = temp.begin() + n; it != end(); ++it, t_it) {
       *t_it = *it;
     }
     *this = std::move(temp);
   }
   iterator insert(const_iterator pos, const Type &value) {
-    if (size_ == 0){
+    if (size_ == 0) {
       (*this).resize(1);
       return pos;
     }
     vector<Type> temp(size_+1);
     auto n = pos - begin();
-    if (capacity_ - size_ == 0){
+    if (capacity_ - size_ == 0) {
       reserve(capacity_ + 1);
       size_+=1;
     }
-    for (auto it = begin(), t_it = temp.begin(); it != begin() + n - 1; ++it, ++t_it){
+    for (auto it = begin(), t_it = temp.begin(); it != begin() + n - 1; ++it, ++t_it) {
       *t_it = *it;
     }
     *(temp.begin() + n - 1) = value;
     auto itb = begin() + n;
     auto ite = end();
-    for (auto it = begin() + n, t_it = temp.begin() + n; it != end(); ++it, t_it){
+    for (auto it = begin() + n, t_it = temp.begin() + n; it != end(); ++it, t_it) {
       *t_it = *it;
     }
     size_ = temp.size_;
     *this = std::move(temp);
   }
   void push_back(const Type &value) {
-    insert(end(),value);
+    insert(end(), value);
   }
   void push_back(Type &&value) {
-    insert(end(),value);
+    insert(end(), value);
   }
   void pop_back() noexcept {/*code*/ }
   friend bool operator==(const vector<Type> &l, const vector<Type> &r) {/*code*/ }
