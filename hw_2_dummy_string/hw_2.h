@@ -76,7 +76,7 @@ class dummy_basic_string {
 
 /// Геттер на си-строку
   [[nodiscard]] const T *c_str() const {
-    return (data_ != nullptr) ? data_ : (T *)("");
+    return (data_ != nullptr) ? data_ : reinterpret_cast<const T *>("");
   }
 
 /// Геттер на размер

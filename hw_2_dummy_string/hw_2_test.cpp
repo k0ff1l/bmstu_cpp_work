@@ -6,8 +6,6 @@
 
 #include "hw_2.h"
 
-
-#include <string>
 using bmstu::dummy_basic_string;
 
 TEST(StringTest, size) {
@@ -452,11 +450,4 @@ TEST(StringTest, Item) {
   ASSERT_EQ(a_str[0], L'С');
   ASSERT_EQ(a_str[1], L'Т');
   ASSERT_EQ(a_str[a_str.size() - 1], L'Г');
-}
-
-TEST(kostyTest, Equality){
-  std::string str_1 ="1231";
-  std::string str_2;
-  str_2 = std::move(str_1);
-  ASSERT_STREQ(str_1.c_str(), "");
 }
