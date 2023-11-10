@@ -173,15 +173,17 @@ class dummy_vector {
       capacity_ *= 2;
     }
     array_bundle<Type> temp(capacity_);
-    Type *temp_ptr = temp.Get();
+    Type * temp_ptr = temp.Get();
     for (auto first = begin(); first != begin() + n; ++first, ++temp_ptr) {
       *temp_ptr = std::move(*first);
     }
     temp_ptr = nullptr;
-    temp.Get()[n] = std::move(value);
+    temp[n] = std::move(value);
     temp_ptr = temp.Get() + n + 1;
-    for (auto first = begin() + n; first != end(); ++first, ++temp_ptr) {
-      *temp_ptr = std::move(*first);
+    if (++n < size_){
+      for (auto first = begin() + n; first != end(); ++first, ++temp_ptr) {
+        *temp_ptr = std::move(*first);
+      }
     }
     data_.swap(temp);
     ++size_;
