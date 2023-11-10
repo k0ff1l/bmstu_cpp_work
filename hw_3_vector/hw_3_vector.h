@@ -10,12 +10,7 @@
 
 namespace dummy_funcs {
 size_t max(size_t a, size_t b) {
-  if (a > b) {
-    return a;
-  }
-  else{
-    return b;
-  }
+  return a > b ? a : b;
 }
 }  // namespace
 
