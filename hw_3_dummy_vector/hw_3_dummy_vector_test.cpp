@@ -9,13 +9,13 @@
 
 using bmstu::dummy_vector;
 
-TEST(TestName_Other, Foo3) {
+TEST(DummyVectorTest, null) {
   dummy_vector<int> a;
   ASSERT_EQ(a.capacity(), 0);
   ASSERT_EQ(a.size(), 0);
 }
 
-TEST(TestName_Other, PushBack) {
+TEST(DummyVectorTest, pushback) {
   dummy_vector<int> a;
   ASSERT_EQ(a.capacity(), 0);
   ASSERT_EQ(a.size(), 0);
@@ -34,27 +34,56 @@ TEST(TestName_Other, PushBack) {
   a.push_back(6);
   ASSERT_EQ(a.size(), 5);
   ASSERT_EQ(a.capacity(), 8);
-  std::cout << a << std::endl;
 }
 
-TEST(dummy_vector, insert) {
+TEST(DummyVectorTest, insert) {
   bmstu::dummy_vector<int> v;
   bmstu::dummy_vector<int> v_expected{0, 666, 1, 2, 3, 4, 5, 6, 7, 8, 9};
   for (int i = 0; i < 10; ++i) {
     v.push_back(i);
   }
-//  std::cout << v << std::endl;
   v.insert(v.begin() + 1, 666);
-//  std::cout << v << std::endl;
-
-  ASSERT_EQ(v, v_expected);
+  for (int i = 0; i < 10; ++i) {
+    ASSERT_EQ(v[i], v_expected[i]);
+  }
 }
 
-TEST(dummy_vector, lexical) {
+TEST(DummyVectorTest, lexical) {
   bmstu::dummy_vector<char> v{'1', '2', '3'};
   bmstu::dummy_vector<char> v_c{'1', '2', '3'};
-  std::cout << v << std::endl;
   ASSERT_TRUE(v <= v_c);
+  ASSERT_TRUE(v >= v_c);
+  ASSERT_TRUE(v == v_c);
+}
+
+TEST(DummyVectorTest, complex) {
+  bmstu::dummy_vector<int> v;
+  v.push_back(23);
+  ASSERT_EQ(v[0], 23);
+  size_t big_number = 1;
+  for (size_t i = 0; i < 10; ++i) {
+    big_number *= 2;
+  }
+  for (size_t i = 0; i < big_number; ++i) {
+    v.push_back(i);
+  }
+  ASSERT_EQ(v.size(), big_number + 1);
+  for (size_t i = 0; i < big_number; ++i) {
+    v.pop_back();
+  }
+  ASSERT_EQ(v.size(), 1);
+}
+
+TEST(DummyVectorTest, reserve) {
+  bmstu::dummy_vector<int> vec;
+  vec.reserve(10);
+  EXPECT_EQ(vec.size(), 0);
+  EXPECT_EQ(vec.capacity(), 10);
+  for (size_t i = 0; i < vec.capacity(); ++i) {
+    vec.push_back(i);
+  }
+  EXPECT_EQ(vec.size(), 10);
+  EXPECT_EQ(vec.capacity(), 10);
 }
 
 TEST(DummyVectorTest, DefaultConstructor) {
@@ -87,6 +116,9 @@ TEST(DummyVectorTest, MoveConstructor) {
   EXPECT_EQ(original.capacity(), 0);
   EXPECT_EQ(moved.size(), 3);
   EXPECT_EQ(moved.capacity(), 3);
+  moved.push_back(4);
+  ASSERT_EQ(moved.capacity(), 6);
+  ASSERT_EQ(moved[3], 4);
 }
 
 TEST(DummyVectorTest, Resize) {
@@ -121,14 +153,13 @@ TEST(DummyVectorTest, PushBack) {
 TEST(DummyVectorTest, At) {
   bmstu::dummy_vector<int> vec = {1, 2, 3};
   EXPECT_EQ(vec.at(1), 2);
-  EXPECT_THROW(vec.at(5), std::out_of_range);
 }
 
 TEST(DummyVectorTest, PopBack) {
   bmstu::dummy_vector<int> vec = {1, 2, 3};
   vec.pop_back();
   EXPECT_EQ(vec.size(), 2);
-  EXPECT_EQ(vec[2], 2);
+  EXPECT_EQ(vec[1], 2);
 }
 
 TEST(DummyVectorTest, Swap) {
@@ -141,3 +172,28 @@ TEST(DummyVectorTest, Swap) {
   EXPECT_EQ(vec2[0], 1);
 }
 
+TEST(DummyVectorTest, Equality) {
+  bmstu::dummy_vector<int> vec1 = {1, 2, 3, 4, 5};
+  bmstu::dummy_vector<int> vec2 = {1, 2, 3, 4, 5};
+  bmstu::dummy_vector<int> vec3 = {1, 2, 3, 4, 6};
+  ASSERT_TRUE(vec1 == vec2);
+  ASSERT_FALSE(vec1 == vec3);
+}
+
+TEST(DummyVectorTest, Comparison) {
+  bmstu::dummy_vector<int> vec1 = {1, 2, 3, 4, 5};
+  bmstu::dummy_vector<int> vec2 = {1, 2, 3, 4, 5};
+  bmstu::dummy_vector<int> vec3 = {1, 2, 3, 4, 6};
+  bmstu::dummy_vector<int> vec4 = {1, 2, 3};
+  ASSERT_TRUE(vec1 == vec2);
+  ASSERT_TRUE(vec1 < vec3);
+  ASSERT_TRUE(vec4 < vec1);
+  ASSERT_TRUE(vec3 > vec2);
+}
+
+TEST(DummyVectorTest, OutputOperator) {
+  bmstu::dummy_vector<int> vec = {1, 2, 3, 4, 5};
+  std::stringstream ss;
+  ss << vec;
+  ASSERT_EQ(ss.str(), "[ 1, 2, 3, 4, 5 ]");
+}

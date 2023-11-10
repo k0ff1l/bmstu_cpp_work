@@ -7,11 +7,11 @@
 #include "let_4.h"
 
 // Define a test fixture
-class let_4_phones_test : public ::testing::Test {
+class PhonesTest : public ::testing::Test {
 };
 
 // Test case to check the XML output for one phone
-TEST_F(let_4_phones_test, SinglePhoneOutput) {
+TEST_F(PhonesTest, SinglePhoneOutput) {
   std::ostringstream os;
   std::istringstream is("1\n100.5 0 500\n");
   std::streambuf *orig_cin = std::cin.rdbuf(is.rdbuf());
@@ -30,7 +30,7 @@ TEST_F(let_4_phones_test, SinglePhoneOutput) {
 }
 
 // Test case to check the XML output for multiple phones
-TEST_F(let_4_phones_test, MultiplePhonesOutput) {
+TEST_F(PhonesTest, MultiplePhonesOutput) {
   std::ostringstream os;
   std::istringstream is("3\n150.2 1 300\n120.7 0 700\n180.1 1 200\n");
   std::streambuf *orig_cin = std::cin.rdbuf(is.rdbuf());
@@ -54,7 +54,7 @@ TEST_F(let_4_phones_test, MultiplePhonesOutput) {
 }
 
 // Test case for an empty phone list
-TEST_F(let_4_phones_test, EmptyPhoneList) {
+TEST_F(PhonesTest, EmptyPhoneList) {
   std::ostringstream os;
   std::istringstream is("0\n");
   std::streambuf *orig_cin = std::cin.rdbuf(is.rdbuf());
