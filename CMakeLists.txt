@@ -22,7 +22,7 @@ file(GLOB SOURCES_HW "hw_*/*.h" "hw_*/*.cpp")
 file(GLOB SOURCES_ANCIENT "ancient_knowledge/*")
 
 # То что нужно удалить
-file(GLOB REMOVE_SOURCES "let_6/*")
+file(GLOB REMOVE_SOURCES "let_6_db/*")
 
 # Объединяем все списки исходных файлов
 set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW} ${SOURCES_ANCIENT})
@@ -30,10 +30,12 @@ set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW} ${SOURCES_ANCIENT})
 # Удаляем то, что нужно удалить
 list(REMOVE_ITEM ALL_SOURCES ${REMOVE_SOURCES})
 
-add_executable(${TEST_NAME} ${TEST_NAME}.cpp ${ALL_SOURCES})
+add_executable(${TEST_NAME} ${ALL_SOURCES})
 target_link_libraries(${TEST_NAME} gtest_main)
 
 enable_testing()
 include(GoogleTest)
 gtest_discover_tests(${TEST_NAME})
-add_subdirectory(let_6)
+
+# Добавляем субдиректории
+add_subdirectory(let_6_db)
