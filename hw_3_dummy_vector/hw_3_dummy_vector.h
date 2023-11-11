@@ -197,7 +197,6 @@ class dummy_vector {
     for (auto first = begin(); first != begin() + n; ++first, ++temp_ptr) {
       *temp_ptr = std::move(*first);
     }
-    temp_ptr = nullptr;
     temp[n] = std::move(value);
     temp_ptr = temp.Get() + n + 1;
     if (n + 1 < size_) {
@@ -222,7 +221,6 @@ class dummy_vector {
     for (auto first = begin(); first != begin() + n; ++first, ++temp_ptr) {
       *temp_ptr = std::move(*first);
     }
-    temp_ptr = nullptr;
     temp[n] = std::move(value);
     temp_ptr = temp.Get() + n + 1;
     if (++n < size_) {
