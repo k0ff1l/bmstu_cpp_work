@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.14)
-project(all_lets_hws)
+project(bmstu_cpp_work)
 
 include(FetchContent)
 FetchContent_Declare(
-  googletest
-  GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        release-1.12.0
+        googletest
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG release-1.12.0
 )
 FetchContent_MakeAvailable(googletest)
 
@@ -18,14 +18,22 @@ file(GLOB SOURCES_LET "let_*/*.h" "let_*/*.cpp")
 # Добавляем все домашки
 file(GLOB SOURCES_HW "hw_*/*.h" "hw_*/*.cpp")
 
+# Добавляем древние знания
 file(GLOB SOURCES_ANCIENT "ancient_knowledge/*")
+
+# То что нужно удалить
+file(GLOB REMOVE_SOURCES "let_6/*")
 
 # Объединяем все списки исходных файлов
 set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW} ${SOURCES_ANCIENT})
 
-add_executable(${TEST_NAME} ${ALL_SOURCES})
+# Удаляем то, что нужно удалить
+list(REMOVE_ITEM ALL_SOURCES ${REMOVE_SOURCES})
+
+add_executable(${TEST_NAME} ${TEST_NAME}.cpp ${ALL_SOURCES})
 target_link_libraries(${TEST_NAME} gtest_main)
 
 enable_testing()
 include(GoogleTest)
 gtest_discover_tests(${TEST_NAME})
+add_subdirectory(let_6)

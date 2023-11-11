@@ -19,6 +19,9 @@ class Student {
 };
 
 void mode(int argc, char **argv) {
+  if (argc == 1){
+    std::cerr << "No arguments provided, include path to file.bin and mode (-a/-o/-g/-r)" << std::endl;
+  }
   if (argc != 3) {
     std::cerr << "Usage: " << argv[1] << "input file" << std::endl;
   } else {

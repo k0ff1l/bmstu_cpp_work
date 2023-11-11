@@ -64,7 +64,7 @@ void top_rating_alphabet(auto &Students, size_t count) {  // NOLINT
   }
 }
 
-int let_6(int argc, char **argv) {
+int main(int argc, char **argv) {
   mode(argc, argv);
   std::ifstream in(argv[1], std::ios::in | std::ios::binary);
   uint32_t students_count;
