@@ -6,44 +6,44 @@
 
 #include "hw_2.h"
 
-using bmstu::dummy_basic_string;
+using bmstu::basic_string;
 
 TEST(StringTest, size) {
-  bmstu::dummy_string str_1("23");
+  bmstu::string str_1("23");
   ASSERT_EQ(str_1.size(), 2);
-  bmstu::dummy_string str_2("");
+  bmstu::string str_2("");
   ASSERT_EQ(str_2.size(), 0);
-  bmstu::dummy_string str_3(str_1);
+  bmstu::string str_3(str_1);
   ASSERT_EQ(str_3.size(), str_1.size());
-  bmstu::dummy_string &str_1_ref = str_1;
+  bmstu::string &str_1_ref = str_1;
   ASSERT_EQ(str_1_ref.size(), str_1.size());
-  bmstu::dummy_string sum_str_1_str_2 = str_1 + str_2;
+  bmstu::string sum_str_1_str_2 = str_1 + str_2;
   ASSERT_EQ(sum_str_1_str_2.size(), str_1.size() + str_2.size());
-  bmstu::dummy_string &sum_str_1_str_2_ref = sum_str_1_str_2;
-  bmstu::dummy_string complex_str = sum_str_1_str_2_ref + str_1_ref;
+  bmstu::string &sum_str_1_str_2_ref = sum_str_1_str_2;
+  bmstu::string complex_str = sum_str_1_str_2_ref + str_1_ref;
   ASSERT_EQ(complex_str.size(), str_1.size() + str_2.size() + str_1_ref.size());
-  bmstu::dummy_string str_4("lol");
-  bmstu::dummy_string str_5 = str_4 + str_1;
+  bmstu::string str_4("lol");
+  bmstu::string str_5 = str_4 + str_1;
   ASSERT_EQ(str_5.size(), 5);
 }
 
 TEST(StringTest, c_str) {
-  bmstu::dummy_string str_1("23");
+  bmstu::string str_1("23");
   ASSERT_STREQ(str_1.c_str(), "23");
-  bmstu::dummy_string str_2("");
+  bmstu::string str_2("");
   ASSERT_STREQ(str_2.c_str(), "");
-  bmstu::dummy_string str_3("fjsdkfksdgkajsgjkldgasdgjasdgjasdg");
+  bmstu::string str_3("fjsdkfksdgkajsgjkldgasdgjasdgjasdg");
   ASSERT_STREQ(str_3.c_str(), "fjsdkfksdgkajsgjkldgasdgjasdgjasdg");
 }
 
 TEST(StringTest, copy) {
-  bmstu::dummy_string str_1("123123");
-  bmstu::dummy_string str_1_copy = str_1;
+  bmstu::string str_1("123123");
+  bmstu::string str_1_copy = str_1;
   ASSERT_STREQ(str_1.c_str(), str_1_copy.c_str());
 }
 
 TEST(StringTest, add_symbol) {
-  bmstu::dummy_string str_1("123");
+  bmstu::string str_1("123");
   str_1 += '2';
   ASSERT_STREQ(str_1.c_str(), "1232");
   str_1 += ' ';
@@ -51,8 +51,8 @@ TEST(StringTest, add_symbol) {
 }
 
 TEST(StringTest, sum_) {
-  bmstu::dummy_string str_1("123");
-  bmstu::dummy_string str_2("124");
+  bmstu::string str_1("123");
+  bmstu::string str_2("124");
   size_t str_1_prev_size = str_1.size();
   str_1 += str_2;
   ASSERT_STREQ(str_1.c_str(), "123124");
@@ -60,35 +60,35 @@ TEST(StringTest, sum_) {
 }
 
 TEST(StringTest, sum) {
-  bmstu::dummy_string str_1("123");
-  bmstu::dummy_string str_2(" 999 abc");
-  bmstu::dummy_string str_3 = str_1 + str_2;
+  bmstu::string str_1("123");
+  bmstu::string str_2(" 999 abc");
+  bmstu::string str_3 = str_1 + str_2;
   ASSERT_STREQ(str_3.c_str(), "123 999 abc");
 }
 
 TEST(StringTest, dying) {
-  bmstu::dummy_string str_1("12345");
-  bmstu::dummy_string str_2;
+  bmstu::string str_1("12345");
+  bmstu::string str_2;
   str_2 = std::move(str_1);
   EXPECT_EQ(str_1.size(), 0);
-  bmstu::dummy_string str_3 = std::move(str_2);
+  bmstu::string str_3 = std::move(str_2);
   EXPECT_EQ(str_2.size(), 0);
   EXPECT_STREQ(str_3.c_str(), "12345");
   EXPECT_EQ(str_1.c_str(), str_2.c_str());  // адрес, оба null
 }
 
 TEST(StringTest, ostream) {
-  bmstu::dummy_string str_1("123");
+  bmstu::string str_1("123");
   std::stringstream os_1;
   os_1 << str_1;
   EXPECT_STREQ(os_1.str().c_str(), "123");
   EXPECT_EQ(os_1.str().size(), 3);
-  bmstu::dummy_string str_2(" ");
+  bmstu::string str_2(" ");
   std::stringstream os_2;
   os_2 << str_2;
   EXPECT_STREQ(os_2.str().c_str(), " ");
   EXPECT_EQ(os_2.str().size(), 1);
-  bmstu::dummy_string str_3;
+  bmstu::string str_3;
   std::stringstream os_3;
   os_3 << str_3;
   EXPECT_STREQ(os_3.str().c_str(), "");
@@ -96,12 +96,12 @@ TEST(StringTest, ostream) {
 }
 
 TEST(StringTest, istream) {
-  bmstu::dummy_string str_1;
+  bmstu::string str_1;
   std::stringstream is_1("123");
   is_1 >> str_1;
   EXPECT_STREQ(str_1.c_str(), "123");
   EXPECT_EQ(str_1.size(), 3);
-  bmstu::dummy_string str_2;
+  bmstu::string str_2;
   std::stringstream is_2("abcdefg");
   is_2 >> str_2;
   EXPECT_STREQ(str_2.c_str(), "abcdefg");
@@ -109,30 +109,30 @@ TEST(StringTest, istream) {
 }
 
 TEST(StringTest, multi) {
-  bmstu::dummy_string str_empty;
-  bmstu::dummy_string str_1("you ");
-  bmstu::dummy_string str_2("are ");
-  bmstu::dummy_string str_3("nigger");
-  bmstu::dummy_string result = str_empty + str_1 + str_2;
+  bmstu::string str_empty;
+  bmstu::string str_1("you ");
+  bmstu::string str_2("are ");
+  bmstu::string str_3("nigger");
+  bmstu::string result = str_empty + str_1 + str_2;
   result += str_3;
   EXPECT_EQ(result.size(), 14);
 }
 
 TEST(StringTest, equal) {
-  bmstu::dummy_string str_1("1234567890");
+  bmstu::string str_1("1234567890");
   str_1 = str_1;
   EXPECT_STREQ(str_1.c_str(), "1234567890");
   EXPECT_EQ(str_1.size(), 10);
 }
 
 TEST(StringTest, ifequal) {
-  bmstu::dummy_string str_1("1234");
-  bmstu::dummy_string str_2("1234");
-  bmstu::dummy_string str_3("");
-  bmstu::dummy_string str_4;
-  bmstu::dummy_string &str_5 = str_2;
-  bmstu::dummy_string str_6("123");
-  bmstu::dummy_string str_7("12 34");
+  bmstu::string str_1("1234");
+  bmstu::string str_2("1234");
+  bmstu::string str_3("");
+  bmstu::string str_4;
+  bmstu::string &str_5 = str_2;
+  bmstu::string str_6("123");
+  bmstu::string str_7("12 34");
   EXPECT_TRUE(str_1 == str_2);
   EXPECT_FALSE(str_1 == str_3);
   EXPECT_TRUE(str_5 == str_2);
@@ -143,30 +143,30 @@ TEST(StringTest, ifequal) {
 
 TEST(StringTest, gpt_constructor_from_char_pointer) {
   const char *charArray = "Hello, World!";
-  bmstu::dummy_string mystring(charArray);
+  bmstu::string mystring(charArray);
   EXPECT_EQ(mystring.size(), strlen(charArray));  // Проверка размера строки.
   EXPECT_STREQ(mystring.c_str(), charArray);
 }
 
 TEST(StringTest, gpt_copy_constructor) {
   const char *charArray = "Hello, World!";
-  bmstu::dummy_string original(charArray);
-  bmstu::dummy_string replica(original);  // Используем конструктор копирования.
+  bmstu::string original(charArray);
+  bmstu::string replica(original);  // Используем конструктор копирования.
   EXPECT_EQ(original.size(), replica.size());  // Проверка равенства размеров.
   EXPECT_STREQ(original.c_str(),
                replica.c_str());  // Проверка равенства содержимого.
 }
 
 TEST(StringTest, gpt_concatenation) {
-  bmstu::dummy_string first("Hello, ");
-  bmstu::dummy_string second("World!");
-  bmstu::dummy_string result = first + second;
+  bmstu::string first("Hello, ");
+  bmstu::string second("World!");
+  bmstu::string result = first + second;
   EXPECT_STREQ(result.c_str(),
                "Hello, World!");  // Проверка правильности конкатенации.
 }
 
 TEST(StringTest, gpt_default_constructor) {
-  bmstu::dummy_string mystring;
+  bmstu::string mystring;
   EXPECT_EQ(mystring.size(), 0);  // Проверка, что размер пустой строки равен 0.
   std::stringstream ss;
   ss << mystring;
@@ -174,16 +174,16 @@ TEST(StringTest, gpt_default_constructor) {
 }
 
 TEST(StringTest, gpt_assignment_operator) {
-  bmstu::dummy_string str1("Original");
-  bmstu::dummy_string str2("New");
+  bmstu::string str1("Original");
+  bmstu::string str2("New");
   str1 = str2;  // Используем оператор присваивания.
   EXPECT_STREQ(str1.c_str(), "New");  // Проверка правильности присваивания.
   EXPECT_EQ(str1.size(), 3);  // Проверка размера после присваивания.
 }
 
 TEST(StringTest, gpt_move_constructor) {
-  bmstu::dummy_string source("Move this");
-  bmstu::dummy_string
+  bmstu::string source("Move this");
+  bmstu::string
       destination(std::move(source));  // Используем конструктор перемещения.
   EXPECT_STREQ(destination.c_str(),
                "Move this");  // Проверка содержимого после перемещения.
@@ -192,7 +192,7 @@ TEST(StringTest, gpt_move_constructor) {
 }
 
 TEST(StringTest, gpt_input_output) {
-  bmstu::dummy_string mystring;
+  bmstu::string mystring;
   std::stringstream ss;
   ss << "Input Test";
   ss >> mystring;
@@ -203,7 +203,7 @@ TEST(StringTest, gpt_input_output) {
 }
 
 TEST(StringTest, DefaultConstructor) {
-  bmstu::dummy_string str;
+  bmstu::string str;
   ASSERT_STREQ(str.c_str(), "");
   ASSERT_EQ(str.size(), 0);
 }
@@ -239,7 +239,7 @@ TEST(StringTest, ConstructorSizeW) {
 }
 
 TEST(StringTest, ConstructorSize) {
-  bmstu::dummy_string str(10);
+  bmstu::string str(10);
   ASSERT_STREQ(str.c_str(), "          ");
   ASSERT_EQ(str.size(), 10);
 }
@@ -251,7 +251,7 @@ TEST(StringTest, ConstructorSizeOne) {
 }
 
 TEST(StringTest, FromCStr) {
-  bmstu::dummy_string str("str\n");
+  bmstu::string str("str\n");
   ASSERT_STREQ(str.c_str(), "str\n");
   ASSERT_EQ(str.size(), 4);
 }
@@ -277,19 +277,19 @@ TEST(StringTest, USymbolsW) {
 }
 
 TEST(StringTest, USymbol) {
-  bmstu::dummy_string str("\xe3\x81\x8a\x00");
+  bmstu::string str("\xe3\x81\x8a\x00");
   ASSERT_STREQ(str.c_str(), "お");
   ASSERT_EQ(str.size(), 3);
 }
 
 TEST(StringTest, USymbols) {
-  bmstu::dummy_string str("おはよう");
+  bmstu::string str("おはよう");
   ASSERT_STREQ(str.c_str(), "おはよう");
   ASSERT_EQ(str.size() + 1, sizeof("おはよう"));
 }
 
 TEST(StringTest, Empty) {
-  bmstu::dummy_string empty;
+  bmstu::string empty;
   ASSERT_EQ(empty.size(), 0);
   ASSERT_STREQ(empty.c_str(), "");
 }
@@ -308,15 +308,15 @@ TEST(StringTest, CopyAssignW) {
 }
 
 TEST(StringTest, CopyConstructor) {
-  bmstu::dummy_string empty("Non Empty строка");
-  bmstu::dummy_string nonempty = empty;
+  bmstu::string empty("Non Empty строка");
+  bmstu::string nonempty = empty;
   ASSERT_STREQ(nonempty.c_str(), "Non Empty строка");
   ASSERT_EQ(nonempty.size(), sizeof("Non Empty строка") - 1);
 }
 
 TEST(StringTest, CopyAssignConstructor) {
-  bmstu::dummy_string *str = new bmstu::dummy_string("str");
-  bmstu::dummy_string *nonempty = new bmstu::dummy_string;
+  bmstu::string *str = new bmstu::string("str");
+  bmstu::string *nonempty = new bmstu::string;
   *nonempty = *str;
   ASSERT_STREQ(nonempty->c_str(), "str");
   ASSERT_EQ(nonempty->size(), sizeof("str") - 1);
@@ -325,8 +325,8 @@ TEST(StringTest, CopyAssignConstructor) {
 }
 
 TEST(StringTest, MoveAssignConstructor) {
-  bmstu::dummy_string str {"str"};
-  bmstu::dummy_string str2 {"other"};
+  bmstu::string str {"str"};
+  bmstu::string str2 {"other"};
   str2 = std::move(str);
   ASSERT_STREQ(str2.c_str(), "str");
   ASSERT_EQ(str2.size(), sizeof("str") - 1);
@@ -336,8 +336,8 @@ TEST(StringTest, MoveAssignConstructor) {
 }
 
 TEST(StringTest, MoveAssignConstructor2) {
-  bmstu::dummy_string str {"str"};
-  bmstu::dummy_string str2 {"other"};
+  bmstu::string str {"str"};
+  bmstu::string str2 {"other"};
   str2 = std::move(str);
   ASSERT_STREQ(str2.c_str(), "str");
   ASSERT_EQ(str2.size(), sizeof("str") - 1);
@@ -347,8 +347,8 @@ TEST(StringTest, MoveAssignConstructor2) {
 }
 
 TEST(StringTest, CopyAssignConstructor2) {
-  bmstu::dummy_string str {"str"};
-  bmstu::dummy_string str2(bmstu::dummy_string("other"));
+  bmstu::string str {"str"};
+  bmstu::string str2(bmstu::string("other"));
   str2 = std::move(str);
   ASSERT_STREQ(str2.c_str(), "str");
   ASSERT_EQ(str2.size(), sizeof("str") - 1);
@@ -365,7 +365,7 @@ TEST(StringTest, MoveAssignConstructorW) {
 
 TEST(StringTest, CStrCopyAssign) {
   const char *str = "Simple Str";
-  bmstu::dummy_string b_str;
+  bmstu::string b_str;
   b_str = str;
   ASSERT_STREQ(b_str.c_str(), str);
 }
@@ -390,14 +390,14 @@ TEST(StringTest, ConcatOpW) {
 }
 
 TEST(StringTest, ConcatOp) {
-  bmstu::dummy_string a_str("right");
-  bmstu::dummy_string b_str("_left");
+  bmstu::string a_str("right");
+  bmstu::string b_str("_left");
   auto c_str = a_str + b_str;
   ASSERT_STREQ(c_str.c_str(), "right_left");
 }
 
 TEST(StringTest, OStream) {
-  bmstu::dummy_string a_str("String value");
+  bmstu::string a_str("String value");
   std::stringstream ss;
   ss << a_str;
   ASSERT_STREQ(ss.str().c_str(), "String value");
@@ -413,7 +413,7 @@ TEST(StringTest, OStreamW) {
 TEST(StringTest, IStream) {
   std::stringstream ss;
   ss.str("Value of\nstring");
-  bmstu::dummy_string a_str;
+  bmstu::string a_str;
   ss >> a_str;
   ASSERT_STREQ(a_str.c_str(), "Value of\nstring");
 }
