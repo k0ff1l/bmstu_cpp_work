@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(example)
+project(all_lets_hws)
 
 include(FetchContent)
 FetchContent_Declare(
