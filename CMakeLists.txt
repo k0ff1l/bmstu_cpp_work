@@ -39,4 +39,5 @@ gtest_discover_tests(${TEST_NAME})
 
 # Добавляем субдиректории
 add_subdirectory(let_6_db)
+add_subdirectory(let_7)
 add_subdirectory(sandbox)
