@@ -259,33 +259,15 @@ class dummy_vector {
   }
   friend bool operator<(const dummy_vector<Type> &l,
                         const dummy_vector<Type> &r) {
-    size_t min_size = dummy_funcs::min(l.size(), r.size());
-
-    for (size_t i = 0; i < min_size; ++i) {
-      if (l[i] < r[i]) {
-        return true;
-      } else if (r[i] > l[i]) {
-        return false;
-      }
-    }
-    return l.size() < r.size();
+    return lexicographical_compare_(l, r);
   }
   friend bool operator>(const dummy_vector<Type> &l,
                         const dummy_vector<Type> &r) {
-    size_t min_size = dummy_funcs::min(l.size(), r.size());
-
-    for (size_t i = 0; i < min_size; ++i) {
-      if (l[i] > r[i]) {
-        return true;
-      } else if (r[i] < l[i]) {
-        return false;
-      }
-    }
-    return l.size() > r.size();
+    return !(l <= r);
   }
   friend bool operator<=(const dummy_vector<Type> &l,
                          const dummy_vector<Type> &r) {
-    return !(l > r);
+    return (l < r || l == r);
   }
   friend bool operator>=(const dummy_vector<Type> &l,
                          const dummy_vector<Type> &r) {
