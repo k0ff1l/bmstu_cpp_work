@@ -2,7 +2,7 @@
 
 #include "let_7.h"
 
-bool palindrome(std::string &old_word) {
+bool palindrome(const std::string &old_word) {
   std::string word;
   std::for_each(old_word.begin(), old_word.end(), [&word](auto a) {
     if (a != ' ') {
@@ -18,7 +18,7 @@ bool palindrome(std::string &old_word) {
   return true;
 }
 
-void printPalindromes(auto &palindromes) {
+void printPalindromes(const auto &palindromes) {
   std::cout << "{" << "\n\t \"count_palindromes\": " << palindromes.size()
             << ", \n\t \"palindromes\": [";
   for (size_t i = 0; i < palindromes.size(); ++i) {
