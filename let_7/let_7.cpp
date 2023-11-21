@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
   std::string line;
   if (!in) {
     std::cout << "FILE NOT OPENED!";
-    return -1;
+    return 0;
   }
   while (std::getline(in, line)) {
     if (palindrome(line)) {

@@ -39,9 +39,6 @@ class array_bundle {
   }
   void swap(array_bundle &other) noexcept {
     std::swap(raw_ptr_, other.raw_ptr_);
-//    T *tmp = raw_ptr_;
-//    raw_ptr_ = other.raw_ptr_;
-//    other.raw_ptr_ = tmp;
   }
 
  private:
