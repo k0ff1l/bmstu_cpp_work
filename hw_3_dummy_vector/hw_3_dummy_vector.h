@@ -167,6 +167,11 @@ class dummy_vector {
       size_t new_capacity = dummy_funcs::max(new_size, capacity_ * 2);
       reserve(new_capacity);
     }
+    if (size_ > new_size) {
+      size_ = new_size;  // в std::vector можно resize в обратную сторону,
+      // при этом переменные остаются в памяти как были.
+      return;
+    }
     for (auto it = end(); it != begin() + new_size; ++it) {
       *it = Type{};
     }
