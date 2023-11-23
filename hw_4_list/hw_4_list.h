@@ -7,40 +7,230 @@
 namespace bmstu {
 template<typename T>
 class list {
-  struct node { };
+  struct node {
+    node() = default;
+    node(node *prev, const T &value, node *next)
+        : value(value), prev_node_(prev), next_node_(next) { }
+    T value;
+    node *next_node_ = nullptr;
+    node *prev_node_ = nullptr;
+  };
  public:
   template<typename value_t>
-  struct list_iterator { /*Сами разбираемся какая сигнатура у итератора*/ };
+  struct list_iterator {
+    friend class node;
+    using iterator_category = std::bidirectional_iterator_tag;
+    using value_type = value_t;
+    using difference_type = ptrdiff_t;
+    using pointer = value_t *;
+    using reference = value_t &;
+    using const_reference = const value_t &;
+
+    list_iterator() = default;
+
+    explicit list_iterator(node *node) : node_(node) { }
+
+    list_iterator(const list_iterator &other) = default;
+
+    const_reference operator*() const {
+      assert(node_ != nullptr);
+      return node_->value;
+    }
+
+
+    // prefix
+
+    list_iterator &operator++() {
+      assert(node_ != nullptr);
+      node_ = node_->next_node_;
+      return *this;
+    }
+    list_iterator &operator--() {
+      assert(node_ != nullptr);
+      node_ = node_->prev_node_;
+      return *this;
+    }
+
+    // postfix
+
+    list_iterator operator++(int) {
+      list_iterator tmp = *this;
+      ++(*this);
+      return tmp;
+    }
+
+    list_iterator operator--(int) {
+      list_iterator tmp = *this;
+      --(*this);
+      return tmp;
+    }
+
+    template<typename Integer>
+    list_iterator operator+(Integer n) const {
+      list_iterator copy(*this);
+      for (auto i = 1; i <= n; ++i) {
+        ++(copy);
+      }
+      return copy;
+    }
+    list_iterator operator-(const difference_type n) const {
+      list_iterator copy(*this);
+      for (auto i = 1; i <= n; ++i) {
+        --(copy);
+      }
+      return copy;
+    }
+
+    friend difference_type operator-(const list_iterator &end,
+                                     const list_iterator &begin) {
+      difference_type count = 0;
+      list_iterator copy(begin);
+      for (count = 0; copy != end; ++copy, ++count) {
+      }
+      return count;
+    }
+
+    list_iterator &operator=(const list_iterator &other) = default;
+
+
+//    friend bool operator==(const list_iterator<T> &l,
+//                           const list_iterator<T> &r) {
+//      return l.node_ == r.node_;
+//    }
+
+    bool operator==(const list_iterator<const T> &other) const {
+      return node_ == other.node_;
+    }
+
+    explicit operator bool() {
+      return node_ != nullptr;
+    }
+
+    bool operator!=(const list_iterator &other) const {
+      return !(*this == other);
+    }
+
+   private:
+    list::node *node_ = nullptr;
+  };
   using value_type = T;
   using reference = value_type &;
-  using const_reference =
-      const value_type &;
+  using const_reference = const value_type &;
   using iterator = list_iterator<T>;
   using const_iterator = list_iterator<const T>;
-  list() : size_(0), tail_(new node()), head_(new node()) { }
+  list() : size_(0), tail_(new node()), head_(new node()) {
+    tail_->prev_node_ = head_;
+    head_->next_node_ = tail_;
+  }
   template<typename it>
-  list(it begin, it end) { }
-  list(std::initializer_list<T> values) { }
-  list(const list &other) { }
-  list(list &&other) { }
+  list(it begin, it end) {
+    for (auto i = begin; i != end; ++i) {
+      push_back(*i);
+    }
+  }
+  list(std::initializer_list<T> values) {
+    for (auto &i : values) {
+      push_back(i);
+    }
+  }
+  list(const list &other) : size_(0), tail_(new node()), head_(new node()) {
+    tail_->prev_node_ = head_;
+    head_->next_node_ = tail_;
+    for (auto i : other) {
+      push_back(i);
+    }
+  }
+  list(list &&other) { swap(other); }
   template<typename Type>
-  void push_back(const Type &value) { }
+  void push_back(const Type &value) {
+    node *last = tail_->prev_node_;
+    node *new_last = new node(last, value, tail_);
+    last->next_node_ = new_last;
+    tail_->prev_node_ = new_last;
+    ++size_;
+  }
   template<typename Type>
-  void push_front(const Type &value) { }
-  bool empty() const noexcept { }
-  ~list() { }
-  void clear() { }
-  size_t size() const { }
-  void swap(list &other) noexcept { }
+  void push_front(const Type &value) {
+    node *first = head_->next_node_;
+    node *new_first = new node(head_, value, first);
+    first->prev_node_ = new_first;
+    head_->next_node_ = new_first;
+    ++size_;
+  }
+  bool empty() const noexcept {
+    return size_ == 0;
+  }
+  ~list() { /// TODO: FIX ?
+    clear();
+    delete head_;
+    delete tail_;
+  }
+  void clear() {
+    if (!empty()) {
+      while (head_->next_node_ != tail_) {
+        node *tmp = head_->next_node_;
+        head_->next_node_ = tmp->next_node_;
+        delete tmp;
+      }
+      size_ = 0;
+    }
+  }
+  size_t size() const {
+    return size_;
+  }
+  void swap(list &other) noexcept {
+    std::swap(head_, other.head_);
+    std::swap(tail_, other.tail_);
+    std::swap(size_, other.size_);
+  }
   friend void swap(list &l, list &r) { }
-  iterator begin() noexcept { }
-  iterator end() noexcept { }
-  const_iterator begin() const noexcept { }
-  const_iterator end() const noexcept { }
-  const_iterator cbegin() const noexcept { }
-  const_iterator cend() const noexcept { }
-  T operator[](size_t pos) const { }
-  T &operator[](size_t pos) { }
+  iterator begin() {
+    return iterator(this->head_->next_node_);
+  }
+  iterator end() {
+    return iterator(this->tail_);
+  }
+  const_iterator begin() const noexcept {
+    return const_iterator(this->head_->next_node_);
+  }
+  const_iterator end() const noexcept {
+    return const_iterator(this->tail_);
+  }
+  const_iterator cbegin() const noexcept {
+    return list_iterator(this->head_->next_node_);
+  }
+  const_iterator cend() const noexcept {
+    return list_iterator(this->tail_);
+  }
+  T operator[](size_t pos) const {
+    node *current = head_->next_node_;
+    for (size_t i = 0; i < pos; ++i) {
+      current = current->next_node_;
+    }
+    return current->value;
+  }
+  T &operator[](size_t pos) {
+    node *current = head_->next_node_;
+    for (size_t i = 0; i < pos; ++i) {
+      current = current->next_node_;
+    }
+    return current->value;
+  }
+  list &operator=(const list<T> &other) {
+    if (this != &other) {
+      clear();
+      for (const auto &value : other) {
+        push_back(value);
+      }
+    }
+    return *this;
+  }
+
+  list &operator=(list<T> &&other) {
+    this->swap(other);
+    return *this;
+  }
+
   friend bool operator==(const list &l, const list &r) { }
   friend bool operator!=(const list &l, const list &r) { }
   friend bool operator<(const list &l, const list &r) { }
