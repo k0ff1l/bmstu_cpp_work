@@ -15,6 +15,7 @@ class list {
     node *next_node_ = nullptr;
     node *prev_node_ = nullptr;
   };
+
  public:
   template<typename value_t>
   struct list_iterator {
@@ -160,7 +161,7 @@ class list {
   bool empty() const noexcept {
     return size_ == 0;
   }
-  ~list() { /// TODO: FIX ?
+  ~list() {  /// TODO: FIX ?
     clear();
     delete head_;
     delete tail_;

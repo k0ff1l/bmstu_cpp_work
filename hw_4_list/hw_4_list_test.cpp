@@ -4,58 +4,58 @@
 
 #include "hw_4_list.h"
 
-//TEST(ListTest, DefaultConstructor) {
-//  bmstu::list<int> my_list;
-//  ASSERT_EQ(my_list.size(), 0);
-//  ASSERT_TRUE(my_list.empty());
-//}
-//
-//TEST(ListTest, PushBackAndSize) {
-//  bmstu::list<int> my_list = {};
-//  my_list.push_back(42);
-//  ASSERT_EQ(my_list.size(), 1);
-//  ASSERT_FALSE(my_list.empty());
-//}
-//
-//TEST(ListTest, PushFrontAndSize) {
-//  bmstu::list<int> my_list;
-//  my_list.push_front(42);
-//  ASSERT_EQ(my_list.size(), 1);
-//  ASSERT_FALSE(my_list.empty());
-//}
-//
-//TEST(ListTest, Clear) {
-//  bmstu::list<int> my_list;
-//  my_list.push_back(42);
-//  my_list.clear();
-//  ASSERT_EQ(my_list.size(), 0);
-//  ASSERT_TRUE(my_list.empty());
-//}
-//
-//TEST(ListTest, Iterators) {
-//  bmstu::list<int> my_list;
-//  my_list.push_back(1);
-//  my_list.push_back(2);
-//  my_list.push_back(3);
-//
-//  auto it = my_list.begin();
-//  ASSERT_EQ(*it, 1);
-//
-//  ++it;
-//  ASSERT_EQ(*it, 2);
-//
-//  it++;
-//  ASSERT_EQ(*it, 3);
-//}
-//
-//TEST(ListTest, CopyConstructor) {
-//  bmstu::list<int> original;
-//  original.push_back(42);
-//
-//  bmstu::list<int> copy(original);
-//  ASSERT_EQ(copy.size(), 1);
-//  ASSERT_EQ(copy[0], 42);
-//}
+TEST(ListTest, 1DefaultConstructor) {
+  bmstu::list<int> my_list;
+  ASSERT_EQ(my_list.size(), 0);
+  ASSERT_TRUE(my_list.empty());
+}
+
+TEST(ListTest, 1PushBackAndSize) {
+  bmstu::list<int> my_list = {};
+  my_list.push_back(42);
+  ASSERT_EQ(my_list.size(), 1);
+  ASSERT_FALSE(my_list.empty());
+}
+
+TEST(ListTest, 1PushFrontAndSize) {
+  bmstu::list<int> my_list;
+  my_list.push_front(42);
+  ASSERT_EQ(my_list.size(), 1);
+  ASSERT_FALSE(my_list.empty());
+}
+
+TEST(ListTest, 1Clear) {
+  bmstu::list<int> my_list;
+  my_list.push_back(42);
+  my_list.clear();
+  ASSERT_EQ(my_list.size(), 0);
+  ASSERT_TRUE(my_list.empty());
+}
+
+TEST(ListTest, 1Iterators) {
+  bmstu::list<int> my_list;
+  my_list.push_back(1);
+  my_list.push_back(2);
+  my_list.push_back(3);
+
+  auto it = my_list.begin();
+  ASSERT_EQ(*it, 1);
+
+  ++it;
+  ASSERT_EQ(*it, 2);
+
+  it++;
+  ASSERT_EQ(*it, 3);
+}
+
+TEST(ListTest, 1CopyConstructor) {
+  bmstu::list<int> original;
+  original.push_back(42);
+
+  bmstu::list<int> copy(original);
+  ASSERT_EQ(copy.size(), 1);
+  ASSERT_EQ(copy[0], 42);
+}
 
 TEST(ListTest, DefaultConstructor) {
   bmstu::list<int> my_list;
