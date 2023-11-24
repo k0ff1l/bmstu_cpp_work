@@ -165,7 +165,7 @@ class list {
   [[nodiscard]] bool empty() const noexcept {
     return size_ == 0;
   }
-  ~list() {  /// TODO: FIX ?
+  ~list() {  // TODO(fleurs): FIX ?
     clear();
     delete head_;
     delete tail_;

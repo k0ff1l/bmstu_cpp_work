@@ -9,7 +9,7 @@ bool palindrome(const std::string &old_word) {
       word += a;
     }
   });
-  /// TODO : fix tolower for russian symbols
+  // TODO(fleurs) : fix tolower for russian symbols
   for (size_t i = 0; i < (word.size() / 2 + 1); ++i) {
     if (tolower(word[i]) != tolower(word[word.size() - i - 1])) {
       return false;
