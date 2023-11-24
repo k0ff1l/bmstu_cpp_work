@@ -162,59 +162,122 @@ TEST(ListTest, Swap) {
   ASSERT_EQ(list2[0], 1);
   ASSERT_EQ(list2[1], 2);
 }
-//
-// TEST(ListTest, Equality) {
-//  bmstu::list<int> list1;
-//  list1.push_back(1);
-//  list1.push_back(2);
-//
-//  bmstu::list<int> list2;
-//  list2.push_back(1);
-//  list2.push_back(2);
-//
-//  ASSERT_TRUE(list1 == list2);
-//
-//  list2.push_back(3);
-//  ASSERT_FALSE(list1 == list2);
-//}
-//
-// TEST(ListTest, Inequality) {
-//  bmstu::list<int> list1;
-//  list1.push_back(1);
-//  list1.push_back(2);
-//
-//  bmstu::list<int> list2;
-//  list2.push_back(1);
-//  list2.push_back(2);
-//
-//  ASSERT_FALSE(list1 != list2);
-//
-//  list2.push_back(3);
-//  ASSERT_TRUE(list1 != list2);
-//}
-//
-// TEST(ListTest, LessThan) {
-//  bmstu::list<int> list1;
-//  list1.push_back(1);
-//  list1.push_back(2);
-//
-//  bmstu::list<int> list2;
-//  list2.push_back(1);
-//  list2.push_back(2);
-//  list2.push_back(3);
-//
-//  ASSERT_TRUE(list1 < list2);
-//}
-//
-// TEST(ListTest, GreaterThan) {
-//  bmstu::list<int> list1;
-//  list1.push_back(1);
-//  list1.push_back(2);
-//  list1.push_back(3);
-//
-//  bmstu::list<int> list2;
-//  list2.push_back(1);
-//  list2.push_back(2);
-//
-//  ASSERT_TRUE(list1 > list2);
-//}
+
+TEST(ListTest, Equality) {
+  bmstu::list<int> list1;
+  list1.push_back(1);
+  list1.push_back(2);
+
+  bmstu::list<int> list2;
+  list2.push_back(1);
+  list2.push_back(2);
+
+  ASSERT_TRUE(list1 == list2);
+
+  list2.push_back(3);
+  ASSERT_FALSE(list1 == list2);
+}
+
+TEST(ListTest, Inequality) {
+  bmstu::list<int> list1;
+  list1.push_back(1);
+  list1.push_back(2);
+
+  bmstu::list<int> list2;
+  list2.push_back(1);
+  list2.push_back(2);
+
+  ASSERT_FALSE(list1 != list2);
+
+  list2.push_back(3);
+  ASSERT_TRUE(list1 != list2);
+}
+
+TEST(ListTest, LessThan) {
+  bmstu::list<int> list1;
+  list1.push_back(1);
+  list1.push_back(2);
+
+  bmstu::list<int> list2;
+  list2.push_back(1);
+  list2.push_back(2);
+  list2.push_back(3);
+
+  ASSERT_TRUE(list1 < list2);
+}
+
+TEST(ListTest, GreaterThan) {
+  bmstu::list<int> list1;
+  list1.push_back(1);
+  list1.push_back(2);
+  list1.push_back(3);
+
+  bmstu::list<int> list2;
+  list2.push_back(1);
+  list2.push_back(2);
+
+  ASSERT_TRUE(list1 > list2);
+}
+
+TEST(ListTest, InsertTest) {
+  // Создаем список
+  bmstu::list<int> my_list;
+
+  // Вставляем элементы в список
+  my_list.push_back(1);
+  my_list.push_back(2);
+  my_list.push_back(3);
+
+  // Вставляем элемент в середину списка
+  auto it = my_list.begin();
+  ++it;
+  my_list.insert(it, 10);
+
+  // Проверяем, что элементы вставлены верно
+  EXPECT_EQ(my_list.size(), 4);
+  EXPECT_EQ(my_list[0], 1);
+  EXPECT_EQ(my_list[1], 10);
+  EXPECT_EQ(my_list[2], 2);
+  EXPECT_EQ(my_list[3], 3);
+}
+
+TEST(ListTest, InitializerListTest) {
+  // Инициализируем список с использованием initializer list
+  bmstu::list<int> my_list = {1, 2, 3, 4, 5};
+
+  // Проверяем, что элементы в списке соответствуют ожидаемым значениям
+  EXPECT_EQ(my_list.size(), 5);
+  EXPECT_EQ(my_list[0], 1);
+  EXPECT_EQ(my_list[1], 2);
+  EXPECT_EQ(my_list[2], 3);
+  EXPECT_EQ(my_list[3], 4);
+  EXPECT_EQ(my_list[4], 5);
+}
+
+TEST(ListTest, OutputOperatorTest) {
+  // Инициализируем список
+  bmstu::list<int> my_list = {1, 2, 3, 4, 5};
+
+  // Подготавливаем поток для вывода
+  std::ostringstream oss;
+
+  // Используем оператор вывода для записи списка в поток
+  oss << my_list;
+
+  // Проверяем, что результат соответствует ожидаемой строке
+  EXPECT_EQ(oss.str(), "[ 1, 2, 3, 4, 5 ]");
+}
+
+TEST(ListTest, SubscriptOperatorTest) {
+  // Инициализируем список
+  bmstu::list<int> my_list = {1, 2, 3, 4, 5};
+
+  // Проверяем, что оператор [] возвращает ожидаемые значения
+  EXPECT_EQ(my_list[0], 1);
+  EXPECT_EQ(my_list[1], 2);
+  EXPECT_EQ(my_list[2], 3);
+  EXPECT_EQ(my_list[3], 4);
+  EXPECT_EQ(my_list[4], 5);
+}
+
+/// TODO : move, swap in header, test for move constructors.
