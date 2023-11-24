@@ -128,7 +128,7 @@ class basic_string {
 
 /// Оператор конкатенации строк в новую строку
   friend bmstu::basic_string<T> operator+(const basic_string &left,
-                                                const basic_string &right) {
+                                          const basic_string &right) {
     basic_string result;
     result.size_ = left.size_ + right.size_;
     result.data_ = new T[result.size_ + 1];
@@ -219,11 +219,7 @@ class basic_string {
     delete[] data_;
   }
 
-///// Транслируем данные из одной A, в другую...
-//        void copy_data_(const basic_string &other) {
-//            for (size_t i = 0; i < len_(other); ++i) { data_[i] = other[i]; }
-//            data_[size_] = 0;
-//        }
+/// Транслируем данные из одной A, в другую...
   void copy_data_(const T *str) {
     for (size_t i = 0; i < len_(str); ++i) {
       data_[i] = str[i];
