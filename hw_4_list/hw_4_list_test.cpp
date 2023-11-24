@@ -279,5 +279,3 @@ TEST(ListTest, SubscriptOperatorTest) {
   EXPECT_EQ(my_list[3], 4);
   EXPECT_EQ(my_list[4], 5);
 }
-
-// TODO(fleurs) : move, swap in header, test for move constructors.

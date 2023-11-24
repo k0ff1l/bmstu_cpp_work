@@ -189,7 +189,9 @@ class list {
     std::swap(size_, other.size_);
   }
   friend void swap(list &l, list &r) {
-    // TODO(fleurs) : SWAP
+    std::swap(l.head_, r.head_);
+    std::swap(l.tail_, r.tail_);
+    std::swap(l.size_, r.size_);
   }
   iterator begin() {
     return iterator(this->head_->next_node_);
