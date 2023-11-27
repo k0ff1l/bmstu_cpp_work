@@ -325,8 +325,8 @@ TEST(StringTest, CopyAssignConstructor) {
 }
 
 TEST(StringTest, MoveAssignConstructor) {
-  bmstu::string str {"str"};
-  bmstu::string str2 {"other"};
+  bmstu::string str = "str";
+  bmstu::string str2 = "other";
   str2 = std::move(str);
   ASSERT_STREQ(str2.c_str(), "str");
   ASSERT_EQ(str2.size(), sizeof("str") - 1);
@@ -336,8 +336,8 @@ TEST(StringTest, MoveAssignConstructor) {
 }
 
 TEST(StringTest, MoveAssignConstructor2) {
-  bmstu::string str {"str"};
-  bmstu::string str2 {"other"};
+  bmstu::string str{"str"};
+  bmstu::string str2{"other"};
   str2 = std::move(str);
   ASSERT_STREQ(str2.c_str(), "str");
   ASSERT_EQ(str2.size(), sizeof("str") - 1);
@@ -347,7 +347,7 @@ TEST(StringTest, MoveAssignConstructor2) {
 }
 
 TEST(StringTest, CopyAssignConstructor2) {
-  bmstu::string str {"str"};
+  bmstu::string str{"str"};
   bmstu::string str2(bmstu::string("other"));
   str2 = std::move(str);
   ASSERT_STREQ(str2.c_str(), "str");
@@ -378,7 +378,7 @@ TEST(StringTest, CStrCopyAssignW) {
 }
 
 TEST(StringTest, AssignCStr) {
-  bmstu::wstring str {L"123456789"};
+  bmstu::wstring str{L"123456789"};
   ASSERT_STREQ(str.c_str(), L"123456789");
 }
 

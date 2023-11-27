@@ -108,7 +108,18 @@ class dummy_vector {
     *this = {};
   }
   dummy_vector &operator=(const dummy_vector<Type> &other) {
-    this = {other};
+    if (other.empty()) {
+      clear();
+      return *this;
+    }
+    size_ = other.size_;
+    capacity_ = other.capacity_;
+    auto first = begin();
+    auto ofirst = other.begin();
+    auto olast = other.end();
+    for (; ofirst != olast; ++ofirst, ++first) {
+      *first = *ofirst;
+    }
     return *this;
   }
   dummy_vector &operator=(dummy_vector<Type> &&other) {

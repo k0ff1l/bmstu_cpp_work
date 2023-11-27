@@ -46,7 +46,7 @@ class basic_string {
   }
 
 /// Конструктор с параметром "cи строкой"
-  explicit basic_string(const T *c_str) {
+  basic_string(const T *c_str) { // NOLINT
     size_ = len_(c_str);
     data_ = new T[size_ + 1];
     copy_data_(c_str);
@@ -99,9 +99,7 @@ class basic_string {
   }
 
 /// Оператор перемещающего присваивания
-  basic_string &operator=(basic_string &&other)
-
-  noexcept {
+  basic_string &operator=(basic_string &&other) noexcept {
     if (this == &other) {
       return *this;
     } else {
