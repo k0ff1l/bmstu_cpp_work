@@ -222,7 +222,6 @@ TEST(Constructor, Parametr) {
   for (size_t i = 0; i < my_vec.size(); ++i) {
     ASSERT_EQ(my_vec[i], 20);
     ASSERT_EQ(my_vec.at(i), 20);
-
   }
 }
 
@@ -467,7 +466,6 @@ TEST(DummyVectorTest, Resize2) {
 //
 TEST(DummyVectorTest, Constructors) {
   {
-
     bmstu::dummy_vector<int> v(5);
     v[0] = 1;
     v[1] = 2;
@@ -478,7 +476,6 @@ TEST(DummyVectorTest, Constructors) {
     ASSERT_EQ(v[2], v[2]);
   }
   {
-
     bmstu::dummy_vector<int> v(5);
     v[0] = 1;
     v[1] = 2;
@@ -489,7 +486,6 @@ TEST(DummyVectorTest, Constructors) {
     ASSERT_EQ(v[2], v[2]);
   }
   {
-
     bmstu::dummy_vector<int> v(1);
     v.push_back(1);
     ASSERT_EQ(v[0], 0);
@@ -506,9 +502,7 @@ TEST(DummyVectorTest, Push) {
   ASSERT_EQ(v[1], 42);
 }
 
-TEST(DummyVectorTest, CopyConstruct)
-// Конструктор копирования
-{
+TEST(DummyVectorTest, CopyConstruct) {
   bmstu::dummy_vector<int> numbers{1, 2};
   auto numbers_copy(numbers);
   ASSERT_TRUE(&numbers_copy[0] != &numbers[0]);
@@ -520,7 +514,6 @@ TEST(DummyVectorTest, CopyConstruct)
 }
 
 TEST(DummyVectorTest, Capacity) {
-
   bmstu::dummy_vector<int> v(2);
   v.resize(1);
   const size_t old_capacity = v.capacity();
@@ -610,7 +603,6 @@ TEST(DummyVectorTest, Insert2) {
 }
 
 TEST(DummyVectorTest, Reserve2) {
-
   {
     bmstu::dummy_vector<int> v(5);
     ASSERT_EQ(v.capacity(), 5);
@@ -645,31 +637,6 @@ TEST(DummyVectorTest, Reserve2) {
   }
 }
 
-class X {
- public:
-  X()
-      : X(5) {
-  }
-  X(size_t num)
-      : x_(num) {
-  }
-  X(const X &other) = delete;
-  X &operator=(const X &other) = delete;
-  X(X &&other) {
-    x_ = std::exchange(other.x_, 0);
-  }
-  X &operator=(X &&other) {
-    x_ = std::exchange(other.x_, 0);
-    return *this;
-  }
-  size_t GetX() const {
-    return x_;
-  }
-
- private:
-  size_t x_;
-};
-
 bmstu::dummy_vector<int> GenerateVector(size_t size) {
   bmstu::dummy_vector<int> v(size);
   std::iota(v.begin(), v.end(), 1);
@@ -680,7 +647,6 @@ TEST(DummyVectorTest, temporary) {
   const size_t size = 1000000;
   bmstu::dummy_vector<int> moved_vector(GenerateVector(size));
   ASSERT_EQ(moved_vector.size(), size);
-
 }
 
 TEST(DummyVectorTest, moveconstructor) {
@@ -692,7 +658,6 @@ TEST(DummyVectorTest, moveconstructor) {
   bmstu::dummy_vector<int> moved_vector(std::move(vector_to_move));
   ASSERT_EQ(moved_vector.size(), size);
   ASSERT_EQ(vector_to_move.size(), 0);
-
 }
 
 TEST(DummyVectorTest, moveoperator) {
@@ -703,7 +668,6 @@ TEST(DummyVectorTest, moveoperator) {
   bmstu::dummy_vector<int> moved_vector = std::move(vector_to_move);
   ASSERT_EQ(moved_vector.size(), size);
   ASSERT_EQ(vector_to_move.size(), 0);
-
 }
 
 TEST(DummyVectorTest, test_new_push) {
