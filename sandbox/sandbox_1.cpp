@@ -37,9 +37,9 @@ struct Student {
 // #pragma pop()
 
 int main() {
-  bmstu::optional<Student> a;
+  bmstu::hw_5_optional<Student> a;
   a.emplace(1, 2);
-  bmstu::optional<Student> st(std::move(Student(666, 0xFF00FF00FF00FF00)));
+  bmstu::hw_5_optional<Student> st(std::move(Student(666, 0xFF00FF00FF00FF00)));
   st.reset();
   return 0;
 }
