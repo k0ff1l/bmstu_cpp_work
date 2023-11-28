@@ -43,4 +43,4 @@ add_subdirectory(let_7)
 add_subdirectory(sandbox)
 add_subdirectory(let_3_fresco)
 
-# Не забыть исключить лишнее
+# Не забыть исключить лишнее (добавить в REMOVE_SOURCES)
