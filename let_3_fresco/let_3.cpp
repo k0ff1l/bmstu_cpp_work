@@ -17,8 +17,14 @@ void generateChar(const std::string &alphabet,
   }
 }
 
-int main(int argc, char **argv) {
+int let_3(int argc, char **argv) {
+  std::string empty{};
   std::string alphabet = "1234567890AaBbCcDdEeFfGgHhXxYyZz";
-  int count = std::stoi(argv[1]) + 1;
-  generateChar(alphabet, "", count);
+  auto cnt = std::stoi(argv[1]);
+  int count = cnt + 1;
+  generateChar(alphabet, empty, count);
+}
+
+int main() {
+  return 0;
 }

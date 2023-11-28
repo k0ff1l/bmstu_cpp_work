@@ -22,7 +22,7 @@ file(GLOB SOURCES_HW "hw_*/*.h" "hw_*/*.cpp")
 file(GLOB SOURCES_ANCIENT "ancient_knowledge/*")
 
 # То что нужно удалить
-file(GLOB REMOVE_SOURCES "let_6_db/*" "let_7/*")
+file(GLOB REMOVE_SOURCES "let_6_db/*" "let_7/*" "let_3_fresco/*")
 
 # Объединяем все списки исходных файлов
 set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW} ${SOURCES_ANCIENT})
@@ -42,3 +42,5 @@ add_subdirectory(let_6_db)
 add_subdirectory(let_7)
 add_subdirectory(sandbox)
 add_subdirectory(let_3_fresco)
+
+# Не забыть исключить лишнее
