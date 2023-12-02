@@ -497,3 +497,27 @@ TEST(ListTest, LeftShift) {
   ss << my_list;
   ASSERT_STREQ(ss.str().c_str(), "[ 0, 1, 2, 3, 4, 5, 6 ]");
 }
+
+TEST(ListTest, IteratorsHard) {
+  bmstu::list<int> my_list_1({0, 1, 2, 3, 4});
+  bmstu::list<int>::iterator it_b_1 = my_list_1.begin() + 1;
+  bmstu::list<int>::iterator it_e_1 = my_list_1.end() - 1;
+
+  bmstu::list<int> my_list_2(it_b_1, it_e_1);
+  bmstu::list<int>::iterator it_b_2 = my_list_2.begin();
+  bmstu::list<int>::iterator it_e_2 = my_list_2.end();
+
+  ASSERT_EQ(my_list_1.size(), 5);
+  ASSERT_EQ(my_list_2.size(), 3);
+  for (int a = 1; it_b_2 != it_e_2; ++it_b_2, ++a) {
+    ASSERT_TRUE(*it_b_2 == a);
+    ASSERT_TRUE(my_list_2[a - 1] == a);
+  }
+
+  --it_e_2;
+  it_b_2 = my_list_2.begin() - 1;
+  for (int a = 3; it_b_2 != it_e_2; --it_e_2, --a) {
+    ASSERT_TRUE(*it_e_2 == a);
+    ASSERT_TRUE(my_list_2[a - 1] == a);
+  }
+}

@@ -125,7 +125,9 @@ class list {
     head_->next_node_ = tail_;
   }
   template<typename it>
-  list(it begin, it end) {
+  list(it begin, it end) : size_(0), tail_(new node()), head_(new node()) {
+    tail_->prev_node_ = head_;
+    head_->next_node_ = tail_;
     for (auto i = begin; i != end; ++i) {
       push_back(*i);
     }
