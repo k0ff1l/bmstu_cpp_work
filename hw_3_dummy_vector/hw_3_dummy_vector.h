@@ -252,12 +252,13 @@ class dummy_vector {
     ++size_;
     return begin() + n;
   }
-  iterator erase(const_iterator pos) {
-    for (auto it = pos; it != end(); ++it) {
-      *it = std::move(*(it + 1));
+  iterator erase(iterator pos) {
+    size_t index = pos - cbegin();
+    if (!empty()) {
+      std::move(begin() + index + 1, end(), begin() + index);
+      --size_;
     }
-    --size_;
-    return pos;
+    return begin() + index;
   }
   void push_back(const Type &value) {
     insert(end(), value);
