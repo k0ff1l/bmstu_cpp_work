@@ -53,6 +53,10 @@ class dummy_vector {
     friend bool operator==(const iterator &a, const iterator &b) {
       return a.m_ptr == b.m_ptr;
     }
+    friend bool operator==(const iterator &a,
+                           const std::nullptr_t &b) {  // П@РНУXА
+      return a.m_ptr == b;
+    }
     friend bool operator!=(const iterator &a, const iterator &b) {
       return !(a == b);
     }
@@ -105,7 +109,7 @@ class dummy_vector {
     }
   }
   void clear() noexcept {
-    *this = {};
+    size_ = 0;
   }
   dummy_vector &operator=(const dummy_vector<Type> &other) {
     if (other.empty()) {
@@ -248,11 +252,18 @@ class dummy_vector {
     ++size_;
     return begin() + n;
   }
+  iterator erase(const_iterator pos) {
+    for (auto it = pos; it != end(); ++it) {
+      *it = std::move(*(it + 1));
+    }
+    --size_;
+    return pos;
+  }
   void push_back(const Type &value) {
     insert(end(), value);
   }
   void push_back(Type &&value) {
-    insert(end(), value);
+    insert(end(), std::move(value));
   }
   void pop_back() noexcept {
     if (size_ == 0) return;
