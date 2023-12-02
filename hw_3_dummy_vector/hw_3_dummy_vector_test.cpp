@@ -75,7 +75,7 @@ TEST(DummyVectorTest, complex) {
   ASSERT_EQ(v.size(), 1);
 }
 
-TEST(DummyVectorTest, reserve) {
+TEST(DummyVectorTest, 1reserve) {
   bmstu::dummy_vector<int> vec;
   vec.reserve(10);
   EXPECT_EQ(vec.size(), 0);
@@ -87,13 +87,13 @@ TEST(DummyVectorTest, reserve) {
   EXPECT_EQ(vec.capacity(), 10);
 }
 
-TEST(DummyVectorTest, DefaultConstructor) {
+TEST(DummyVectorTest, DefaultDummyVectorTest) {
   bmstu::dummy_vector<int> vec_default;
   EXPECT_EQ(vec_default.size(), 0);
   EXPECT_EQ(vec_default.capacity(), 0);
 }
 
-TEST(DummyVectorTest, ConstructorWithSizeAndValue) {
+TEST(DummyVectorTest, DummyVectorTestWithSizeAndValue) {
   bmstu::dummy_vector<int> vec_with_size(5, 42);
   EXPECT_EQ(vec_with_size.size(), 5);
   EXPECT_EQ(vec_with_size.capacity(), 5);
@@ -102,7 +102,7 @@ TEST(DummyVectorTest, ConstructorWithSizeAndValue) {
   }
 }
 
-TEST(DummyVectorTest, CopyConstructor) {
+TEST(DummyVectorTest, CopyDummyVectorTest) {
   bmstu::dummy_vector<int> original(3, 7);
   bmstu::dummy_vector<int> copy(original);
   EXPECT_EQ(original.size(), copy.size());
@@ -110,7 +110,7 @@ TEST(DummyVectorTest, CopyConstructor) {
   EXPECT_TRUE(std::equal(original.begin(), original.end(), copy.begin()));
 }
 
-TEST(DummyVectorTest, MoveConstructor) {
+TEST(DummyVectorTest, MoveDummyVectorTest) {
   bmstu::dummy_vector<int> original(3, 7);
   bmstu::dummy_vector<int> moved(std::move(original));
   EXPECT_EQ(original.size(), 0);
@@ -136,7 +136,7 @@ TEST(DummyVectorTest, Reserve) {
   EXPECT_EQ(vec.capacity(), 10);
 }
 
-TEST(DummyVectorTest, Insert) {
+TEST(DummyVectorTest, 1Insert) {
   bmstu::dummy_vector<int> vec = {1, 2, 3};
   auto it = vec.insert(vec.begin() + 1, 42);
   EXPECT_EQ(vec.size(), 4);
@@ -192,20 +192,20 @@ TEST(DummyVectorTest, Comparison) {
   ASSERT_TRUE(vec3 > vec2);
 }
 
-TEST(DummyVectorTest, OutputOperator) {
+TEST(DummyVectorTest, OutputDummyVectorTest) {
   bmstu::dummy_vector<int> vec = {1, 2, 3, 4, 5};
   std::stringstream ss;
   ss << vec;
   ASSERT_EQ(ss.str(), "[ 1, 2, 3, 4, 5 ]");
 }
 
-TEST(Constructor, Default) {
+TEST(DummyVectorTest, Default) {
   bmstu::dummy_vector<int> my_vec;
   ASSERT_EQ(my_vec.size(), 0);
   ASSERT_EQ(my_vec.capacity(), 0);
 }
 
-TEST(Constructor, InList) {
+TEST(DummyVectorTest, InList) {
   bmstu::dummy_vector my_vec({0, 1, 2});
   ASSERT_EQ(my_vec.size(), 3);
   ASSERT_EQ(my_vec.capacity(), 3);
@@ -215,7 +215,7 @@ TEST(Constructor, InList) {
   }
 }
 
-TEST(Constructor, Parametr) {
+TEST(DummyVectorTest, Parametr) {
   bmstu::dummy_vector my_vec(4, 20);
   ASSERT_EQ(my_vec.size(), 4);
   ASSERT_EQ(my_vec.capacity(), 4);
@@ -225,7 +225,7 @@ TEST(Constructor, Parametr) {
   }
 }
 
-TEST(Constructor, Copy) {
+TEST(DummyVectorTest, 1Copy) {
   bmstu::dummy_vector my_vec1(4, 20);
   bmstu::dummy_vector my_vec2(my_vec1);
   ASSERT_EQ(my_vec1.size(), 4);
@@ -240,7 +240,7 @@ TEST(Constructor, Copy) {
   }
 }
 
-TEST(Constructor, Move) {
+TEST(DummyVectorTest, 1Move) {
   bmstu::dummy_vector my_vec1(4, 20);
   bmstu::dummy_vector my_vec2(std::move(my_vec1));
   ASSERT_EQ(my_vec1.size(), 0);
@@ -253,7 +253,7 @@ TEST(Constructor, Move) {
   }
 }
 
-TEST(Operator, Copy) {
+TEST(DummyVectorTest, Copy) {
   bmstu::dummy_vector my_vec1(4, 20);
   bmstu::dummy_vector my_vec2 = my_vec1;
   ASSERT_EQ(my_vec1.size(), 4);
@@ -268,7 +268,7 @@ TEST(Operator, Copy) {
   }
 }
 
-TEST(Operator, Move) {
+TEST(DummyVectorTest, Move) {
   bmstu::dummy_vector my_vec1(4, 20);
   bmstu::dummy_vector my_vec2 = std::move(my_vec1);
   ASSERT_EQ(my_vec1.size(), 0);
@@ -281,7 +281,7 @@ TEST(Operator, Move) {
   }
 }
 
-TEST(Iterator, BeginAndEnd) {
+TEST(DummyVectorTest, BeginAndEnd) {
   bmstu::dummy_vector my_vec({0, 1, 2, 3, 4, 5});
   bmstu::dummy_vector<int>::iterator itb = my_vec.begin();
   bmstu::dummy_vector<int>::iterator ite = my_vec.end();
@@ -292,21 +292,21 @@ TEST(Iterator, BeginAndEnd) {
   }
 }
 
-TEST(Method, Empty) {
+TEST(DummyVectorTest, Empty) {
   bmstu::dummy_vector<int> my_vec1;
   bmstu::dummy_vector my_vec2({1, 2, 3});
   ASSERT_TRUE(my_vec1.empty());
   ASSERT_FALSE(my_vec2.empty());
 }
 
-TEST(Method, clear) {
+TEST(DummyVectorTest, clear) {
   bmstu::dummy_vector my_vec({1, 2, 3});
   my_vec.clear();
   ASSERT_EQ(my_vec.size(), 0);
   ASSERT_EQ(my_vec.capacity(), 0);
 }
 
-TEST(Method, SwapV1) {
+TEST(DummyVectorTest, SwapV1) {
   bmstu::dummy_vector my_vec1(4, 20);
   bmstu::dummy_vector my_vec2(13, 3);
   my_vec1.swap(my_vec2);
@@ -322,7 +322,7 @@ TEST(Method, SwapV1) {
   }
 }
 
-TEST(Method, SwapV2) {
+TEST(DummyVectorTest, SwapV2) {
   bmstu::dummy_vector my_vec1(4, 20);
   bmstu::dummy_vector my_vec2(13, 3);
   swap(my_vec1, my_vec2);
@@ -338,7 +338,7 @@ TEST(Method, SwapV2) {
   }
 }
 
-TEST(Method, resize) {
+TEST(DummyVectorTest, resize) {
   bmstu::dummy_vector my_vec(5, 20);
   my_vec.resize(4);
   ASSERT_EQ(my_vec.size(), 4);
@@ -353,14 +353,14 @@ TEST(Method, resize) {
   ASSERT_EQ(my_vec.capacity(), 21);
 }
 
-TEST(Method, reserve) {
+TEST(DummyVectorTest, reserve) {
   bmstu::dummy_vector my_vec(5, 20);
   my_vec.reserve(21);
   ASSERT_EQ(my_vec.size(), 5);
   ASSERT_EQ(my_vec.capacity(), 21);
 }
 
-TEST(Method, Insert) {
+TEST(DummyVectorTest, Insert) {
   bmstu::dummy_vector my_vec = {0, 1, 2, 4, 5, 6};
   bmstu::dummy_vector<int>::iterator it = my_vec.begin() + 3;
   my_vec.insert(it, 3);
@@ -371,7 +371,7 @@ TEST(Method, Insert) {
   }
 }
 
-TEST(Method, Push_Pop_back) {
+TEST(DummyVectorTest, Push_Pop_back) {
   bmstu::dummy_vector my_vec = {0, 1, 2, 3, 4, 5, 6};
   my_vec.push_back(7);
   ASSERT_EQ(my_vec.size(), 8);
@@ -387,7 +387,7 @@ TEST(Method, Push_Pop_back) {
   }
 }
 
-TEST(Operator, EQs) {
+TEST(DummyVectorTest, EQs) {
   bmstu::dummy_vector my_vec1 = {0, 1, 2, 3, 4, 5, 6};
   bmstu::dummy_vector my_vec2 = {0, 1, 2, 3, 4, 5, 6};
   bmstu::dummy_vector my_vec3 = {0, 1, 2, 3, 4, 5, 7};
@@ -464,7 +464,7 @@ TEST(DummyVectorTest, Resize2) {
   ASSERT_EQ(v[3], 0);
 }
 //
-TEST(DummyVectorTest, Constructors) {
+TEST(DummyVectorTest, DummyVectorTests) {
   {
     bmstu::dummy_vector<int> v(5);
     v[0] = 1;
