@@ -1,3 +1,5 @@
+// Copyright 2023 <fleurs>
+
 #include <gtest/gtest.h>
 #include "hw_5_optional.h"
 
