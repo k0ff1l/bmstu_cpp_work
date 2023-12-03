@@ -1144,9 +1144,9 @@ class WithoutDefaultConstructor {
   int number;
 };
 
-TEST(DummyVectorTest, 1Disability) {
-  uint8_t *ptr = new uint8_t[sizeof(WithoutDefaultConstructor) * 10];
-  WithoutDefaultConstructor *wdc = new(ptr) WithoutDefaultConstructor(1);
-  std::cout << ptr << " " << wdc;
-  int b = 5;
-}
+//TEST(DummyVectorTest, 1Disability) {
+//  uint8_t *ptr = new uint8_t[sizeof(WithoutDefaultConstructor) * 10];
+//  WithoutDefaultConstructor *wdc = new(ptr) WithoutDefaultConstructor(1);
+//  std::cout << ptr << " " << wdc;
+//  int b = 5;
+//}
