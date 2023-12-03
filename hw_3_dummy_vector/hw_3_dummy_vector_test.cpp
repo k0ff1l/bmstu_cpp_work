@@ -685,7 +685,7 @@ TEST(DummyVectorTest, test_new_push) {
   ASSERT_EQ(v.capacity(), 2);
 }
 
-TEST(DummyVector, one) {
+TEST(DummyVectorTest, 1one) {
   bmstu::dummy_vector<int> v;
   ASSERT_EQ(v.size(), 0u);
   ASSERT_TRUE(v.empty());
@@ -694,7 +694,7 @@ TEST(DummyVector, one) {
 
 //
 //
-TEST(DummyVector, Init) {
+TEST(DummyVectorTest, 1Init) {
   // Инициализация вектора указанного размера
   bmstu::dummy_vector<int> v(5);
   ASSERT_EQ(v.size(), 5u);
@@ -705,7 +705,7 @@ TEST(DummyVector, Init) {
   }
 }
 
-TEST(DummyVector, Init2) {
+TEST(DummyVectorTest, 1Init2) {
   bmstu::dummy_vector<int> v(3, 42);
   ASSERT_EQ(v.size(), 3);
   ASSERT_EQ(v.capacity(), 3);
@@ -715,7 +715,7 @@ TEST(DummyVector, Init2) {
 }
 
 //
-TEST(DummyVector, InitList) {
+TEST(DummyVectorTest, 1InitList) {
   bmstu::dummy_vector<int> v{1, 2, 3};
   ASSERT_EQ(v.size(), 3);
   ASSERT_EQ(v.capacity(), 3);
@@ -723,7 +723,7 @@ TEST(DummyVector, InitList) {
 }
 
 //
-TEST(DummyVector, At) {
+TEST(DummyVectorTest, 1At) {
   bmstu::dummy_vector<int> v(3);
   ASSERT_EQ(&v.at(2), &v[2]);
   try {
@@ -735,7 +735,7 @@ TEST(DummyVector, At) {
 }
 
 //
-TEST(DummyVector, Clear) {
+TEST(DummyVectorTest, 1Clear) {
   bmstu::dummy_vector<int> v(10);
   const size_t old_capacity = v.capacity();
   v.clear();
@@ -744,7 +744,7 @@ TEST(DummyVector, Clear) {
 }
 
 //
-TEST(DummyVector, Resize) {
+TEST(DummyVectorTest, 1Resize) {
   // Изменение размера
   {
     bmstu::dummy_vector<int> v(3);
@@ -758,7 +758,7 @@ TEST(DummyVector, Resize) {
 }
 
 //
-TEST(DummyVector, Resize1) {
+TEST(DummyVectorTest, 1Resize1) {
   {
     bmstu::dummy_vector<int> v(3);
     v[0] = 42;
@@ -773,7 +773,7 @@ TEST(DummyVector, Resize1) {
 }
 
 //
-TEST(DummyVector, Resize2) {
+TEST(DummyVectorTest, 1Resize2) {
   const size_t old_size = 3;
   bmstu::dummy_vector<int> v(3);
   v.resize(old_size + 5);
@@ -785,7 +785,7 @@ TEST(DummyVector, Resize2) {
 }
 
 //
-TEST(DummyVector, Constructors) {
+TEST(DummyVectorTest, 1Constructors) {
   {
     bmstu::dummy_vector<int> v(5);
     v[0] = 1;
@@ -814,7 +814,7 @@ TEST(DummyVector, Constructors) {
   }
 }
 
-TEST(DummyVector, Push) {
+TEST(DummyVectorTest, 1Push) {
   bmstu::dummy_vector<int> v(1);
   v.push_back(42);
   ASSERT_EQ(v.size(), 2);
@@ -823,7 +823,7 @@ TEST(DummyVector, Push) {
   ASSERT_EQ(v[1], 42);
 }
 
-TEST(DummyVector, CopyConstruct) {
+TEST(DummyVectorTest, 1CopyConstruct) {
   bmstu::dummy_vector<int> numbers{1, 2};
   auto numbers_copy(numbers);
   ASSERT_TRUE(&numbers_copy[0] != &numbers[0]);
@@ -834,7 +834,7 @@ TEST(DummyVector, CopyConstruct) {
   }
 }
 
-TEST(DummyVector, PopBack) {
+TEST(DummyVectorTest, 1PopBack) {
   // PopBack
   {
     bmstu::dummy_vector<int> v{0, 1, 2, 3};
@@ -847,7 +847,7 @@ TEST(DummyVector, PopBack) {
   }
 }
 
-TEST(DummyVector, Capacity) {
+TEST(DummyVectorTest, 1Capacity) {
   bmstu::dummy_vector<int> v(2);
   v.resize(1);
   const size_t old_capacity = v.capacity();
@@ -856,7 +856,7 @@ TEST(DummyVector, Capacity) {
   ASSERT_EQ(v.capacity(), old_capacity);
 }
 
-TEST(DummyVector, Iterate) {
+TEST(DummyVectorTest, 1Iterate) {
   // Итерирование по bmstu::dummy_vector
   {
     // Пустой вектор
@@ -876,7 +876,7 @@ TEST(DummyVector, Iterate) {
   }
 }
 
-TEST(DummyVector, Compare) {
+TEST(DummyVectorTest, 1Compare) {
   {
     ASSERT_TRUE((bmstu::dummy_vector{1, 2, 3} == bmstu::dummy_vector{1, 2, 3}));
     ASSERT_TRUE((bmstu::dummy_vector{1, 2, 3} != bmstu::dummy_vector{1, 2, 2}));
@@ -893,7 +893,7 @@ TEST(DummyVector, Compare) {
   }
 }
 
-TEST(DummyVector, Pushback2) {
+TEST(DummyVectorTest, 1Pushback2) {
   bmstu::dummy_vector<int> v2;
   v2.push_back(0);
   v2.push_back(1);
@@ -901,7 +901,7 @@ TEST(DummyVector, Pushback2) {
   ASSERT_EQ(v2, (bmstu::dummy_vector<int>{0, 1, 2}));
 }
 
-TEST(DummyVector, Swap) {
+TEST(DummyVectorTest, 1Swap) {
   // Обмен значений векторов
   {
     bmstu::dummy_vector<int> v1{42, 666};
@@ -928,7 +928,7 @@ TEST(DummyVector, Swap) {
   }
 }
 
-TEST(DummyVector, Test1) {
+TEST(DummyVectorTest, 1Test1) {
   {
     bmstu::dummy_vector<int> src_vector{1, 2, 3, 4};
     bmstu::dummy_vector<int> dst_vector{1, 2, 3, 4, 5, 6};
@@ -937,7 +937,7 @@ TEST(DummyVector, Test1) {
   }
 }
 
-TEST(DummyVector, Insert) {
+TEST(DummyVectorTest, 11Insert) {
   // Вставка элементов
   {
     bmstu::dummy_vector<int> v{1, 2, 3, 4};
@@ -947,7 +947,7 @@ TEST(DummyVector, Insert) {
   }
 }
 
-TEST(DummyVector, Insert2) {
+TEST(DummyVectorTest, 1Insert2) {
   // Вставка элементов
 
   bmstu::dummy_vector<int> v;
@@ -955,7 +955,7 @@ TEST(DummyVector, Insert2) {
   ASSERT_EQ(v, (bmstu::dummy_vector<int>{42}));
 }
 
-TEST(DummyVector, Erase) {
+TEST(DummyVectorTest, 1Erase) {
   {
     bmstu::dummy_vector<int> v{1, 2, 3, 4};
     v.erase(v.begin() + 2);
@@ -964,7 +964,7 @@ TEST(DummyVector, Erase) {
   }
 }
 
-TEST(DummyVector, Reserve) {
+TEST(DummyVectorTest, 1Reserve) {
   {
     bmstu::dummy_vector<int> v(5);
     ASSERT_EQ(v.capacity(), 5);
@@ -1029,13 +1029,13 @@ class X {
   size_t x_;
 };
 
-TEST(DummyVector, temporary) {
+TEST(DummyVectorTest, 1temporary) {
   const size_t size = 1000000;
   bmstu::dummy_vector<int> moved_vector(GenerateVector(size));
   ASSERT_EQ(moved_vector.size(), size);
 }
 
-TEST(DummyVector, moveconstructor) {
+TEST(DummyVectorTest, 1moveconstructor) {
   const size_t size = 1000000;
 
   bmstu::dummy_vector<int> vector_to_move(GenerateVector(size));
@@ -1046,7 +1046,7 @@ TEST(DummyVector, moveconstructor) {
   ASSERT_EQ(vector_to_move.size(), 0);
 }
 
-TEST(DummyVector, moveoperator) {
+TEST(DummyVectorTest, 1moveoperator) {
   const size_t size = 1000000;
   bmstu::dummy_vector<int> vector_to_move(GenerateVector(size));
   ASSERT_EQ(vector_to_move.size(), size);
@@ -1056,7 +1056,7 @@ TEST(DummyVector, moveoperator) {
   ASSERT_EQ(vector_to_move.size(), 0);
 }
 
-TEST(DummyVector, noncopybable2) {
+TEST(DummyVectorTest, 1noncopybable2) {
   const size_t size = 5;
   bmstu::dummy_vector<X> vector_to_move;
   for (size_t i = 0; i < size; ++i) {
@@ -1075,7 +1075,7 @@ TEST(DummyVector, noncopybable2) {
   }
 }
 
-TEST(DummyVector, noncopypable3) {
+TEST(DummyVectorTest, 1noncopypable3) {
   const size_t size = 5;
   bmstu::dummy_vector<X> v;
   for (size_t i = 0; i < size; ++i) {
@@ -1089,7 +1089,7 @@ TEST(DummyVector, noncopypable3) {
   }
 }
 
-TEST(DummyVector, noncopiableinsert) {
+TEST(DummyVectorTest, 1noncopiableinsert) {
   const size_t size = 5;
   bmstu::dummy_vector<X> v;
   for (size_t i = 0; i < size; ++i) {
@@ -1110,7 +1110,7 @@ TEST(DummyVector, noncopiableinsert) {
   ASSERT_EQ((v.begin() + 3)->GetX(), size + 3);
 }
 
-TEST(DummyVector, erasenoncopy) {
+TEST(DummyVectorTest, 1erasenoncopy) {
   const size_t size = 3;
 
   bmstu::dummy_vector<X> v;
@@ -1122,7 +1122,7 @@ TEST(DummyVector, erasenoncopy) {
   assert(it->GetX() == 1);
 }
 
-TEST(DummyVector, test_new_push) {
+TEST(DummyVectorTest, 1test_new_push) {
   bmstu::dummy_vector<int> v;
   ASSERT_EQ(v.capacity(), 0);
   ASSERT_EQ(v.size(), 0);
@@ -1144,7 +1144,7 @@ class WithoutDefaultConstructor {
   int number;
 };
 
-TEST(DummyVector, Disability) {
+TEST(DummyVectorTest, 1Disability) {
   uint8_t *ptr = new uint8_t[sizeof(WithoutDefaultConstructor) * 10];
   WithoutDefaultConstructor *wdc = new(ptr) WithoutDefaultConstructor(1);
   std::cout << ptr << " " << wdc;

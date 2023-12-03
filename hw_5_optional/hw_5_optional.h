@@ -25,7 +25,7 @@ class optional {
     (void) (&val);
   }
 
-  optional(const T &&value) {  // NOLINT
+  optional(T &&value) {  // NOLINT
     is_initialized_ = true;
     T *val = new(&data_[0]) T(std::move(value));
     (void) (&val);
@@ -33,9 +33,23 @@ class optional {
 
   optional(const optional &other) {
     if (is_initialized_ && other.is_initialized_) {
-      this->value() = other->value();
+      this->value() = other.value();
     } else if (!is_initialized_ && other.is_initialized_) {
       T *val = new(&data_[0])T{other.value()};
+      is_initialized_ = true;
+      (void) (&val);
+    } else if (is_initialized_ && !other.is_initialized_) {
+      this->reset();
+    } else if (!is_initialized_ && !other.is_initialized_) {
+      (void) (&data_);
+    }
+  }
+
+  optional(const optional &&other) {
+    if (is_initialized_ && other.is_initialized_) {
+      this->value() = std::move(other.value());
+    } else if (!is_initialized_ && other.is_initialized_) {
+      T *val = new(&data_[0])T{std::move(other.value())};
       is_initialized_ = true;
       (void) (&val);
     } else if (is_initialized_ && !other.is_initialized_) {
@@ -118,9 +132,8 @@ class optional {
     if (&rhs == this) {
       return *this;
     }
-
     if (is_initialized_ && rhs.is_initialized_) {
-      this->value() = std::move(rhs->value());
+      this->value() = std::move(rhs.value());
     } else if (!is_initialized_ && rhs.is_initialized_) {
       T *val = new(&data_[0])T(std::move(rhs.value()));
       is_initialized_ = true;
@@ -143,7 +156,7 @@ class optional {
   }
 
   const T *operator->() const {
-    return static_cast<const T *>(static_cast<void *>(&data_[0]));
+    return reinterpret_cast<const T *>(&data_[0]);
   }
 
   T *operator->() {
