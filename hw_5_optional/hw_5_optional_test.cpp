@@ -582,3 +582,16 @@ TEST(OptionalTest, MoveOptionalOperatorFromValueToEmptyM) {
   ASSERT_EQ(M::destruct, 2);
   ASSERT_EQ(M::instance_count(), 0);
 }
+
+TEST(OptionalTest, ThrowBadOptionalAccess) {
+  bmstu::optional<M> opt;
+  ASSERT_FALSE(opt.has_value());
+  ASSERT_THROW(opt.value(), bmstu::bad_optional_access);
+  ASSERT_THROW(std::move(opt).value(), bmstu::bad_optional_access);
+
+  const bmstu::optional<M> opt_const{};
+  ASSERT_FALSE(opt_const.has_value());
+  ASSERT_THROW(opt_const.value(), bmstu::bad_optional_access);
+  ASSERT_THROW(std::move(opt_const).value(),
+               bmstu::bad_optional_access);  // NO EFFECT move
+}
