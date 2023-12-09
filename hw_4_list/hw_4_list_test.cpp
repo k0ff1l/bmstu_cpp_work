@@ -2,6 +2,9 @@
 
 #include <gtest/gtest.h>
 
+#include <iostream>
+#include <set>
+
 #include "hw_4_list.h"
 
 TEST(ListTest, 1DefaultListTest) {
@@ -522,9 +525,6 @@ TEST(ListTest, IteratorsHard) {
   }
 }
 
-#include <iostream>
-#include <set>
-
 class BmstuListlistTests : public ::testing::Test {
  protected:
   void SetUp() {
@@ -535,7 +535,7 @@ class BmstuListlistTests : public ::testing::Test {
 };
 
 TEST_F(BmstuListlistTests, init) {
-  using namespace std;
+  using namespace std;  // NOLINT
   {
     const bmstu::list<int> empty_int_list;
     ASSERT_EQ(empty_int_list.size(), 0u);
@@ -550,7 +550,7 @@ TEST_F(BmstuListlistTests, init) {
 }
 
 TEST_F(BmstuListlistTests, push_front) {
-  using namespace std;
+  using namespace std;  // NOLINT
   // Шпион, следящий за своим удалением
 
   // Проверка вставки в начало
@@ -571,7 +571,8 @@ TEST_F(BmstuListlistTests, push_front) {
 }
 
 TEST_F(BmstuListlistTests, PushBack) {
-  using namespace std;
+  using namespace std;  // NOLINT
+
   // Шпион, следящий за своим удалением
 
   // Проверка вставки в начало
@@ -596,15 +597,14 @@ TEST_F(BmstuListlistTests, DeletionSpy) {
   struct DeletionSpy {
     DeletionSpy() = default;
 
-    explicit DeletionSpy(int &instance_counter) noexcept: instance_counter_ptr_(
-        &instance_counter) //
-    {
+    explicit DeletionSpy(int &instance_counter) noexcept  // NOLINT
+        : instance_counter_ptr_(
+        &instance_counter) {
       OnAddInstance();
     }
 
     DeletionSpy(const DeletionSpy &other) noexcept
-        : instance_counter_ptr_(other.instance_counter_ptr_) //
-    {
+        : instance_counter_ptr_(other.instance_counter_ptr_) {
       OnAddInstance();
     }
 
@@ -673,13 +673,12 @@ TEST_F(BmstuListlistTests, Throw) {
   struct ThrowOnCopy {
     ThrowOnCopy() = default;
 
-    explicit ThrowOnCopy(int &copy_counter) noexcept
+    explicit ThrowOnCopy(int &copy_counter) noexcept  // NOLINT
         : countdown_ptr(&copy_counter) {
     }
 
     ThrowOnCopy(const ThrowOnCopy &other)
-        : countdown_ptr(other.countdown_ptr) //
-    {
+        : countdown_ptr(other.countdown_ptr) {
       if (countdown_ptr) {
         if (*countdown_ptr == 0) {
           throw std::bad_alloc();
@@ -709,8 +708,7 @@ TEST_F(BmstuListlistTests, Throw) {
         list.push_front(ThrowOnCopy(copy_counter));
         // Если метод не выбросил исключение, список должен перейти в новое состояние
         ASSERT_EQ(list.size(), 2);
-      }
-      catch (const std::bad_alloc &) {
+      } catch (const std::bad_alloc &) {
         exception_was_thrown = true;
         // После выбрасывания исключения состояние списка должно остаться прежним
         ASSERT_EQ(list.size(), 1);
@@ -722,7 +720,6 @@ TEST_F(BmstuListlistTests, Throw) {
 }
 
 TEST_F(BmstuListlistTests, IteratorsEmpty) {
-
   // Итерирование по пустому списку
   {
     bmstu::list<int> list;
@@ -754,9 +751,9 @@ TEST_F(BmstuListlistTests, IteratorsNonEmpty) {
 
     ASSERT_TRUE(const_list.begin() == const_list.cbegin());
 
-    ASSERT_TRUE(*list.cbegin() == 1);
+    ASSERT_TRUE(*list.cbegin() == 1);  // NOLINT
     *list.begin() = -1;
-    ASSERT_TRUE(*list.cbegin() == -1);
+    ASSERT_TRUE(*list.cbegin() == -1);  // NOLINT
 
     const auto old_begin = list.cbegin();
     list.push_front(2);
@@ -804,7 +801,7 @@ TEST_F(BmstuListlistTests, IteratorsDecrement) {
 
     ASSERT_EQ(*list.cbegin(), 100500);
     *list.begin() = -1;
-    ASSERT_TRUE(*list.cbegin() == -1);
+    ASSERT_TRUE(*list.cbegin() == -1);  // NOLINT
     auto end_list = list.end();
     auto back = --end_list;
     ASSERT_EQ(*(end_list), 3);
@@ -829,7 +826,7 @@ TEST_F(BmstuListlistTests, IteratorsDecrement2) {
 
 TEST_F(BmstuListlistTests, back) {
   {
-    using namespace std;
+    using namespace std;  // NOLINT
     bmstu::list<int> list;
     list.push_back(1);
     list.push_back(2);
@@ -840,7 +837,7 @@ TEST_F(BmstuListlistTests, back) {
     ASSERT_EQ(out.str(), "[ 1, 2, 3, 4 ]"s);
   }
   {
-    using namespace std;
+    using namespace std;  // NOLINT
     bmstu::list<int> list;
     list.push_back(1);
     list.push_back(2);
@@ -854,7 +851,7 @@ TEST_F(BmstuListlistTests, back) {
 
 TEST_F(BmstuListlistTests, arithmetic) {
   {
-    using namespace std;
+    using namespace std;  // NOLINT
     bmstu::list<int> list;
     list.push_back(1);
     list.push_back(2);
@@ -874,7 +871,7 @@ TEST_F(BmstuListlistTests, arithmetic) {
     ASSERT_EQ(*(it - list.size()), 1);
   }
   {
-    using namespace std;
+    using namespace std;  // NOLINT
     bmstu::list<int> list;
     list.push_back(1);
     list.push_back(2);
@@ -920,7 +917,7 @@ TEST_F(BmstuListlistTests, initializer_list) {
 }
 
 TEST_F(BmstuListlistTests, initializer_list_strings) {
-  using namespace std;
+  using namespace std;  // NOLINT
   bmstu::list<std::string>
       list{"first1"s, "first2"s, "first3"s, "first4"s, "first5"s, "first6"s};
   ASSERT_EQ(*list.begin(), "first1"s);
@@ -929,7 +926,7 @@ TEST_F(BmstuListlistTests, initializer_list_strings) {
 TEST_F(BmstuListlistTests, IteratorsOperator) {
   // Проверка оператора ->
   {
-    using namespace std;
+    using namespace std;  // NOLINT
     bmstu::list<std::string> string_list;
 
     string_list.push_front("one"s);
@@ -947,7 +944,7 @@ TEST_F(BmstuListlistTests, Equals) {
   ASSERT_FALSE(list1 == list2);
   ASSERT_FALSE(list1 == list3);
   ASSERT_TRUE(list1 == list1_1);
-  //	std::cout << list2 << list1 << std::endl;
+  // std::cout << list2 << list1 << std::endl;
 }
 
 TEST_F(BmstuListlistTests, IteratorsPolyForm) {
@@ -998,7 +995,6 @@ TEST_F(BmstuListlistTests, Equals2) {
 }
 
 TEST_F(BmstuListlistTests, Swap) {
-
   bmstu::list<int> list_1{1, 2, 3};
   bmstu::list<int> list_2{-1, -2};
   list_1.swap(list_2);
@@ -1050,7 +1046,7 @@ TEST_F(BmstuListlistTests, Swap2) {
 }
 
 TEST_F(BmstuListlistTests, FromVector) {
-  using namespace std;
+  using namespace std;  // NOLINT
   std::vector<std::string> my_vec =
       {"string1"s, "string3"s, "string4"s, "string5"s, "string6"s, "string7"s};
   bmstu::list<std::string> my_list(my_vec.begin(), my_vec.end());
