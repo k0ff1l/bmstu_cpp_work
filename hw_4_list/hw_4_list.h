@@ -33,7 +33,7 @@ class list {
 
     list_iterator(const list_iterator &other) = default;
 
-    const_reference operator*() const {
+    reference operator*() const {
       assert(node_ != nullptr);
       return node_->value;
     }
@@ -45,6 +45,12 @@ class list {
       node_ = node_->next_node_;
       return *this;
     }
+
+    pointer operator->() {
+      assert(node_ != nullptr);
+      return &(node_->value);
+    }
+
     list_iterator &operator--() {
       assert(node_ != nullptr);
       node_ = node_->prev_node_;
@@ -208,10 +214,10 @@ class list {
     return const_iterator(this->tail_);
   }
   const_iterator cbegin() const noexcept {
-    return list_iterator(this->head_->next_node_);
+    return const_iterator(this->head_->next_node_);
   }
   const_iterator cend() const noexcept {
-    return list_iterator(this->tail_);
+    return const_iterator(this->tail_);
   }
   T operator[](size_t pos) const {
     node *current = head_->next_node_;
