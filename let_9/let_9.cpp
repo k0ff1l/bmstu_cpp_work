@@ -1,6 +1,5 @@
 // Copyright 2024 <fleurs>
 
-#include "let_9.hpp"
 #include <iostream>
 #include <vector>
 
