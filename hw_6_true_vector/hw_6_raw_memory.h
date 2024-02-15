@@ -7,10 +7,10 @@
 namespace bmstu {
 template<typename Z>
 class raw_memory {
-  public:
+  public: // NOLINT
     raw_memory() = default;
 
-    raw_memory(size_t size) : buffer_(allocate_(size)), capacity_(size) {
+    explicit raw_memory(size_t size): buffer_(allocate_(size)), capacity_(size) {
     }
 
     ~raw_memory() { deallocate_(buffer_); }
@@ -26,7 +26,7 @@ class raw_memory {
                                             std::exchange(
                                               other.buffer_,
                                               nullptr)) {
-    };
+    }
 
     raw_memory& operator=(raw_memory&& other) {
       if (this != &other) {
@@ -49,8 +49,8 @@ class raw_memory {
       // todo: возможно нужен raw_memory&
     }
 
-  private:
-    void swap(raw_memory& other) noexcept {
+  private: // NOLINT
+    void swap_(raw_memory other) noexcept {
       std::swap(buffer_, other.buffer_);
       std::swap(capacity_, other.capacity_);
     }
@@ -69,4 +69,4 @@ class raw_memory {
     Z* buffer_ = nullptr;
     size_t capacity_ = 0;
 };
-}
+} // namespace bmstu // NOLINT

@@ -7,10 +7,9 @@
 #include <numeric>
 
 #include "hw_6_raw_memory.h"
-#pragma once
 
 class WithoutDefaultConstructor {
-  public:
+  public: // NOLINT
     WithoutDefaultConstructor() = delete;
 
     explicit WithoutDefaultConstructor(int other) : number(other) {
@@ -19,7 +18,6 @@ class WithoutDefaultConstructor {
     int number;
 };
 
-TEST(truevector, test) {
+TEST(TrueVector, test1) {
   bmstu::raw_memory<WithoutDefaultConstructor> memory(10);
-  memory(5);
 }
