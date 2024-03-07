@@ -1,45 +1,28 @@
-// Copyright 2023 <fleurs>
+// какие бы действия не придпринимал, кажется,
+// что всегда приду к ответу.
 
-#include "sandbox_1.h"
-#include <optional>
-#include <cstdint>
 #include <iostream>
+#include <string>
+#include <vector>
 
-// #pragma pack(1)  // выравнивание на 1 байт
-struct Student {
-  Student(const int a, const uint64_t s) : age(a), score(s) {
-  }
-  int age;
-  uint64_t score;
+std::string helper(unsigned long long a, unsigned long long b, unsigned long long c) {
+  if ((a % 3 + b % 3 + c % 3) % 3 == 0) return "No"; // overflow
 
-  Student(Student &&other) {
-    age = std::move(other.age);
-    score = std::move(other.score);
-  }
-
-  Student(const Student &other) {
-    age = other.age;
-    score = other.score;
-  }
-
-  Student &operator=(const Student &other) {
-    age = other.age;
-    score = other.score;
-    return *this;
-  }
-
-  ~Student() {
-    std::cout << "Я тупо сдох\n";
-    age = 0;
-    score = 0;
-  }
-};
-// #pragma pop()
+  return "Yes";
+}
 
 int main() {
-  bmstu::hw_5_optional<Student> a;
-  a.emplace(1, 2);
-  bmstu::hw_5_optional<Student> st(std::move(Student(666, 0xFF00FF00FF00FF00)));
-  st.reset();
+  int n;
+  std::cin >> n;
+  std::vector<std::vector<unsigned long long>> vec;
+  while (n--) {
+    unsigned long long a, b, c;
+    std::cin >> a >> b >> c;
+    vec.push_back(std::vector<unsigned long long>{a, b, c});
+  }
+  for (auto i : vec) {
+    if (i == vec[vec.size() - 1]) std::cout << helper(i[0], i[1], i[2]);
+    else std::cout << helper(i[0], i[1], i[2]) << std::endl;
+  }
   return 0;
 }
