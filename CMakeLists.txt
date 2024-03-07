@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(bmstu_cpp_work)
+project(example_hw_repo)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -9,39 +9,11 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(googletest)
 
-set(CMAKE_CXX_STANDARD 23)
-set(TEST_NAME ${PROJECT_NAME}_tests)
-
-# Добавляем все летучки
-file(GLOB SOURCES_LET "let_*/*.h" "let_*/*.cpp")
-
-# Добавляем все домашки
-file(GLOB SOURCES_HW "hw_*/*.h" "hw_*/*.cpp")
-
-# Добавляем древние знания
-file(GLOB SOURCES_ANCIENT "ancient_knowledge/*")
-
-# То что нужно удалить
-file(GLOB REMOVE_SOURCES "let_6_db/*" "let_7_palindrome/*" "let_3_fresco/*" "let_9_perfect/*" "sandbox/*")
-
-# Объединяем все списки исходных файлов
-set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW} ${SOURCES_ANCIENT})
-
-# Удаляем то, что нужно удалить
-list(REMOVE_ITEM ALL_SOURCES ${REMOVE_SOURCES})
-
-add_executable(${TEST_NAME} ${ALL_SOURCES})
-target_link_libraries(${TEST_NAME} gtest_main)
-
 enable_testing()
 include(GoogleTest)
-gtest_discover_tests(${TEST_NAME})
-
-# Добавляем субдиректории
-add_subdirectory(let_9_perfect)
-add_subdirectory(let_6_db)
-add_subdirectory(let_7_palindrome)
-add_subdirectory(sandbox)
-add_subdirectory(let_3_fresco)
-
-# Не забыть исключить лишнее (добавить в REMOVE_SOURCES)
+#glob all directories who end with _hw
+file(GLOB hw_dirs RELATIVE ${CMAKE_SOURCE_DIR} ${CMAKE_SOURCE_DIR}/*_hw)
+message("hw_dirs: ${hw_dirs}")
+foreach (hw_dir ${hw_dirs})
+    add_subdirectory(${hw_dir})
+endforeach ()
