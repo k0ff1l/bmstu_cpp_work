@@ -6,19 +6,20 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 
 class Student {
- public:
-  std::string name;
-  int age;
-  int rating;
+  public: // NOLINT
+    std::string name;
+    int age;
+    int rating;
 
-  void print() const {
-    std::cout << name << " " << age << " " << rating << std::endl;
-  }
+    void print() const {
+      std::cout << name << " " << age << " " << rating << std::endl;
+    }
 };
 
-void mode(int argc, char **argv) {
+void mode(int argc, char** argv) {
   if (argc == 1) {
     std::cerr
         << "No arguments provided, include path to file.bin and mode (-a/-o/-g/-r)"
@@ -32,17 +33,17 @@ void mode(int argc, char **argv) {
   }
 }
 
-bool compareByAge(const Student &a, const Student &b) {
+bool compareByAge(const Student& a, const Student& b) {
   return a.age > b.age;
 }
-bool compareByRating(const Student &a, const Student &b) {
+bool compareByRating(const Student& a, const Student& b) {
   return a.rating > b.rating;
 }
-bool compareByAlphabet(const Student &a, const Student &b) {
+bool compareByAlphabet(const Student& a, const Student& b) {
   return a.name < b.name;
 }
 
-void top_age(auto &Students, size_t count);  // NOLINT
-void top_age_alphabet(auto &Students, size_t count);  // NOLINT
-void top_rating(auto &Students, size_t count);  // NOLINT
-void top_rating_alphabet(auto &Students, size_t count);  // NOLINT
+void top_age(auto& Students, size_t count);  // NOLINT
+void top_age_alphabet(auto& Students, size_t count);  // NOLINT
+void top_rating(auto& Students, size_t count);  // NOLINT
+void top_rating_alphabet(auto& Students, size_t count);  // NOLINT

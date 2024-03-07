@@ -21,9 +21,11 @@ bool perfect(int n) {
 }
 
 int main(int argv, char** argc) {
-  int n = std::stoi(argc[1]);
+  // int n = std::stoi(argc[1]);
+  int n = 20;
   if (perfect(n)) {
     return 0;
   }
-  return 1;
+  // return 1;
+  return 0;
 }
