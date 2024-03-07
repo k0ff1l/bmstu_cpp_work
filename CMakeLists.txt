@@ -22,7 +22,7 @@ file(GLOB SOURCES_HW "hw_*/*.h" "hw_*/*.cpp")
 file(GLOB SOURCES_ANCIENT "ancient_knowledge/*")
 
 # То что нужно удалить
-file(GLOB REMOVE_SOURCES "let_6_db/*" "let_7/*" "let_3_fresco/*" "let_9/*" "sandbox/*")
+file(GLOB REMOVE_SOURCES "let_6_db/*" "let_7_palindrome/*" "let_3_fresco/*" "let_9_perfect/*" "sandbox/*")
 
 # Объединяем все списки исходных файлов
 set(ALL_SOURCES ${SOURCES_LET} ${SOURCES_HW} ${SOURCES_ANCIENT})
@@ -38,9 +38,9 @@ include(GoogleTest)
 gtest_discover_tests(${TEST_NAME})
 
 # Добавляем субдиректории
-add_subdirectory(let_9)
+add_subdirectory(let_9_perfect)
 add_subdirectory(let_6_db)
-add_subdirectory(let_7)
+add_subdirectory(let_7_palindrome)
 add_subdirectory(sandbox)
 add_subdirectory(let_3_fresco)
 
