@@ -20,3 +20,5 @@ message("let_dirs: ${let_dirs}")
 foreach (let_dir ${let_dirs})
     add_subdirectory(${let_dir})
 endforeach ()
+
+add_subdirectory(sandbox)
