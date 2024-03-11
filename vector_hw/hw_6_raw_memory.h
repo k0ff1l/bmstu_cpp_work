@@ -3,19 +3,24 @@
 #pragma once
 
 #include <memory>
+#include <utility>
 
 namespace bmstu {
 template<typename Z>
 class raw_memory {
-  public: // NOLINT
+  public:  // NOLINT
     raw_memory() = default;
 
     explicit raw_memory(size_t size): buffer_(allocate_(size)), capacity_(size) {
     }
 
-    ~raw_memory() { deallocate_(buffer_); }
+    ~raw_memory() {
+      deallocate_(buffer_);
+      capacity_ = 0;
+    }
 
     raw_memory(const raw_memory& other) = delete;
+
     // мы не хотим копировать указатель на память одну и ту же, вдруг один удалится указатель, а второй - нет, будет UB.
 
     raw_memory& operator=(const raw_memory& other) = delete;
@@ -44,17 +49,36 @@ class raw_memory {
     }
 
     const Z& operator[](size_t index) const noexcept {
-      assert(index < capacity_);
-      return const_cast<raw_memory>(*this)[index];
+      return const_cast<raw_memory &>(*this)[index];
       // todo: возможно нужен raw_memory&
     }
 
-  private: // NOLINT
-    void swap_(raw_memory other) noexcept {
-      std::swap(buffer_, other.buffer_);
-      std::swap(capacity_, other.capacity_);
+    Z* operator+(size_t offset) noexcept {
+      assert(offset <= capacity_);  // = потому что мы хотим еще и end хранить,
+      return buffer_ + offset;
     }
 
+    const Z* operator+(size_t offset) const noexcept {
+      return const_cast<raw_memory &>(*this) + offset;
+    }
+
+    size_t capacity() const {
+      return capacity_;
+    }
+
+    Z* buffer() {
+      return buffer_;
+    }
+
+    const Z* buffer() const {
+      return buffer_;
+    }
+
+    void swap(raw_memory other) noexcept {
+      std::swap(buffer_, other.buffer_);
+      std::swap(capacity_, other.capacity_);
+    }  // todo: возможно в прайват надо
+  private: // NOLINT
     // нужны методы, которые аллоцируют и деаллоцируют сырую память.
     static Z* allocate_(size_t size) {
       return size != 0

@@ -3,4 +3,7 @@
 #pragma once
 
 namespace bmstu {
-}
+template<typename Z>
+class vector {
+};
+}  // namespace bmstu

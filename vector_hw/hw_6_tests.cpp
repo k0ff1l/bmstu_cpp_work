@@ -7,6 +7,7 @@
 #include <numeric>
 
 #include "hw_6_raw_memory.h"
+#include "hw_6_true_vector.h"
 
 class WithoutDefaultConstructor {
   public: // NOLINT
