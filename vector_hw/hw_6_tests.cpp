@@ -27,7 +27,7 @@ class TestClass {
       if (cnt == 10) throw std::runtime_error("created 10 testclass species \n");
     }
 
-    TestClass(int z) : z(z) {
+    explicit TestClass(int z) : z(z) {
       std::cout << "alloc with num\n";
       ++cnt;
       if (cnt == 10) throw std::runtime_error("created 10 testclass species");
@@ -36,7 +36,7 @@ class TestClass {
     ~TestClass() {
       std::cout << "dealloc\n";
     }
-  private:
+  private:  // NOLINT
     int z;
     static size_t cnt;
 };

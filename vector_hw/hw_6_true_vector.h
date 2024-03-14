@@ -9,7 +9,7 @@
 namespace bmstu {
 template<typename T>
 class vector {
-  public:
+  public:  // NOLINT
     vector() = default;
 
     //  Yavnoe construirovanie
@@ -56,7 +56,7 @@ class vector {
     }
 
     ~vector() {
-      std::destroy_n(data_.buffer_, size_);
+      std::destroy_n(data_.buffer(), size_);
     }
 
     struct iterator {
@@ -120,7 +120,7 @@ class vector {
         copy.m_ptr -= value;
         return copy;
       }
-      private:
+      private:  // NOLINT
         pointer m_ptr;
     };
 
@@ -230,6 +230,20 @@ class vector {
             throw;
           }
         }
+        if constexpr (std::is_nothrow_move_constructible_v<T> || !std::is_copy_constructible_v<T>) {
+          std::uninitialized_move_n(data_.buffer() + dest_pos, size_ - dest_pos, new_data.buffer_ + dest_pos + 1);
+        } else {
+          try {
+            std::uninitialized_copy_n(data_.buffer() + dest_pos, size_ - dest_pos, new_data.buffer_ + dest_pos + 1);
+          } catch (...) {
+            std::destroy_n(new_data.buffer() + dest_pos, 1);
+            throw;
+          }
+        }
+        std::destroy_n(data_.buffer(), size_);
+        data_.swap(new_data);
+        res_pos = begin() + dest_pos;
+        ++size_;
       } else {
         T tmp(std::forward<Args>(args)...);
         new(data_.buffer() + size_) T(std::move(data_[size_ - 1]));
@@ -240,8 +254,8 @@ class vector {
       }
       return res_pos;
     }
-  private:
-    void swap_(vector<T>& other) {
+  private:  // NOLINT
+    void swap_(const vector<T>& other) {
       std::swap(*this, other);
     }
     raw_memory<T> data_;
