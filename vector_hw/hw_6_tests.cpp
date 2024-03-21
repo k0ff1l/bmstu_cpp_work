@@ -55,3 +55,6 @@ TEST(Vector, test2) {
     std::cout << "catched exception: " << e.what() << "\n";
   }
 }
+
+// объявить class и в них static cntr для мува и остальной фигни
+// чтобы тестировать наш вектор.

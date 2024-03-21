@@ -254,6 +254,20 @@ class vector {
       }
       return res_pos;
     }
+
+    template<typename Type>
+    void push_back(Type&& value) {
+      emplace_back(std::forward<Type>(value));
+    }
+
+    template<typename Type>
+    void insert(const_iterator pos, Type&& value) {
+      emplace(pos, std::forward<Type>(value));
+    }
+
+    bool empty() {
+      return size_ == 0;
+    }
   private:  // NOLINT
     void swap_(const vector<T>& other) {
       std::swap(*this, other);
