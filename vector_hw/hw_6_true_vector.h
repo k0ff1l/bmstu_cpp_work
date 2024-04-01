@@ -214,6 +214,17 @@ class vector {
     return out;
   }
 
+  T &at(size_t index) {
+    if (index >= size_) {
+      throw std::out_of_range("Index out of range");
+    }
+    return data_[index];
+  }
+
+  const T &at(size_t index) const {
+    return const_cast<vector<T> &>(*this).at(index);
+  }
+
   // todo: fix, as x2 capacity, not new_capacity, or only fix resize, check it
   // in std::vec (reserve 7 == 7, resize 7 == 12 (if from capacity 6)).
   void reserve(size_t new_capacity) {
@@ -320,6 +331,20 @@ class vector {
 
   bool empty() {
     return size_ == 0;
+  }
+
+  void swap(vector<T> &other) {
+    swap_(other);
+  }
+
+  friend void swap(vector<T> &left, vector<T> &right) {
+    left.swap_(right);
+  }
+
+
+  void clear() {
+    std::destroy_n(data_.buffer(), size_);
+    size_ = 0;
   }
 
  private:  // NOLINT
