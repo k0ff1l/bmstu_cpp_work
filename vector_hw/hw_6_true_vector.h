@@ -28,8 +28,17 @@ class vector {
   }
 
   vector(std::initializer_list<T> init_list) : data_(init_list.size()), size_(init_list.size()) {
-    std::uninitialized_copy(init_list.begin(), init_list.end(), data_.buffer());
+    if constexpr (std::is_nothrow_move_constructible_v<T> || !std::is_copy_constructible_v<T>) {
+      std::uninitialized_move_n(init_list.begin(), init_list.size(), data_.buffer());
+    } else {
+      std::uninitialized_copy_n(init_list.begin(), init_list.size(), data_.buffer());
+    }
   }
+
+//  // write correct via memory std::initializer_list
+//  vector(std::initializer_list<T> init_list) noexcept: data_(init_list.size()), size_(init_list.size()) {
+//    std::uninitialized_copy_n(init_list.begin(), init_list.size(), data_.buffer());
+//  }
 
   vector &operator=(const vector &other) {
     if (&other != this) {
@@ -224,8 +233,6 @@ class vector {
     return const_cast<vector<T> &>(*this).at(index);
   }
 
-  // todo: fix, as x2 capacity, not new_capacity, or only fix resize, check it
-  // in std::vec (reserve 7 == 7, resize 7 == 12 (if from capacity 6)).
   void reserve(size_t new_capacity) {
     if (new_capacity <= data_.capacity()) {
       return;
@@ -255,7 +262,7 @@ class vector {
         reserve(new_size);
       }
       if constexpr (std::is_default_constructible_v<T>) {
-        std::uninitialized_value_construct_n(data_.buffer() + size_, new_size);
+        std::uninitialized_value_construct_n(data_.buffer() + size_, new_size - size_);
       }
       size_ = new_size;
     }
