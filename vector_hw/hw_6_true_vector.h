@@ -168,8 +168,7 @@ class vector {
   }
 
   friend void swap(vector<T> &left, vector<T> &right) {
-    std::swap(left.data_, right.data_);
-    std::swap(left.size_, right.size_);
+    left.swap_(right);
   }
 
   [[nodiscard]] size_t size() const {
@@ -336,11 +335,6 @@ class vector {
   void swap(vector<T> &other) {
     swap_(other);
   }
-
-  friend void swap(vector<T> &left, vector<T> &right) {
-    left.swap_(right);
-  }
-
 
   void clear() {
     std::destroy_n(data_.buffer(), size_);
