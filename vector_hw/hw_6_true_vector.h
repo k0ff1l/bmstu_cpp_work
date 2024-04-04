@@ -35,11 +35,6 @@ class vector {
     }
   }
 
-//  // write correct via memory std::initializer_list
-//  vector(std::initializer_list<T> init_list) noexcept: data_(init_list.size()), size_(init_list.size()) {
-//    std::uninitialized_copy_n(init_list.begin(), init_list.size(), data_.buffer());
-//  }
-
   vector &operator=(const vector &other) {
     if (&other != this) {
       if (other.size_ > data_.capacity()) {
