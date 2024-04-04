@@ -19,6 +19,16 @@ class vector {
     }
   }
 
+  explicit vector(size_t size, T value) : data_(size), size_(size) {
+    if constexpr (std::is_copy_constructible_v<T>) {
+      std::uninitialized_value_construct_n(data_.buffer(), size_);
+    }
+    for (auto i = begin(); i != end(); ++i) {
+      *i = value;
+    }
+  }
+
+
   vector(const vector &other) : data_(other.size_), size_(other.size_) {
     std::uninitialized_copy_n(other.data_.buffer(), other.size_, this->data_.buffer());
   }
@@ -133,13 +143,13 @@ class vector {
       return result;
     }
 
-    iterator operator+(const difference_type value) noexcept {
+    iterator operator+(const difference_type value) const noexcept {
       iterator copy(*this);
       copy.m_ptr += value;
       return copy;
     }
 
-    iterator operator-(const difference_type value) noexcept {
+    iterator operator-(const difference_type value) const noexcept {
       iterator copy(*this);
       copy.m_ptr -= value;
       return copy;
@@ -156,15 +166,15 @@ class vector {
   iterator end() { return iterator(data_.buffer() + size_); }
 
   const_iterator begin() const {
-    return const_iterator(data_.buffer());
+    return iterator(const_cast<T *>(data_.buffer()));
   }
 
   const_iterator end() const {
-    return const_iterator(data_.buffer() + size_);
+    return iterator(const_cast<T *>(data_.buffer() + size_));
   }
 
   const_iterator cbegin() const {
-    return const_iterator(data_.buffer());
+    return const_iterator(const_cast<T *>(data_.buffer()));
   }
 
   const_iterator cend() const {
@@ -204,7 +214,6 @@ class vector {
     return true;
   }
 
-  // write operator for console output
   friend std::ostream &operator<<(std::ostream &out, const vector<T> &vec) {
     out << "[";
     for (size_t i = 0; i < vec.size_; ++i) {
@@ -326,8 +335,23 @@ class vector {
   }
 
   template<typename Type>
-  void insert(const_iterator pos, Type &&value) {
-    emplace(pos, std::forward<Type>(value));
+  iterator insert(const_iterator pos, Type &&value) {
+    return emplace(pos, std::forward<Type>(value));
+  }
+
+  iterator erase(const_iterator pos) {
+    iterator res_pos = begin();
+    if (pos == end() + 1) {
+      pop_back();
+      res_pos = end();
+    } else {
+      size_t dest_pos = pos - begin();
+      std::move(pos + 1, end(), pos);
+      std::destroy_at(data_.buffer() + size_ - 1);
+      --size_;
+      res_pos = begin() + dest_pos;
+    }
+    return res_pos;
   }
 
   bool empty() {
@@ -343,12 +367,49 @@ class vector {
     size_ = 0;
   }
 
+  friend bool operator<(const vector<T> &l,
+                        const vector<T> &r) {
+    return lexicographical_compare_(l, r);
+  }
+
+  friend bool operator>(const vector<T> &l,
+                        const vector<T> &r) {
+    return !(l <= r);
+  }
+
+  friend bool operator<=(const vector<T> &l,
+                         const vector<T> &r) {
+    return (l < r || l == r);
+  }
+
+  friend bool operator>=(const vector<T> &l,
+                         const vector<T> &r) {
+    return !(l < r);
+  }
+
  private:  // NOLINT
+  static bool lexicographical_compare_(const vector<T> &l,
+                                       const vector<T> &r) {
+    auto lb = l.begin();
+    auto rb = r.begin();
+    auto le = l.end();
+    auto re = r.end();
+    for (; (lb != le) && (rb != re); ++lb, ++rb) {
+      if (*lb < *rb) {
+        return true;
+      }
+      if (*lb > *rb) {
+        return false;
+      }
+    }
+    return (lb == le) && (rb != re);
+  }
+
   void swap_(vector<T> &other) {  // NOLINT
     std::swap(*this, other);
   }
 
-  raw_memory<T> data_;
+  raw_memory<T> data_ = raw_memory<T>(0);
   size_t size_ = 0;
 };
 }  // namespace bmstu
