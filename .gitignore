@@ -2,3 +2,5 @@
 /cmake-build-debug-coverage/
 .idea
 sand
+.DS_Store
+/scripts/.DS_Store
