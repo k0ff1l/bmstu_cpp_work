@@ -595,3 +595,5 @@ TEST(OptionalTest, ThrowBadOptionalAccess) {
   ASSERT_THROW(std::move(opt_const).value(),
                bmstu::bad_optional_access);  // NO EFFECT move
 }
+
+// variadic arguments constructor for optional ?)
