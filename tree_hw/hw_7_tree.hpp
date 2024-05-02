@@ -111,6 +111,7 @@ class search_tree {
     if (!node) return;
     if (node->left) {
       draw_node_(acc, links_above, node->left, level + 1, p - std::to_string(node->left->data).size() - 2, '/');
+      // todo: добавить пробелов
     }
     int space = p - acc[level].size();
     if (space > 0) acc[level] += std::string(space, ' ');
@@ -137,8 +138,33 @@ class search_tree {
     } else {
       return node;
     }
+
+    // todo: balance me
     return node;
   };
+
+  uptr_tn& find_min(uptr_tn& node) const {
+    if (!node) {
+      // todo: придумать
+      throw "MINT WTF???";
+    } else if (!node->left) {
+      return node;
+    } else {
+      return find_min(node->left);
+    }
+  }
+
+  uptr_tn& find_max(uptr_tn& node) const {
+    if (!node) {
+      // todo: придумать
+      throw "MAX WTF???";
+    } else if (!node->right) {
+      return node;
+    } else {
+      return find_max(node->right);
+    }
+  }
+
   void remove(T value, uptr_tn &node) {
     if (!node) return;
 
@@ -154,6 +180,16 @@ class search_tree {
       } else {
         // todo: find min and replace node with it,
         // then stick the another one
+
+        // node->data = minNode->Data
+        // remove(minNode->Data, minNode)
+
+        uptr_tn minNode = std::move(find_min(node->right));
+
+        node->data = std::move(minNode->data);
+
+        remove(minNode->data, minNode);
+
       }
     } else if (value < node->data) {
       remove(value, node->left);
