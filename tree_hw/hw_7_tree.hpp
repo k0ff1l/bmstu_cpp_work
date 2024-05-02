@@ -9,6 +9,8 @@
 #include <memory>
 #include <iostream>
 #include <math.h>
+#include <iostream>
+
 
 namespace bmstu {
 template<typename T>
@@ -42,19 +44,25 @@ class search_tree {
     this->print_tree_(this->root_, 0);
   };
 
-  void draw() {
+  template<typename CharT>
+  std::basic_ostream<CharT>& draw(std::basic_ostream<CharT>& os) {
     int h = height();
-    std::vector<std::string> output(h), links_above(h);
+    std::vector<std::basic_string<CharT>> output(h), links_above(h);
     draw_node_(output, links_above, this->root_, 0, 0, ' ');
     for (int i = 0; i < h; ++i) {
       if (i) {
-        std::cout << links_above[i] << '\n';
+        os << links_above[i] << '\n';
       }
-      std::cout << output[i] << '\n';
+      os << output[i] << '\n';
     }
-    std::cout << std::endl;
+    os << std::endl;
+    return os;
   }
 
+  template <typename CharT, typename TreeType>
+  friend std::basic_ostream<CharT> &operator<<(std::ostream &os, const bmstu::search_tree<CharT> &tree) {
+    return tree.draw(os);
+  }
  private:
   struct TreeNode {
     TreeNode(T key) : data(key), left(nullptr), right(nullptr), height(1) { };
@@ -131,7 +139,33 @@ class search_tree {
     }
     return node;
   };
+  void remove(T value, uptr_tn &node) {
+    if (!node) return;
+
+    if (value == node->data) {
+      --size_;
+      // нет дочерних узлов
+      if (!node->left && !node->right) {
+        node = nullptr;
+      } else if (node->left && !node->right) {
+        node = std::move(node->left);
+      } else if (!node->left && node->right) {
+        node = std::move(node->right);
+      } else {
+        // todo: find min and replace node with it,
+        // then stick the another one
+      }
+    } else if (value < node->data) {
+      remove(value, node->left);
+    } else {
+      remove(value, node->right);
+    }
+  }
   uptr_tn root_;
   size_t size_;
 };
+
+// todo: оператор клювик клювик для вывода basic_ostream
+// возможно нужен темплейт темплейт template<typename CharT, template<typename Z> fdsf> как-то так
+
 }
