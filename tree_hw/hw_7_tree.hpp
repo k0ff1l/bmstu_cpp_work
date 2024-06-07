@@ -2,129 +2,116 @@
 
 #pragma once
 
-#pragma once
-
-#include <vector>
-#include <string>
+#include <iostream>
 #include <memory>
-#include <iostream>
-#include <math.h>
-#include <iostream>
-
+#include <string>
+#include <vector>
 
 namespace bmstu {
-template<typename T>
+template <typename T>
 class search_tree {
+ public:
   struct TreeNode;
   using uptr_tn = std::unique_ptr<TreeNode>;
- public:
-  search_tree() : root_(nullptr), size_(0) { }
+  search_tree() : root_(nullptr), size_(0) {}
 
-  void insert(T value) {
-    this->insert(value, this->root_);
-  }
+  void insert(T value) { this->insert(value, this->root_); }
 
-  bool contains(T value) {
-    return this->contains_(value, this->root_);
-  }
+  bool contains(T value) { return this->contains_(value, this->root_); }
 
   void remove(T value) {
     this->remove(value, this->root_);
+    balance(this->root_);
   }
 
-  size_t size() const {
-    return size_;
-  }
+  size_t size() const { return size_; }
 
-  size_t height() {
-    return height_(this->root_);
-  }
+  size_t height() const { return height_(this->root_); }
 
-  void print() const {
-    this->print_tree_(this->root_, 0);
-  };
+  void print() const { print_tree_(this->root_, std::cout); }
 
-  template<typename CharT>
-  std::basic_ostream<CharT>& draw(std::basic_ostream<CharT>& os) {
-    int h = height();
-    std::vector<std::basic_string<CharT>> output(h), links_above(h);
-    draw_node_(output, links_above, this->root_, 0, 0, ' ');
-    for (int i = 0; i < h; ++i) {
-      if (i) {
-        os << links_above[i] << '\n';
-      }
-      os << output[i] << '\n';
-    }
-    os << std::endl;
+  template <typename CharT>
+  std::basic_ostream<CharT> &draw(
+      std::basic_ostream<CharT> &os) const {  // NOLINT
+    print_tree_(this->root_, os);
     return os;
   }
 
-  template <typename CharT, typename TreeType>
-  friend std::basic_ostream<CharT> &operator<<(std::ostream &os, const bmstu::search_tree<CharT> &tree) {
-    return tree.draw(os);
+  template <typename CharT>
+  void inorderTraversal(std::basic_ostream<CharT> &os) const {  // NOLINT
+    inorderTraversal(this->root_, os);
   }
- private:
+
+  template <typename CharT>
+  void preorderTraversal(std::basic_ostream<CharT> &os) const {  // NOLINT
+    preorderTraversal(this->root_, os);
+  }
+
+  template <typename CharT>
+  void postorderTraversal(std::basic_ostream<CharT> &os) const {  // NOLINT
+    postorderTraversal(this->root_, os);
+  }
+
+  TreeNode *find(T value) { return find(value, this->root_); }
+
   struct TreeNode {
-    TreeNode(T key) : data(key), left(nullptr), right(nullptr), height(1) { };
+    explicit TreeNode(T key)
+        : data(key), left(nullptr), right(nullptr), height(1) {}
     T data;
     uint8_t height;
-    std::unique_ptr<TreeNode> left;
-    std::unique_ptr<TreeNode> right;
+    uptr_tn left;
+    uptr_tn right;
   };
 
-  void print_tree_(const std::unique_ptr<TreeNode> &node, int space) const {
-    if (node == nullptr)
-      return;
-    space += size_;
-    this->print_tree_(node->right, space);
-    for (auto i = size_; i < space; ++i)
-      std::cout << " ";
-    std::cout << node->data << "\n";
-    print_tree_(node->left, space);
+ private:
+  template <typename CharT>
+  void print_tree_(const uptr_tn &node,
+                   std::basic_ostream<CharT> &os) const {  // NOLINT
+    std::vector<std::string> buffer;
+    int space = 0;
+    this->draw_node_(buffer, node, space, 0);
+    for (auto &i : buffer) {
+      os << i << "\n";
+    }
   }
 
-  bool contains_(T value, std::unique_ptr<TreeNode> &node) {
+  void draw_node_(std::vector<std::string> &buffer,      // NOLINT
+                  const uptr_tn &node, int &all_spaces,  // NOLINT
+                  int level) const {                     // NOLINT
+    if (node == nullptr) return;
+    if (buffer.size() < level * 2 + 1) {
+      buffer.emplace_back("");
+      buffer.emplace_back("");
+    }
+    if (node->left != nullptr) {
+      draw_node_(buffer, node->left, all_spaces, level + 1);
+      buffer[level * 2 + 1] +=
+          std::string(all_spaces - buffer[level * 2 + 1].size() - 1, ' ') + "/";
+    }
+    buffer[level * 2] +=
+        std::string(all_spaces - buffer[level * 2].size(), ' ') +
+        std::to_string(node->data);
+    all_spaces += std::to_string(node->data).size() + 1;
+    if (node->right != nullptr) {
+      buffer[level * 2 + 1] +=
+          std::string(all_spaces - buffer[level * 2 + 1].size() - 1, ' ') +
+          "\\";
+      draw_node_(buffer, node->right, all_spaces, level + 1);
+    }
+  }
+  bool contains_(T value, const uptr_tn &node) {
     if (node == nullptr) {
       return false;
     } else if (node->data == value) {
       return true;
     } else if (value < node->data) {
-      return contains(value, node->left);
+      return contains_(value, node->left);
     } else {
-      return contains(value, node->right);
+      return contains_(value, node->right);
     }
   }
 
-  uint8_t height_(uptr_tn &node) {
-    if (!node) return 0;
-    // konstantin filippov code
-    return 1 + std::max(height_(node->left), height_(node->right));
-  }
-
-  void draw_node_(std::vector<std::string> &acc,
-                 std::vector<std::string> &links_above,
-                 uptr_tn &node,
-                 int level,
-                 int p,
-                 char link_char) {
-    p = std::max(p, 0);
-    if (!node) return;
-    if (node->left) {
-      draw_node_(acc, links_above, node->left, level + 1, p - std::to_string(node->left->data).size() - 2, '/');
-      // todo: добавить пробелов
-    }
-    int space = p - acc[level].size();
-    if (space > 0) acc[level] += std::string(space, ' ');
-    acc[level] += ' ' + std::to_string(node->data) + ' ';
-    if (link_char == '/') p = acc[level].size();
-    space = p - links_above[level].size();
-    if (space > 0) links_above[level] += std::string(space, ' ');
-    links_above[level] += link_char;
-    p = acc[level].size();
-    draw_node_(acc, links_above, node->right, level + 1, p, '\\');
-  }
-
-  std::unique_ptr<TreeNode> &insert(T value, std::unique_ptr<TreeNode> &node) {
+  uptr_tn &insert(T value, uptr_tn &node) {  // NOLINT
     if (node == nullptr) {
       node = std::make_unique<TreeNode>(value);
       ++size_;
@@ -135,73 +122,189 @@ class search_tree {
       this->insert(value, node->left);
     } else if (value > node->data) {
       this->insert(value, node->right);
-    } else {
-      return node;
     }
-
-    // todo: balance me
+    fixHeight(node);
+    balance(node);
     return node;
-  };
-
-  uptr_tn& find_min(uptr_tn& node) const {
-    if (!node) {
-      // todo: придумать
-      throw "MINT WTF???";
-    } else if (!node->left) {
-      return node;
-    } else {
-      return find_min(node->left);
-    }
   }
 
-  uptr_tn& find_max(uptr_tn& node) const {
-    if (!node) {
-      // todo: придумать
-      throw "MAX WTF???";
-    } else if (!node->right) {
-      return node;
-    } else {
-      return find_max(node->right);
-    }
+  size_t height_(const uptr_tn &node) const {
+    return (node != nullptr) ? node->height : 0;
   }
 
-  void remove(T value, uptr_tn &node) {
-    if (!node) return;
+  int get_balance(const uptr_tn &node) const {  // NOLINT
+    return (node != nullptr) ? height_(node->left) - height_(node->right) : 0;
+  }
 
-    if (value == node->data) {
-      --size_;
-      // нет дочерних узлов
-      if (!node->left && !node->right) {
-        node = nullptr;
-      } else if (node->left && !node->right) {
-        node = std::move(node->left);
-      } else if (!node->left && node->right) {
-        node = std::move(node->right);
+  void rotate_with_left_child(uptr_tn &k2) {  // NOLINT
+    k2 = std::move(right_rotate(k2));
+  }
+
+  void rotate_with_right_child(uptr_tn &k1) {  // NOLINT
+    k1 = std::move(left_rotate(k1));
+  }
+
+  void double_with_left_child(uptr_tn &k3) {  // NOLINT
+    rotate_with_right_child(k3->left);
+    rotate_with_left_child(k3);
+  }
+
+  void double_with_right_child(uptr_tn &k3) {  // NOLINT
+    rotate_with_left_child(k3->right);
+    rotate_with_right_child(k3);
+  }
+
+  void balance(uptr_tn &t) {  // NOLINT
+    if (t == nullptr) {
+      return;
+    }
+    balance(t->left);
+    balance(t->right);
+    fixHeight(t);
+    if (get_balance(t) < -1) {
+      if (get_balance(t->right) <= 0) {
+        rotate_with_right_child(t);
       } else {
-        // todo: find min and replace node with it,
-        // then stick the another one
-
-        // node->data = minNode->Data
-        // remove(minNode->Data, minNode)
-
-        uptr_tn minNode = std::move(find_min(node->right));
-
-        node->data = std::move(minNode->data);
-
-        remove(minNode->data, minNode);
-
+        double_with_right_child(t);
       }
+      fixHeight(t);
+    }
+    if (get_balance(t) > 1) {
+      if (get_balance(t->left) >= 0) {
+        rotate_with_left_child(t);
+      } else {
+        double_with_left_child(t);
+      }
+      fixHeight(t);
+    }
+  }
+
+  uptr_tn &right_rotate(uptr_tn &y) {  // NOLINT
+    uptr_tn x = std::move(y);
+    y = std::move(x->left);
+    x->left = std::move(y->right);
+    y->right = std::move(x);
+    fixHeight(y->right);
+    fixHeight(y);
+    return y;
+  }
+
+  uptr_tn &left_rotate(uptr_tn &y) {  // NOLINT
+    uptr_tn x = std::move(y);
+    y = std::move(x->right);
+    x->right = std::move(y->left);
+    y->left = std::move(x);
+    fixHeight(y->left);
+    fixHeight(y);
+    return y;
+  }
+
+  uptr_tn &find_max(uptr_tn &node) {  // NOLINT
+    if (node->right == nullptr) {
+      return node;
+    }
+    return find_max(node->right);
+  }
+
+  uptr_tn &find_min(uptr_tn &node) {  // NOLINT
+    if (node->left == nullptr) {
+      return node;
+    }
+    return find_min(node->left);
+  }
+
+  void remove(T value, uptr_tn &node) {  // NOLINT
+    if (node == nullptr) {
+      return;
+    }
+    if (value == node->data) {
+      if (node->right == nullptr && node->left == nullptr) {
+        auto old_node = std::move(node);
+      } else if (node->right != nullptr) {
+        if (node->right->left == nullptr) {
+          auto old_node = std::move(node->right);
+          std::swap(node->data, old_node->data);
+          node->right = std::move(old_node->right);
+          fixHeight(node);
+        } else {
+          auto old_node = std::move(find_min(node->right));
+          std::swap(node->data, old_node->data);
+          fixHeight(node);
+        }
+      } else if (node->left != nullptr) {
+        if (node->left->right == nullptr) {
+          auto old_node = std::move(node->left);
+          std::swap(node->data, old_node->data);
+          node->left = std::move(old_node->left);
+          fixHeight(node);
+        } else {
+          auto old_node = std::move(find_max(node->left));
+          std::swap(node->data, old_node->data);
+          fixHeight(node);
+        }
+      }
+      --size_;
     } else if (value < node->data) {
       remove(value, node->left);
-    } else {
+      fixHeight(node);
+    } else if (value > node->data) {
       remove(value, node->right);
+      fixHeight(node);
     }
   }
+
+  void fixHeight(uptr_tn &node) {  // NOLINT
+    if (node == nullptr) return;
+    node->height = std::max(height_(node->left), height_(node->right)) + 1;
+  }
+
+  template <typename CharT>
+  void inorderTraversal(const uptr_tn &node,
+                        std::basic_ostream<CharT> &os) const {  // NOLINT
+    if (node == nullptr) {
+      return;
+    }
+    inorderTraversal(node->left, os);
+    os << node->data << " ";
+    inorderTraversal(node->right, os);
+  }
+
+  template <typename CharT>
+  void preorderTraversal(const uptr_tn &node,
+                         std::basic_ostream<CharT> &os) const {  // NOLINT
+    if (node == nullptr) {
+      return;
+    }
+    os << node->data << " ";
+    preorderTraversal(node->left, os);
+    preorderTraversal(node->right, os);
+  }
+
+  template <typename CharT>
+  void postorderTraversal(const uptr_tn &node,
+                          std::basic_ostream<CharT> &os) const {  // NOLINT
+    if (node == nullptr) {
+      return;
+    }
+    postorderTraversal(node->left, os);
+    postorderTraversal(node->right, os);
+    os << node->data << " ";
+  }
+
+  TreeNode *find(T value, uptr_tn &node) {  // NOLINT
+    if (node == nullptr) {
+      return nullptr;
+    }
+    if (value == node->data) {
+      return &(*node);
+    } else if (value > node->data) {
+      return find(value, node->right);
+    } else if (value < node->data) {
+      return find(value, node->left);
+    }
+  }
+
   uptr_tn root_;
   size_t size_;
 };
-
-// todo: оператор клювик клювик для вывода basic_ostream
-// возможно нужен темплейт темплейт template<typename CharT, template<typename Z> fdsf> как-то так
-
-}
+}  // namespace bmstu
