@@ -9,8 +9,10 @@ template<typename T>
 class list {
   struct node {
     node() = default;
+
     node(node *prev, const T &value, node *next)
         : value(value), prev_node_(prev), next_node_(next) { }
+
     T value;
     node *next_node_ = nullptr;
     node *prev_node_ = nullptr;
