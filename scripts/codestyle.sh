@@ -8,6 +8,6 @@ declare -r FILTER="-build/include_subdir,-legal/copyright,-build/include_what_yo
 declare -r FLAGS="--output=vs7"
 
 find . -type f \( -name '*.cpp' -o -name '*.h' -o -name '*.hpp' \) -print0 |
-  xargs -0 cpplint $FLAGS --linelength=120 --filter=$FILTER --exclude=./cmake-build-debug/
+  xargs -0 cpplint $FLAGS --linelength=120 --filter=$FILTER --exclude=./cmake-build-debug/ --exclude=./cmake-build-debug-coverage/
 
 popd

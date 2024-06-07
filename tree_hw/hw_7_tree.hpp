@@ -8,12 +8,13 @@
 #include <vector>
 
 namespace bmstu {
-template <typename T>
+template<typename T>
 class search_tree {
  public:
   struct TreeNode;
   using uptr_tn = std::unique_ptr<TreeNode>;
-  search_tree() : root_(nullptr), size_(0) {}
+
+  search_tree() : root_(nullptr), size_(0) { }
 
   void insert(T value) { this->insert(value, this->root_); }
 
@@ -24,30 +25,30 @@ class search_tree {
     balance(this->root_);
   }
 
-  size_t size() const { return size_; }
+  [[nodiscard]] size_t size() const { return size_; }
 
-  size_t height() const { return height_(this->root_); }
+  [[nodiscard]] size_t height() const { return height_(this->root_); }
 
   void print() const { print_tree_(this->root_, std::cout); }
 
-  template <typename CharT>
+  template<typename CharT>
   std::basic_ostream<CharT> &draw(
       std::basic_ostream<CharT> &os) const {  // NOLINT
     print_tree_(this->root_, os);
     return os;
   }
 
-  template <typename CharT>
+  template<typename CharT>
   void inorderTraversal(std::basic_ostream<CharT> &os) const {  // NOLINT
     inorderTraversal(this->root_, os);
   }
 
-  template <typename CharT>
+  template<typename CharT>
   void preorderTraversal(std::basic_ostream<CharT> &os) const {  // NOLINT
     preorderTraversal(this->root_, os);
   }
 
-  template <typename CharT>
+  template<typename CharT>
   void postorderTraversal(std::basic_ostream<CharT> &os) const {  // NOLINT
     postorderTraversal(this->root_, os);
   }
@@ -56,7 +57,8 @@ class search_tree {
 
   struct TreeNode {
     explicit TreeNode(T key)
-        : data(key), left(nullptr), right(nullptr), height(1) {}
+        : data(key), left(nullptr), right(nullptr), height(1) { }
+
     T data;
     uint8_t height;
     uptr_tn left;
@@ -64,7 +66,7 @@ class search_tree {
   };
 
  private:
-  template <typename CharT>
+  template<typename CharT>
   void print_tree_(const uptr_tn &node,
                    std::basic_ostream<CharT> &os) const {  // NOLINT
     std::vector<std::string> buffer;
@@ -99,6 +101,7 @@ class search_tree {
       draw_node_(buffer, node->right, all_spaces, level + 1);
     }
   }
+
   bool contains_(T value, const uptr_tn &node) {
     if (node == nullptr) {
       return false;
@@ -258,7 +261,7 @@ class search_tree {
     node->height = std::max(height_(node->left), height_(node->right)) + 1;
   }
 
-  template <typename CharT>
+  template<typename CharT>
   void inorderTraversal(const uptr_tn &node,
                         std::basic_ostream<CharT> &os) const {  // NOLINT
     if (node == nullptr) {
@@ -269,7 +272,7 @@ class search_tree {
     inorderTraversal(node->right, os);
   }
 
-  template <typename CharT>
+  template<typename CharT>
   void preorderTraversal(const uptr_tn &node,
                          std::basic_ostream<CharT> &os) const {  // NOLINT
     if (node == nullptr) {
@@ -280,7 +283,7 @@ class search_tree {
     preorderTraversal(node->right, os);
   }
 
-  template <typename CharT>
+  template<typename CharT>
   void postorderTraversal(const uptr_tn &node,
                           std::basic_ostream<CharT> &os) const {  // NOLINT
     if (node == nullptr) {
@@ -302,6 +305,7 @@ class search_tree {
     } else if (value < node->data) {
       return find(value, node->left);
     }
+    return nullptr;
   }
 
   uptr_tn root_;
